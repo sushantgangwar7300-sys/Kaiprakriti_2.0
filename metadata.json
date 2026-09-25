@@ -1,0 +1,8 @@
+{
+  "name": "Kai Prakriti — Sustainability & ESG Advisory",
+  "description": "Clear, actionable sustainability strategy, carbon accounting (Scope 1, 2, 3), SEBI BRSR disclosures, and EU CBAM reporting with empirical rigor and zero self-audit conflict.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
