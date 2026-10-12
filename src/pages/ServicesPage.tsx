@@ -159,7 +159,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
             <div
               key={service.id}
               onClick={() => setSelectedService(service)}
-              className="group cursor-pointer rounded-3xl border border-[#E7E3DC] bg-white p-7 shadow-xs hover:border-[#D96846] hover:shadow-md transition-all duration-200 flex flex-col justify-between space-y-6"
+              className="group cursor-pointer rounded-2xl sm:rounded-3xl border border-[#E7E3DC] bg-white p-5 sm:p-7 shadow-xs hover:border-[#D96846] hover:shadow-md transition-all duration-200 flex flex-col justify-between space-y-5 sm:space-y-6 min-w-0"
             >
               <div className="space-y-4">
                 <div className="flex items-center justify-between text-xs">

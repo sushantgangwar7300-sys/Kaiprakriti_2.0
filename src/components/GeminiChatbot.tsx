@@ -160,7 +160,7 @@ Would you like to initiate a formal 30-minute scoping discussion or inspect our 
   ];
 
   return (
-    <div className="fixed bottom-3 right-3 sm:bottom-6 sm:right-6 z-50 select-none max-w-[calc(100vw-24px)]">
+    <div className="fixed bottom-3 right-3 sm:bottom-6 sm:right-6 z-50 select-none max-w-[calc(100%-24px)]">
       {/* Minimized Trigger Button */}
       {!isOpen && (
         <button
@@ -178,7 +178,7 @@ Would you like to initiate a formal 30-minute scoping discussion or inspect our 
 
       {/* Expanded Multi-Turn Chat Window */}
       {isOpen && (
-        <div className="w-[calc(100vw-24px)] xs:w-[360px] sm:w-[420px] h-[480px] sm:h-[580px] max-h-[85vh] rounded-2xl sm:rounded-3xl border flex flex-col overflow-hidden shadow-2xl bg-white dark:bg-slate-900 border-black/10 dark:border-white/10 animate-in slide-in-from-bottom-5 duration-200">
+        <div className="w-[calc(100vw-28px)] max-w-[400px] h-[480px] sm:h-[560px] max-h-[82vh] rounded-2xl sm:rounded-3xl border flex flex-col overflow-hidden shadow-2xl bg-white dark:bg-slate-900 border-black/10 dark:border-white/10 animate-in slide-in-from-bottom-5 duration-200">
           
           {/* Header */}
           <div className="p-4 border-b border-black/10 dark:border-white/10 bg-emerald-600 text-white flex items-center justify-between">

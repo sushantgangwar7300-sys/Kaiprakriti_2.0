@@ -1,41 +1,12 @@
 import React from 'react';
 import { PageId } from '../types';
-import { ShieldCheck, Award, Users, ArrowRight, ExternalLink, HeartHandshake, Sparkles, CheckCircle2, Mail } from 'lucide-react';
+import { ShieldCheck, Award, ArrowRight, CheckCircle2, Mail, MapPin } from 'lucide-react';
 
 interface AboutPageProps {
   onNavigate: (page: PageId) => void;
 }
 
 export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
-  const leadership = [
-    {
-      name: 'Ashutosh Rathor',
-      role: 'Brand & Technical Architecture',
-      bio: 'Architected the brand identity, computational standards taxonomy, and digital verification interfaces for Kai Prakriti. Focused on mathematical legibility of environmental data and digital MRV pipelines.',
-      portfolioUrl: 'https://ashutoshrathor.me',
-      image: '/src/assets/images/about_collaboration_1790157990288.jpg',
-    },
-    {
-      name: 'Sushant Gangwar',
-      role: 'Operations & Advisory Management',
-      bio: 'Leads statutory compliance strategy, client advisory management, and institutional verifier partnerships across BEE, SEBI BRSR, and EU CBAM frameworks for Indian corporate exporters.',
-      linkedinUrl: 'https://www.linkedin.com/in/sushant-gangwar-761a2921b/',
-      image: '/src/assets/images/hero_consulting_team_1790157974785.jpg',
-    },
-    {
-      name: 'Dr. Alok Vardhan',
-      role: 'Chief Environmental Scientist',
-      bio: 'Former technical member of industrial energy audit committees with 18+ years in thermal emissions modeling, stoichiometric LCA, and CEA sub-regional grid emission factors.',
-      image: '/src/assets/images/industrial_transition_1790158017099.jpg',
-    },
-    {
-      name: 'Meenakshi Iyer',
-      role: 'Lead Regulatory & BRSR Specialist',
-      bio: 'Chartered Corporate Secretary and sustainability reporting lead advising NSE/BSE listed boards on SEBI LODR Regulation 34(2)(f) and supply chain assurance trails.',
-      image: '/src/assets/images/sustainable_enterprise_1790158004490.jpg',
-    },
-  ];
-
   const values = [
     {
       title: 'Integrity by Design',
@@ -46,8 +17,23 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
       desc: 'No vague industry averages. Every carbon baseline is built on primary utility records, fuel test receipts, and live formula workbooks.',
     },
     {
-      title: 'Founder-Led Immersion',
+      title: 'Practitioner-Led Immersion',
       desc: 'We embed directly with your plant managers, engineers, and finance teams to solve complex compliance requirements with zero junior handoffs.',
+    },
+  ];
+
+  const assurancePillars = [
+    {
+      title: 'Two-Line Independence Firewall',
+      desc: 'Preparation and statutory verification are kept under separate operational and financial boundaries, complying with ISAE 3000 and ISO 14064-3 ethical codes.',
+    },
+    {
+      title: 'Primary Data Accounting',
+      desc: 'Every Scope 1, 2, and 3 baseline is derived directly from continuous utility logs, metered flow data, and stoichiometric chemical balances.',
+    },
+    {
+      title: 'Accredited Verifier Facilitation',
+      desc: 'When mandatory compliance requires third-party certification, we facilitate matching with accredited statutory verification bodies without conflicts of interest.',
     },
   ];
 
@@ -67,12 +53,12 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
           </h1>
 
           <p className="text-xs sm:text-base text-[#264143]/75 font-normal max-w-2xl mx-auto leading-relaxed">
-            Founded to eliminate greenwashing and self-audit conflicts of interest in Indian corporate sustainability, Kai Prakriti delivers quantitative precision designed to withstand statutory audits.
+            Founded to eliminate greenwashing and self-audit conflicts of interest in corporate sustainability, Kai Prakriti delivers quantitative precision designed to withstand statutory audits.
           </p>
         </div>
       </section>
 
-      {/* 2. Philosophy & Two-Line Firewall */}
+      {/* 2. Philosophy & Core Foundations */}
       <section className="py-10 sm:py-16 bg-[#FAF8F5]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-12">
           
@@ -96,7 +82,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
                   onClick={() => onNavigate('contact')}
                   className="w-full sm:w-auto px-6 py-3 rounded-xl text-xs font-semibold bg-[#D96846] hover:bg-[#C45737] text-white inline-flex items-center justify-center gap-2 shadow-xs transition-colors"
                 >
-                  <span>Connect with our leadership</span>
+                  <span>Connect with our advisory practice</span>
                   <ArrowRight className="w-4 h-4 text-white" />
                 </button>
               </div>
@@ -122,75 +108,38 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
         </div>
       </section>
 
-      {/* 3. Leadership Team (Ashutosh Rathor & Sushant Gangwar) */}
+      {/* 3. Ethical Independence & Governance Safeguards */}
       <section className="py-12 sm:py-20 bg-white border-t border-[#E7E3DC]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-12">
           
           <div className="text-center max-w-2xl mx-auto space-y-2 sm:space-y-3">
             <span className="text-xs font-semibold text-[#3E6B48] uppercase tracking-wider">
-              Our Core Leadership
+              Governance & Integrity Safeguards
             </span>
             <h2 className="font-serif text-2xl sm:text-4xl font-bold text-[#264143] tracking-tight">
-              Direct engineering by committed practitioners.
+              An institutional firewall guarding your reputation.
             </h2>
             <p className="text-xs sm:text-sm text-[#264143]/75 leading-relaxed">
-              We work directly with leadership and plant teams with zero junior handoffs.
+              Our firm is strictly built around statutory independence standards so your disclosures stand up in boardrooms, credit committees, and regulatory filings.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {leadership.map((member, idx) => (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
+            {assurancePillars.map((pillar, idx) => (
               <div
                 key={idx}
-                className="rounded-2xl sm:rounded-3xl border border-[#E7E3DC] bg-[#FAF8F5] overflow-hidden flex flex-col justify-between"
+                className="p-6 rounded-2xl sm:rounded-3xl border border-[#E7E3DC] bg-[#FAF8F5] space-y-3 flex flex-col justify-between"
               >
-                <div className="p-4 sm:p-6 space-y-3">
-                  <div className="aspect-[4/3] rounded-xl sm:rounded-2xl overflow-hidden bg-slate-100 mb-3 border border-[#E7E3DC]">
-                    <img
-                      src={member.image}
-                      alt={member.name}
-                      className="w-full h-full object-cover"
-                      loading="lazy"
-                    />
+                <div className="space-y-2.5">
+                  <div className="w-9 h-9 rounded-xl bg-[#3E6B48]/10 text-[#3E6B48] flex items-center justify-center font-bold text-xs">
+                    0{idx + 1}
                   </div>
-
-                  <div>
-                    <h3 className="font-serif text-base font-bold text-[#264143]">
-                      {member.name}
-                    </h3>
-                    <p className="text-xs font-semibold text-[#3E6B48]">
-                      {member.role}
-                    </p>
-                    <p className="text-xs text-[#264143]/70 leading-relaxed pt-2">
-                      {member.bio}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="p-4 sm:p-6 pt-0 border-t border-[#E7E3DC] mt-2">
-                  {member.portfolioUrl && (
-                    <a
-                      href={member.portfolioUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#D96846] hover:underline"
-                    >
-                      <span>Portfolio Website</span>
-                      <ExternalLink className="w-3.5 h-3.5" />
-                    </a>
-                  )}
-
-                  {member.linkedinUrl && (
-                    <a
-                      href={member.linkedinUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#264143] hover:underline"
-                    >
-                      <span>LinkedIn Profile</span>
-                      <ExternalLink className="w-3.5 h-3.5" />
-                    </a>
-                  )}
+                  <h3 className="font-serif text-base font-bold text-[#264143]">
+                    {pillar.title}
+                  </h3>
+                  <p className="text-xs text-[#264143]/75 leading-relaxed">
+                    {pillar.desc}
+                  </p>
                 </div>
               </div>
             ))}
@@ -216,6 +165,16 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
               <span>Schedule Scoping Conversation</span>
               <ArrowRight className="w-4 h-4" />
             </button>
+          </div>
+
+          <div className="pt-4 flex items-center justify-center gap-2 text-xs text-[#FAF8F5]/80">
+            <Mail className="w-4 h-4 text-[#E99F4C] shrink-0" />
+            <span>
+              Official Inquiries:{' '}
+              <a href="mailto:operations@kaiprakriti.com" className="text-white font-medium hover:underline">
+                operations@kaiprakriti.com
+              </a>
+            </span>
           </div>
         </div>
       </section>

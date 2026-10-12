@@ -8,7 +8,6 @@ import { KaiPrakritiEmblem } from '../components/KaiPrakritiEmblem';
 
 interface HomePageProps {
   onNavigate: (page: PageId, extraParam?: string) => void;
-  onOpenNextJsContext?: () => void;
 }
 
 export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
@@ -125,7 +124,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
     <div className="bg-[#FAF8F5] text-[#264143] overflow-x-hidden min-h-screen">
       
       {/* 1. Hero Section with Scenic Aerial Wind Turbines Background Video */}
-      <section className="relative pt-8 sm:pt-16 pb-16 sm:pb-24 lg:pt-24 lg:pb-28 border-b border-[#E7E3DC] overflow-hidden">
+      <section className="relative pt-6 sm:pt-12 lg:pt-16 pb-12 sm:pb-16 lg:pb-20 border-b border-[#E7E3DC] overflow-hidden">
         
         {/* Scenic Aerial Wind Turbines Video Background (Pexels 37711545) */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
@@ -150,7 +149,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         </div>
 
         {/* Ambient Video Control Badge */}
-        <div className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 z-20 flex items-center gap-1.5 sm:gap-2">
+        <div className="absolute bottom-3 left-4 sm:bottom-4 sm:left-6 lg:left-8 z-20 flex items-center gap-1.5 sm:gap-2">
           <div className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/85 text-[#264143] border border-[#E7E3DC] shadow-xs backdrop-blur-md text-[11px] font-mono">
             <span className="w-2 h-2 rounded-full bg-[#3E6B48] animate-pulse" />
             <span>Renewable Wind Grid Aerial</span>
@@ -176,10 +175,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 lg:gap-16 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-10 lg:gap-14 items-center">
             
             {/* Left Narrative: High legibility & refined spacing */}
-            <div className="lg:col-span-8 space-y-4 sm:space-y-6">
+            <div className="lg:col-span-8 space-y-4 sm:space-y-5">
               
               <div className="inline-flex items-center gap-2 sm:gap-2.5 text-[10px] sm:text-xs font-semibold text-[#264143] uppercase tracking-wider bg-white/95 backdrop-blur-md px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-full border border-[#E7E3DC] shadow-xs max-w-full">
                 <div className="shrink-0">
@@ -191,19 +190,19 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 </span>
               </div>
 
-              <h1 className="font-serif text-[28px] xs:text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#264143] leading-[1.16] sm:leading-[1.12]">
-                Sovereign carbon accounting & ESG advisory for growing enterprises.
+              <h1 className="font-serif text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-bold tracking-tight text-[#264143] leading-[1.18] sm:leading-[1.12]">
+                Sovereign carbon accounting &amp; ESG advisory for growing enterprises.
               </h1>
 
-              <p className="text-sm sm:text-lg text-[#264143]/90 font-normal leading-relaxed max-w-2xl bg-white/50 sm:bg-transparent backdrop-blur-[2px] sm:backdrop-blur-none rounded-xl p-2 sm:p-0">
+              <p className="text-xs sm:text-base lg:text-lg text-[#264143]/90 font-normal leading-relaxed max-w-2xl bg-white/50 sm:bg-transparent backdrop-blur-[2px] sm:backdrop-blur-none rounded-xl p-2 sm:p-0">
                 We help leadership teams navigate Scope 1–3 GHG footprints, SEBI BRSR Core disclosures, and EU CBAM reporting with empirical mathematical rigor and a strict zero self-audit firewall.
               </p>
 
               {/* Action Buttons - Stacked on Mobile, Row on Larger Screens */}
-              <div className="pt-2 flex flex-col xs:flex-row items-stretch xs:items-center gap-3 sm:gap-4">
+              <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
                 <button
                   onClick={handleExploreServicesClick}
-                  className="w-full xs:w-auto px-6 py-3.5 rounded-2xl text-sm font-semibold transition-all bg-[#D96846] hover:bg-[#C45737] active:bg-[#B34A2C] text-white shadow-xs hover:shadow-md flex items-center justify-center gap-2 group"
+                  className="w-full sm:w-auto px-6 py-3.5 rounded-2xl text-xs sm:text-sm font-semibold transition-all bg-[#D96846] hover:bg-[#C45737] active:bg-[#B34A2C] text-white shadow-xs hover:shadow-md flex items-center justify-center gap-2 group shrink-0"
                 >
                   <span>Explore Our Services</span>
                   {!isUnlocked ? (
@@ -215,25 +214,25 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
                 <button
                   onClick={() => onNavigate('contact')}
-                  className="w-full xs:w-auto px-6 py-3.5 rounded-2xl text-sm font-semibold transition-all border border-[#E7E3DC] hover:border-[#264143] bg-white/95 backdrop-blur-xs text-[#264143] hover:bg-[#FBF9F5] active:bg-slate-100 shadow-xs flex items-center justify-center gap-2"
+                  className="w-full sm:w-auto px-6 py-3.5 rounded-2xl text-xs sm:text-sm font-semibold transition-all border border-[#E7E3DC] hover:border-[#264143] bg-white/95 backdrop-blur-xs text-[#264143] hover:bg-[#FBF9F5] active:bg-slate-100 shadow-xs flex items-center justify-center gap-2 shrink-0"
                 >
                   <span>Contact Our Advisory</span>
                 </button>
               </div>
 
               {/* Trust & Scientific Method Foundation (Honest Startup Reality: No Fake Clients) */}
-              <div className="pt-4 sm:pt-6 border-t border-[#E7E3DC]/80 grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-4 text-xs text-[#264143]">
-                <div className="flex items-center gap-2 bg-white/85 backdrop-blur-xs px-3.5 py-2.5 rounded-xl border border-[#E7E3DC]/70 shadow-2xs">
+              <div className="pt-4 sm:pt-6 border-t border-[#E7E3DC]/80 grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3 text-xs text-[#264143]">
+                <div className="flex items-center gap-2 bg-white/85 backdrop-blur-xs px-3.5 py-2.5 rounded-xl border border-[#E7E3DC]/70 shadow-2xs min-w-0">
                   <CheckCircle2 className="w-4 h-4 text-[#3E6B48] shrink-0" />
-                  <span className="font-semibold">100% Primary Data Led</span>
+                  <span className="font-semibold truncate">100% Primary Data Led</span>
                 </div>
-                <div className="flex items-center gap-2 bg-white/85 backdrop-blur-xs px-3.5 py-2.5 rounded-xl border border-[#E7E3DC]/70 shadow-2xs">
+                <div className="flex items-center gap-2 bg-white/85 backdrop-blur-xs px-3.5 py-2.5 rounded-xl border border-[#E7E3DC]/70 shadow-2xs min-w-0">
                   <CheckCircle2 className="w-4 h-4 text-[#3E6B48] shrink-0" />
-                  <span className="font-semibold">Zero Self-Audit Conflict</span>
+                  <span className="font-semibold truncate">Zero Self-Audit Conflict</span>
                 </div>
-                <div className="flex items-center gap-2 bg-white/85 backdrop-blur-xs px-3.5 py-2.5 rounded-xl border border-[#E7E3DC]/70 shadow-2xs">
+                <div className="flex items-center gap-2 bg-white/85 backdrop-blur-xs px-3.5 py-2.5 rounded-xl border border-[#E7E3DC]/70 shadow-2xs min-w-0">
                   <CheckCircle2 className="w-4 h-4 text-[#3E6B48] shrink-0" />
-                  <span className="font-semibold">SEBI & EU CBAM Aligned</span>
+                  <span className="font-semibold truncate">SEBI &amp; EU CBAM Aligned</span>
                 </div>
               </div>
 
@@ -287,9 +286,9 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               <div className="w-8 h-8 rounded-xl bg-[#E99F4C]/20 text-[#E99F4C] flex items-center justify-center font-bold text-sm">
                 03
               </div>
-              <h3 className="font-serif font-bold text-sm text-[#264143]">Founder-Led Delivery</h3>
+              <h3 className="font-serif font-bold text-sm text-[#264143]">Practitioner-Led Delivery</h3>
               <p className="text-xs text-[#264143]/70 leading-relaxed">
-                Direct hands-on engineering by leadership (Ashutosh Rathor & Sushant Gangwar), with zero handoffs to untested junior pools.
+                Direct hands-on engineering by dedicated sustainability professionals, with zero handoffs to untested junior pools.
               </p>
             </div>
           </div>
@@ -553,10 +552,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             Schedule a confidential 30-minute scoping discussion with our senior sustainability advisors. We will review your reporting obligations and outline a clear roadmap.
           </p>
 
-          <div className="pt-2 flex flex-col xs:flex-row items-stretch xs:items-center justify-center gap-3 sm:gap-4">
+          <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4">
             <button
               onClick={() => onNavigate('contact')}
-              className="w-full xs:w-auto px-8 py-3.5 rounded-2xl text-sm font-semibold transition-all bg-[#D96846] hover:bg-[#C45737] active:bg-[#B34A2C] text-white shadow-md flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-6 sm:px-8 py-3.5 rounded-2xl text-xs sm:text-sm font-semibold transition-all bg-[#D96846] hover:bg-[#C45737] active:bg-[#B34A2C] text-white shadow-md flex items-center justify-center gap-2"
             >
               <span>Schedule Scoping Discussion</span>
               <ArrowRight className="w-4 h-4 text-white" />
@@ -564,21 +563,25 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
             <button
               onClick={handleExploreServicesClick}
-              className="w-full xs:w-auto px-8 py-3.5 rounded-2xl text-sm font-semibold transition-all border border-white/30 hover:border-white text-white hover:bg-white/10 active:bg-white/20 flex items-center justify-center"
+              className="w-full sm:w-auto px-6 sm:px-8 py-3.5 rounded-2xl text-xs sm:text-sm font-semibold transition-all border border-white/30 hover:border-white text-white hover:bg-white/10 active:bg-white/20 flex items-center justify-center"
             >
               View Service Catalogue
             </button>
           </div>
 
-          {/* Official Contact Emails */}
-          <div className="pt-6 sm:pt-8 border-t border-white/15 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 text-xs text-[#FAF8F5]/80">
-            <div className="flex items-center gap-2 text-center sm:text-left">
+          {/* Official Contact Email */}
+          <div className="pt-6 sm:pt-8 border-t border-white/15 flex items-center justify-center text-xs text-[#FAF8F5]/80">
+            <div className="flex items-center gap-2 text-center">
               <Mail className="w-4 h-4 text-[#E99F4C] shrink-0" />
-              <span>Advisory & Client Inquiries: <strong className="text-white">contact@kaiprakriti.com</strong></span>
-            </div>
-            <div className="flex items-center gap-2 text-center sm:text-left">
-              <Mail className="w-4 h-4 text-[#E99F4C] shrink-0" />
-              <span>Marketing & Media: <strong className="text-white">marketing@kaiprakriti.com</strong></span>
+              <span>
+                Official Correspondence:{' '}
+                <a
+                  href="mailto:operations@kaiprakriti.com"
+                  className="text-white font-medium hover:underline ml-1"
+                >
+                  operations@kaiprakriti.com
+                </a>
+              </span>
             </div>
           </div>
 

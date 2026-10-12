@@ -149,7 +149,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                   onClick={() => onNavigate?.('about')}
                   className="hover:text-white transition-colors text-left"
                 >
-                  About Us & Leadership
+                  About Us
                 </button>
               </li>
               <li>
@@ -179,36 +179,29 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             </ul>
           </div>
 
-          {/* Column 4: Official Contact Emails & Address (3 cols) */}
+          {/* Column 4: Official Contact Email & Address (3 cols) */}
           <div className="lg:col-span-3 space-y-3">
             <span className="font-semibold text-white uppercase tracking-wider text-[11px] block">
               Official Correspondence
             </span>
             
-            <div className="space-y-2.5 text-[#E7E3DC]/80">
-              <div className="flex items-start gap-2">
-                <Mail className="w-3.5 h-3.5 text-[#E99F4C] shrink-0 mt-0.5" />
+            <div className="space-y-3 text-[#E7E3DC]/80">
+              <div className="flex items-start gap-2.5">
+                <Mail className="w-4 h-4 text-[#E99F4C] shrink-0 mt-0.5" />
                 <div>
-                  <div className="text-[10px] text-[#E7E3DC]/60 uppercase tracking-wider font-semibold">General & Scoping</div>
-                  <a href="mailto:contact@kaiprakriti.com" className="text-white hover:underline font-medium">
-                    contact@kaiprakriti.com
+                  <div className="text-[10px] text-[#E7E3DC]/60 uppercase tracking-wider font-semibold">Advisory & Operations</div>
+                  <a
+                    href="mailto:operations@kaiprakriti.com"
+                    className="text-white hover:underline font-medium break-all block"
+                  >
+                    operations@kaiprakriti.com
                   </a>
                 </div>
               </div>
 
-              <div className="flex items-start gap-2">
-                <Mail className="w-3.5 h-3.5 text-[#D96846] shrink-0 mt-0.5" />
-                <div>
-                  <div className="text-[10px] text-[#E7E3DC]/60 uppercase tracking-wider font-semibold">Marketing & Press</div>
-                  <a href="mailto:marketing@kaiprakriti.com" className="text-white hover:underline font-medium">
-                    marketing@kaiprakriti.com
-                  </a>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-2 pt-1">
-                <MapPin className="w-3.5 h-3.5 text-[#3E6B48] shrink-0 mt-0.5" />
-                <span>
+              <div className="flex items-start gap-2.5 pt-1">
+                <MapPin className="w-4 h-4 text-[#3E6B48] shrink-0 mt-0.5" />
+                <span className="text-xs leading-relaxed">
                   NCR & New Delhi, India • Serving national enterprises and international exporters.
                 </span>
               </div>
@@ -230,9 +223,17 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             </div>
 
             {/* MANDATORY ATTRIBUTIONS */}
-            <div className="flex flex-wrap items-center gap-3 text-xs">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs">
               <span className="text-white font-medium">
-                Designed &amp; Developed by <strong className="text-[#E99F4C] font-semibold">Ashutosh Rathor</strong>
+                Designed &amp; Developed by{' '}
+                <a
+                  href="https://ashutoshrathor.netlift.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#E99F4C] font-semibold hover:underline transition-colors"
+                >
+                  Ashutosh Rathor
+                </a>
               </span>
               <span className="text-white/30 hidden sm:inline">|</span>
               <span className="text-white font-medium">

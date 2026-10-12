@@ -428,7 +428,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                 </span>
               </div>
               <p className="text-[11px] sm:text-xs text-[#264143]/70 mt-0.5">
-                Admin: <strong className="text-[#264143] font-semibold">Sushant Gangwar</strong> • contact@kaiprakriti.com
+                Admin: <strong className="text-[#264143] font-semibold">Sushant Gangwar</strong> • operations@kaiprakriti.com
               </p>
             </div>
           </div>

@@ -7,7 +7,6 @@ import React, { useState, useEffect } from 'react';
 import { PageId } from './types';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
-import { NextJsDesignContextModal } from './components/NextJsDesignContextModal';
 import { GeminiChatbot } from './components/GeminiChatbot';
 
 // 5 Main Pages + Admin Pages
@@ -33,9 +32,6 @@ export default function App() {
       return false;
     }
   });
-
-  // Next.js Design Context Modal (for kaiprakriti.com live repository update)
-  const [isNextJsModalOpen, setIsNextJsModalOpen] = useState(false);
 
   // Ensure clean, business-friendly light styling on document element
   useEffect(() => {
@@ -76,21 +72,19 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-[#2F3020] font-sans selection:bg-[#D96846]/30 selection:text-[#2F3020]">
+    <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-white text-[#2F3020] font-sans selection:bg-[#D96846]/30 selection:text-[#2F3020] flex flex-col">
       
       {/* 1. Primary Navigation Bar (Centric Consulting Style) */}
       <Navbar
         currentPage={currentPage}
         onNavigate={handleNavigate}
-        onOpenNextJsContext={() => setIsNextJsModalOpen(true)}
       />
 
       {/* 2. Dynamic Page View Routing */}
-      <main className="min-h-[70vh]">
+      <main className="w-full max-w-full flex-1 overflow-x-hidden min-h-[70vh]">
         {currentPage === 'home' && (
           <HomePage
             onNavigate={handleNavigate}
-            onOpenNextJsContext={() => setIsNextJsModalOpen(true)}
           />
         )}
 
@@ -162,15 +156,9 @@ export default function App() {
         onNavigateToService={(serviceId) => handleNavigate('services', serviceId)}
       />
 
-      {/* 4. Business-Friendly Footer with Ashutosh Rathor & Sushant Gangwar Attributions */}
+      {/* 4. Business-Friendly Footer with Ashutosh Rathor Attribution */}
       <Footer
         onNavigate={handleNavigate}
-      />
-
-      {/* 5. Next.js Design Context Modal for kaiprakriti.com */}
-      <NextJsDesignContextModal
-        isOpen={isNextJsModalOpen}
-        onClose={() => setIsNextJsModalOpen(false)}
       />
 
     </div>

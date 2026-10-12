@@ -88,7 +88,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 lg:gap-16">
             
             {/* Left: Direct Information & Official Emails */}
-            <div className="lg:col-span-5 space-y-6 sm:space-y-8">
+            <div className="lg:col-span-5 space-y-6 sm:space-y-8 min-w-0">
               <div className="space-y-2 sm:space-y-3">
                 <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#264143]">
                   Direct Advisory Correspondence
@@ -100,29 +100,22 @@ export const ContactPage: React.FC<ContactPageProps> = ({
 
               <div className="space-y-5 text-xs sm:text-sm">
                 
-                {/* General Contact Email */}
-                <div className="flex items-start gap-3 p-4 rounded-2xl bg-white border border-[#E7E3DC] shadow-2xs">
-                  <div className="w-9 h-9 rounded-xl bg-[#3E6B48]/10 flex items-center justify-center text-[#3E6B48] shrink-0">
-                    <Mail className="w-4 h-4" />
+                {/* Official Contact Email */}
+                <div className="flex items-start gap-3.5 p-4 sm:p-5 rounded-2xl bg-white border border-[#E7E3DC] shadow-2xs">
+                  <div className="w-10 h-10 rounded-xl bg-[#3E6B48]/10 flex items-center justify-center text-[#3E6B48] shrink-0">
+                    <Mail className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="text-[11px] text-[#264143]/60 font-semibold uppercase tracking-wider block">Client Advisory & Scoping</span>
-                    <a href="mailto:contact@kaiprakriti.com" className="font-bold text-[#264143] hover:text-[#D96846] transition-colors">
-                      contact@kaiprakriti.com
+                    <span className="text-[11px] text-[#264143]/60 font-semibold uppercase tracking-wider block">Official Advisory Correspondence</span>
+                    <a
+                      href="mailto:operations@kaiprakriti.com"
+                      className="font-bold text-sm sm:text-base text-[#264143] hover:text-[#D96846] transition-colors break-all block"
+                    >
+                      operations@kaiprakriti.com
                     </a>
-                  </div>
-                </div>
-
-                {/* Marketing Email */}
-                <div className="flex items-start gap-3 p-4 rounded-2xl bg-white border border-[#E7E3DC] shadow-2xs">
-                  <div className="w-9 h-9 rounded-xl bg-[#D96846]/10 flex items-center justify-center text-[#D96846] shrink-0">
-                    <Mail className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <span className="text-[11px] text-[#264143]/60 font-semibold uppercase tracking-wider block">Marketing & Partnerships</span>
-                    <a href="mailto:marketing@kaiprakriti.com" className="font-bold text-[#264143] hover:text-[#D96846] transition-colors">
-                      marketing@kaiprakriti.com
-                    </a>
+                    <span className="text-[11px] text-[#264143]/70 block mt-0.5">
+                      Direct scoping discussions, proposal requests & institutional engagements.
+                    </span>
                   </div>
                 </div>
 
@@ -153,7 +146,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({
             </div>
 
             {/* Right: Lead Capture Form */}
-            <div className="lg:col-span-7">
+            <div className="lg:col-span-7 min-w-0">
               {isSubmitted ? (
                 <div className="p-6 sm:p-12 rounded-2xl sm:rounded-3xl border border-[#3E6B48]/30 bg-white text-center space-y-4 shadow-sm animate-fadeIn">
                   <div className="w-14 h-14 rounded-2xl bg-[#3E6B48]/10 text-[#3E6B48] flex items-center justify-center mx-auto">

@@ -13,14 +13,34 @@
   
   html {
     scroll-behavior: smooth;
+    width: 100%;
+    max-width: 100%;
     overflow-x: hidden;
-    max-width: 100vw;
+    margin: 0;
+    padding: 0;
+    -webkit-text-size-adjust: 100%;
+    box-sizing: border-box;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
   }
 
   body {
     font-family: var(--font-sans);
+    width: 100%;
+    max-width: 100%;
     overflow-x: hidden;
-    max-width: 100vw;
+    margin: 0;
+    padding: 0;
+    position: relative;
+  }
+
+  #root {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    min-height: 100vh;
   }
 }
 
@@ -59,3 +79,29 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* Strictly hide and eliminate any Netlify injected badge, button or drawer */
+#netlify-badge,
+.netlify-badge,
+[data-netlify-badge],
+[data-netlify-drawer],
+div[class*="netlify-badge"],
+div[id*="netlify-badge"],
+div[class*="netlify-feedback"],
+iframe[src*="netlify"],
+iframe[title*="Netlify"],
+[aria-label*="Netlify"],
+a[href*="netlify.com"][class*="badge"],
+a[href*="netlify.com"],
+.netlify-identity-widget {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  position: absolute !important;
+  left: -9999px !important;
+  width: 0 !important;
+  height: 0 !important;
+  clip: rect(0, 0, 0, 0) !important;
+}
+
