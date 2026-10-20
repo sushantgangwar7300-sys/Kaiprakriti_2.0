@@ -140,7 +140,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({
                   <span>Strict Statutory Independence Policy</span>
                 </div>
                 <p className="text-xs text-[#264143]/70 leading-relaxed">
-                  Kai Prakriti operates strictly on the preparer side. In accordance with ISAE 3000 and ISO 14064-3 independence rules, we never charge audit certification fees for our own calculations.
+                  Kai Prakriti operates strictly on the preparer side. In accordance with AA1000 and ISO 14064-3 independence rules, we never charge audit certification fees for our own calculations.
                 </p>
               </div>
             </div>

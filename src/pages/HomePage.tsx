@@ -468,7 +468,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle2 className="w-4 h-4 text-[#D96846] shrink-0 mt-0.5" />
-                  <span>Guaranteed compliance with ISAE 3000 and ISO 14064-3 independence</span>
+                  <span>Guaranteed compliance with AA1000 and ISO 14064-3 independence</span>
                 </li>
               </ul>
             </div>

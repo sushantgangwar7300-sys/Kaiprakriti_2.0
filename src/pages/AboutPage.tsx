@@ -25,7 +25,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
   const assurancePillars = [
     {
       title: 'Two-Line Independence Firewall',
-      desc: 'Preparation and statutory verification are kept under separate operational and financial boundaries, complying with ISAE 3000 and ISO 14064-3 ethical codes.',
+      desc: 'Preparation and statutory verification are kept under separate operational and financial boundaries, complying with AA1000 and ISO 14064-3 ethical codes.',
     },
     {
       title: 'Primary Data Accounting',

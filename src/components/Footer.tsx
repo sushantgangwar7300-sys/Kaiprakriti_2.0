@@ -214,7 +214,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         <div className="pt-8 border-t border-white/10 space-y-4">
           
           <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 text-[11px] text-[#E7E3DC]/75 leading-relaxed">
-            <strong className="text-white">Ethical Independence Firewall:</strong> Kai Prakriti operates strictly as a quantitative sustainability advisory. When statutory compliance mandates independent third-party reasonable assurance under ISAE 3000, ISO 14064-3, or SEBI circulars, audits are conducted by separate accredited bodies.
+            <strong className="text-white">Ethical Independence Firewall:</strong> Kai Prakriti operates strictly as a quantitative sustainability advisory. When statutory compliance mandates independent third-party reasonable assurance under AA1000, ISO 14064-3, or SEBI circulars, audits are conducted by separate accredited bodies.
           </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#E7E3DC]/70">

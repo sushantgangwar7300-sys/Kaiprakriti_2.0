@@ -14,7 +14,7 @@ For the top listed entities on the National Stock Exchange (NSE) and Bombay Stoc
 ### The Conflict of Interest Trap
 Many Indian conglomerates traditionally relied on single-vendor arrangements where a consulting firm calculated emissions and drafted the report, while an allied wing of the same entity issued an "independent verification letter." 
 
-Under SEBI circular guidelines and international assurance standards (ISAE 3000 / ISO 14064-3):
+Under SEBI circular guidelines and international assurance standards (AA1000 / ISO 14064-3):
 1. **Self-Review Threat:** An assurance body cannot objectively test data schemas, emission factor models, or activity boundaries that its own consultants engineered.
 2. **Statutory Penalties:** Filings flagged for conflict of interest face rejection by stock exchanges and reputational downgrades from global rating agencies (MSCI, DJSI, S&P Global).
 
@@ -26,7 +26,7 @@ At Kai Prakriti, our charter enforces a **Zero Self-Audit Firewall**. We do the 
     date: 'Sep 14, 2026',
     readTime: '6 min read',
     category: 'BRSR & SEBI',
-    tags: ['SEBI', 'BRSR Core', 'ISAE 3000', 'Assurance', 'NGRBC'],
+    tags: ['SEBI', 'BRSR Core', 'AA1000', 'Assurance', 'NGRBC'],
     mediumUrl: 'https://medium.com/@kaiprakriti/sebi-brsr-core-decoupling-ghg-accounting-from-assurance-2026',
     linkedinUrl: 'https://www.linkedin.com/pulse/sebi-brsr-core-mandate-why-enterprises-must-decouple-ghg-kai-prakriti',
     coverImage: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&auto=format&fit=crop&q=80',
