@@ -38,6 +38,17 @@ export default function App() {
     document.documentElement.classList.remove('dark');
   }, []);
 
+  // Track Google Analytics pageviews on route/page state changes
+  useEffect(() => {
+    if (typeof window !== 'undefined' && (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag) {
+      const pagePath = currentPage === 'home' ? '/' : `/${currentPage}`;
+      (window as unknown as { gtag: (...args: unknown[]) => void }).gtag('config', 'G-KKZN6CKBR3', {
+        page_path: pagePath,
+        page_title: `Kai Prakriti — ${currentPage.charAt(0).toUpperCase() + currentPage.slice(1)}`,
+      });
+    }
+  }, [currentPage]);
+
   const handleNavigate = (page: PageId, extraParam?: string) => {
     if (page === 'contact' && extraParam) {
       setPrefilledServiceId(extraParam);
