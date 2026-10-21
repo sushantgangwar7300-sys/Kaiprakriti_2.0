@@ -2,12 +2,15 @@ import React from 'react';
 import { PageId } from '../types';
 import { KaiPrakritiEmblem } from './KaiPrakritiEmblem';
 import { Linkedin, Instagram, Facebook, BookOpen, Mail, Phone, MapPin } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 interface FooterProps {
   onNavigate?: (page: PageId) => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
+  const { language, t } = useLanguage();
+
   return (
     <footer className="bg-[#1F3335] text-[#E7E3DC] border-t border-[#E7E3DC]/10 pt-12 pb-10 sm:pt-16 sm:pb-12 text-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 sm:space-y-12">
@@ -15,15 +18,15 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         {/* Top Section: 4 Clean Columns */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 sm:gap-10">
           
-          {/* Column 1: Brand & Overview (4 cols) - Emblem with Circular Border */}
+          {/* Column 1: Brand & Overview (4 cols) */}
           <div className="lg:col-span-4 space-y-3.5 sm:space-y-4">
             <div className="flex items-center space-x-3">
-              <div className="shrink-0">
+              <div className="shrink-0 bg-white/10 p-1.5 rounded-2xl border border-[#E7E3DC]/20">
                 <div className="sm:hidden">
-                  <KaiPrakritiEmblem size={42} theme="relax" inverted={true} circularBorder={true} />
+                  <KaiPrakritiEmblem size={38} theme="relax" inverted={true} circularBorder={true} />
                 </div>
                 <div className="hidden sm:block">
-                  <KaiPrakritiEmblem size={52} theme="relax" inverted={true} circularBorder={true} />
+                  <KaiPrakritiEmblem size={46} theme="relax" inverted={true} circularBorder={true} />
                 </div>
               </div>
               <div>
@@ -31,13 +34,13 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                   Kai Prakriti
                 </span>
                 <span className="text-[10px] sm:text-[11px] text-[#E99F4C] font-semibold block">
-                  Sustainability & ESG Advisory
+                  {t.nav.subtitle}
                 </span>
               </div>
             </div>
 
             <p className="text-[#E7E3DC]/80 leading-relaxed text-xs max-w-sm">
-              Helping modern Indian enterprises and emerging exporters achieve measurable decarbonization, SEBI BRSR Core compliance, and EU CBAM reporting with empirical mathematical rigor and zero self-audit conflict.
+              {t.footer.tagline}
             </p>
 
             {/* Social Channels */}
@@ -52,11 +55,11 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 <BookOpen className="w-4 h-4" />
               </a>
               <a
-                href="https://www.linkedin.com/company/kai-prakriti"
+                href="https://www.linkedin.com/company/kaiprakriti-esg-advisory/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-8 h-8 rounded-xl bg-white/10 hover:bg-[#D96846] flex items-center justify-center text-white transition-colors"
-                title="LinkedIn"
+                title="LinkedIn — Kai Prakriti ESG Advisory"
               >
                 <Linkedin className="w-4 h-4" />
               </a>
@@ -210,35 +213,16 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
 
         </div>
 
-        {/* Bottom Section: Legal, Regulatory Firewall, and Required Attributions */}
+        {/* Bottom Section: Legal, Regulatory Firewall */}
         <div className="pt-8 border-t border-white/10 space-y-4">
           
           <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 text-[11px] text-[#E7E3DC]/75 leading-relaxed">
-            <strong className="text-white">Ethical Independence Firewall:</strong> Kai Prakriti operates strictly as a quantitative sustainability advisory. When statutory compliance mandates independent third-party reasonable assurance under AA1000, ISO 14064-3, or SEBI circulars, audits are conducted by separate accredited bodies.
+            <strong className="text-white">{t.footer.firewallTitle}</strong> {t.footer.firewallText}
           </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#E7E3DC]/70">
             <div>
-              © {new Date().getFullYear()} Kai Prakriti. All rights reserved. Sovereign Carbon Accounting.
-            </div>
-
-            {/* MANDATORY ATTRIBUTIONS */}
-            <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs">
-              <span className="text-white font-medium">
-                Designed &amp; Developed by{' '}
-                <a
-                  href="https://ashutoshrathor.netlift.app"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[#E99F4C] font-semibold hover:underline transition-colors"
-                >
-                  Ashutosh Rathor
-                </a>
-              </span>
-              <span className="text-white/30 hidden sm:inline">|</span>
-              <span className="text-white font-medium">
-                Managed by <strong className="text-[#D96846] font-semibold">Sushant Gangwar</strong>
-              </span>
+              © {new Date().getFullYear()} Kai Prakriti. {t.footer.rights}
             </div>
           </div>
 

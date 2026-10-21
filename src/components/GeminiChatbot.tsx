@@ -36,7 +36,10 @@ For Indian industrial companies:
 We **never** issue verification statements or audit opinions on our own calculations. When statutory rules require independent verification (ISO 14064-3 or BEE ACVA), we facilitate introductions to accredited bodies and disclose all commissions in writing.`,
 };
 
+import { useLanguage } from '../context/LanguageContext';
+
 export const GeminiChatbot: React.FC<GeminiChatbotProps> = ({ theme, mode }) => {
+  const { language } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -44,7 +47,9 @@ export const GeminiChatbot: React.FC<GeminiChatbotProps> = ({ theme, mode }) => 
     {
       id: 'msg-1',
       role: 'assistant',
-      content: 'Namaste! I am the Kai Prakriti ESG Advisor. Ask me anything about SEBI BRSR Core, EU CBAM embedded emissions, Scope 1-3 GHG accounting, or our two-line statutory independence model.',
+      content: language === 'hi'
+        ? 'नमस्ते! मैं काई प्रकृति ईएसजी सलाहकार हूँ। सेबी बीआरएसआर कोर, ईयू सीबीएएम, स्कोप 1-3 कार्बन लेखांकन या हमारी स्वतंत्रता नीति के बारे में कुछ भी पूछें।'
+        : 'Namaste! I am the Kai Prakriti ESG Advisor. Ask me anything about SEBI BRSR Core, EU CBAM embedded emissions, Scope 1-3 GHG accounting, or our two-line statutory independence model.',
       timestamp: 'Just now',
     },
   ]);
@@ -152,7 +157,12 @@ Would you like to initiate a formal 30-minute scoping discussion or inspect our 
     }
   };
 
-  const quickChips = [
+  const quickChips = language === 'hi' ? [
+    { label: 'सेबी बीआरएसआर कोर नियम', query: 'भारत में सेबी बीआरएसआर कोर की क्या वैधानिक आवश्यकताएं हैं?' },
+    { label: 'ईयू सीबीएएम २०२६', query: 'यूरोपीय संघ सीबीएएम भारतीय इस्पात निर्यातकों को कैसे प्रभावित करता है?' },
+    { label: 'स्कोप ३ आपूर्ति श्रृंखला', query: 'आपूर्तिकर्ताओं के लिए स्कोप ३ श्रेणी १ उत्सर्जन की गणना कैसे करें?' },
+    { label: 'स्वतंत्र सत्यापन दीवार', query: 'काई प्रकृति प्रत्यक्ष माप को ऑडिट सत्यापन से अलग क्यों रखती है?' },
+  ] : [
     { label: 'SEBI BRSR Core Rules', query: 'What are the statutory requirements for SEBI BRSR Core in India?' },
     { label: 'EU CBAM 2026', query: 'How does EU CBAM affect Indian steel exporters in 2026?' },
     { label: 'Scope 3 Category 1', query: 'How do you calculate Scope 3 Category 1 emissions for suppliers?' },
@@ -178,10 +188,10 @@ Would you like to initiate a formal 30-minute scoping discussion or inspect our 
 
       {/* Expanded Multi-Turn Chat Window */}
       {isOpen && (
-        <div className="w-[calc(100vw-28px)] max-w-[400px] h-[480px] sm:h-[560px] max-h-[82vh] rounded-2xl sm:rounded-3xl border flex flex-col overflow-hidden shadow-2xl bg-white dark:bg-slate-900 border-black/10 dark:border-white/10 animate-in slide-in-from-bottom-5 duration-200">
+        <div className="w-[calc(100vw-28px)] max-w-[400px] h-[480px] sm:h-[560px] max-h-[82vh] rounded-2xl sm:rounded-3xl border flex flex-col overflow-hidden shadow-2xl bg-white border-[#E7E3DC] animate-in slide-in-from-bottom-5 duration-200">
           
           {/* Header */}
-          <div className="p-4 border-b border-black/10 dark:border-white/10 bg-emerald-600 text-white flex items-center justify-between">
+          <div className="p-4 border-b border-black/10 bg-emerald-600 text-white flex items-center justify-between">
             <div className="flex items-center space-x-2.5">
               <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-serif font-bold text-sm">
                 KP

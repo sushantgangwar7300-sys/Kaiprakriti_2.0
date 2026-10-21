@@ -3,6 +3,7 @@ import { PageId, ServiceCategory, ServiceItem } from '../types';
 import { getStoredServices, isCatalogueUnlocked } from '../data/servicesStore';
 import { Search, ArrowRight, CheckCircle2, ChevronRight, X, Lock, Sparkles, ShieldCheck, Mail } from 'lucide-react';
 import { UnlockServicesModal } from '../components/UnlockServicesModal';
+import { useLanguage } from '../context/LanguageContext';
 
 interface ServicesPageProps {
   theme?: string;
@@ -15,6 +16,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
   onNavigate,
   preselectedServiceId,
 }) => {
+  const { language, t } = useLanguage();
   const [services, setServices] = useState<ServiceItem[]>(getStoredServices);
   const [isUnlocked, setIsUnlocked] = useState(isCatalogueUnlocked);
   const [isUnlockModalOpen, setIsUnlockModalOpen] = useState(false);
@@ -63,10 +65,22 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
   return (
     <div className="bg-[#FAF8F5] text-[#264143] min-h-screen">
       
-      {/* 1. Header (Relaxed, Environmental Aesthetic) */}
-      <section className="pt-14 pb-14 border-b border-[#E7E3DC] bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center space-y-4">
-          <div className="inline-flex items-center gap-2 text-xs font-semibold text-[#3E6B48] uppercase tracking-wider bg-[#3E6B48]/10 px-3.5 py-1.5 rounded-full border border-[#3E6B48]/20">
+      {/* 1. Header with Clean Industrial Decarbonization & Clean Energy Infrastructure Background Image */}
+      <section className="relative pt-14 pb-14 sm:pt-20 sm:pb-20 border-b border-[#E7E3DC] overflow-hidden">
+        
+        {/* Related Background Image: Solar & Industrial Decarbonization */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=2000&q=80"
+            alt="Clean Energy Infrastructure & Industrial Sustainability"
+            className="w-full h-full object-cover scale-105 opacity-20"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#FAF8F5]/95 via-[#FAF8F5]/85 to-[#FAF8F5]" />
+          <div className="absolute inset-0 bg-[#264143]/5 mix-blend-multiply" />
+        </div>
+
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center space-y-4">
+          <div className="inline-flex items-center gap-2 text-xs font-semibold text-[#3E6B48] uppercase tracking-wider bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-[#E7E3DC] shadow-2xs">
             <span className="w-2 h-2 rounded-full bg-[#D96846]" />
             <span>Advisory Practices & Delivery Catalogue</span>
           </div>
@@ -82,13 +96,13 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
           {/* Access Status Banner */}
           <div className="pt-3 flex items-center justify-center">
             {isUnlocked ? (
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-[#3E6B48]/10 text-[#3E6B48] border border-[#3E6B48]/30 text-xs font-semibold">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-[#3E6B48]/10 text-[#3E6B48] border border-[#3E6B48]/30 text-xs font-semibold shadow-2xs">
                 <CheckCircle2 className="w-4 h-4" />
                 <span>Enterprise Catalogue Unlocked: Viewing All {services.length} Practices</span>
               </div>
             ) : (
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-[#D96846]/10 text-[#D96846] border border-[#D96846]/30 text-xs font-semibold">
-                <Lock className="w-3.5 h-3.5" />
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-white text-[#264143] border border-[#E7E3DC] text-xs font-semibold shadow-2xs">
+                <Lock className="w-3.5 h-3.5 text-[#D96846]" />
                 <span>Preview Mode: Showing 4 Core Practices. Fill Access Form To Unlock All {services.length}.</span>
               </div>
             )}
@@ -110,7 +124,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
                   : 'text-[#264143] hover:text-[#D96846]'
               }`}
             >
-              All Practices ({accessibleServices.length})
+              {language === 'en' ? `All Practices (${accessibleServices.length})` : `सभी सेवाएं (${accessibleServices.length})`}
             </button>
 
             <button
@@ -121,7 +135,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
                   : 'text-[#264143] hover:text-[#D96846]'
               }`}
             >
-              Direct Quantitative Work
+              {language === 'en' ? 'Direct Quantitative Work' : 'प्रत्यक्ष मात्रात्मक कार्य'}
             </button>
 
             <button
@@ -132,7 +146,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
                   : 'text-[#264143] hover:text-[#D96846]'
               }`}
             >
-              Facilitated Independent Verification
+              {language === 'en' ? 'Facilitated Independent Verification' : 'स्वतंत्र सत्यापन सुविधा'}
             </button>
           </div>
 
@@ -141,7 +155,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
             <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
               type="text"
-              placeholder="Search standards, frameworks..."
+              placeholder={t.services.searchPlaceholder}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-9 pr-4 py-2 rounded-xl border border-[#E7E3DC] bg-[#FAF8F5] text-xs text-[#264143] placeholder-slate-400 focus:outline-none focus:border-[#D96846] focus:bg-white transition-colors"
@@ -201,7 +215,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
           ))}
         </div>
 
-        {/* 4. Gated Access Callout (When not yet unlocked) */}
+        {/* 4. Gated Access Callout */}
         {!isUnlocked && (
           <div className="rounded-3xl border-2 border-dashed border-[#D96846]/40 bg-gradient-to-b from-[#FAF8F5] to-white p-8 sm:p-12 text-center space-y-5">
             <div className="w-12 h-12 rounded-2xl bg-[#D96846]/10 text-[#D96846] flex items-center justify-center mx-auto">

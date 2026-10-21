@@ -1,6 +1,7 @@
 import {StrictMode} from 'react';
 import {createRoot} from 'react-dom/client';
 import App from './App.tsx';
+import { LanguageProvider } from './context/LanguageContext.tsx';
 import './index.css';
 
 // Clean up any Netlify injected badges/drawer if inserted dynamically
@@ -33,7 +34,9 @@ if (typeof window !== 'undefined') {
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <LanguageProvider>
+      <App />
+    </LanguageProvider>
   </StrictMode>,
 );
 

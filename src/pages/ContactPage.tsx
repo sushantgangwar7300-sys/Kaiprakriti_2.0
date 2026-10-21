@@ -3,6 +3,7 @@ import { PageId } from '../types';
 import { getStoredServices } from '../data/servicesStore';
 import { saveLead } from '../data/leadStore';
 import { Mail, Phone, MapPin, CheckCircle2, ArrowRight, ShieldCheck } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 interface ContactPageProps {
   theme?: string;
@@ -15,6 +16,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({
   onNavigate,
   prefilledServiceId,
 }) => {
+  const { language, t } = useLanguage();
   const [services] = useState(getStoredServices);
   const [formData, setFormData] = useState({
     name: '',
@@ -63,26 +65,38 @@ export const ContactPage: React.FC<ContactPageProps> = ({
   return (
     <div className="bg-[#FAF8F5] text-[#264143] min-h-screen">
       
-      {/* 1. Header (Relaxed, Environmental Aesthetic) */}
-      <section className="pt-10 pb-10 sm:pt-16 sm:pb-14 border-b border-[#E7E3DC] bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center space-y-3 sm:space-y-4">
-          <div className="inline-flex items-center gap-2 text-xs font-semibold text-[#3E6B48] uppercase tracking-wider bg-[#3E6B48]/10 px-3.5 py-1.5 rounded-full border border-[#3E6B48]/20">
+      {/* 1. Header with Architectural Consultation Headquarters Background Image */}
+      <section className="relative pt-14 pb-14 sm:pt-20 sm:pb-20 border-b border-[#E7E3DC] overflow-hidden">
+        
+        {/* Related Background Image: Corporate Headquarters & Sustainability Consultation Center */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=2000&q=80"
+            alt="Corporate Advisory Center"
+            className="w-full h-full object-cover scale-105 opacity-20"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#FAF8F5]/95 via-[#FAF8F5]/85 to-[#FAF8F5]" />
+          <div className="absolute inset-0 bg-[#264143]/5 mix-blend-multiply" />
+        </div>
+
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center space-y-3 sm:space-y-4">
+          <div className="inline-flex items-center gap-2 text-xs font-semibold text-[#3E6B48] uppercase tracking-wider bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-[#E7E3DC] shadow-2xs">
             <span className="w-2 h-2 rounded-full bg-[#D96846]" />
-            <span>Confidential Scoping & Advisory</span>
+            <span>{t.contact.badge}</span>
           </div>
 
-          <h1 className="font-serif text-2xl sm:text-5xl font-bold tracking-tight text-[#264143]">
-            Discuss your reporting requirements with our team.
+          <h1 className="font-serif text-3xl sm:text-5xl font-bold tracking-tight text-[#264143]">
+            {t.contact.title}
           </h1>
 
           <p className="text-xs sm:text-base text-[#264143]/75 font-normal max-w-2xl mx-auto leading-relaxed">
-            Whether you are calculating Scope 1–3 greenhouse gas baselines or preparing for European CBAM compliance, we provide empirical clarity from day one.
+            {t.contact.subtitle}
           </p>
         </div>
       </section>
 
       {/* 2. Main Contact Form & Details Grid */}
-      <section className="py-10 sm:py-16 bg-[#FAF8F5]">
+      <section className="py-12 sm:py-18 bg-[#FAF8F5]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 lg:gap-16">
@@ -122,7 +136,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({
                 {/* Address */}
                 <div className="flex items-start gap-3 p-4 rounded-2xl bg-white border border-[#E7E3DC] shadow-2xs">
                   <div className="w-9 h-9 rounded-xl bg-[#264143]/10 flex items-center justify-center text-[#264143] shrink-0">
-                    <MapPin className="w-4 h-4" />
+                    <MapPin className="w-4 h-4 text-[#3E6B48]" />
                   </div>
                   <div>
                     <span className="text-[11px] text-[#264143]/60 font-semibold uppercase tracking-wider block">Advisory Base</span>
@@ -134,7 +148,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({
 
               </div>
 
-              <div className="p-6 rounded-3xl bg-white border border-[#E7E3DC] space-y-2.5">
+              <div className="p-6 rounded-3xl bg-white border border-[#E7E3DC] space-y-2.5 shadow-2xs">
                 <div className="flex items-center gap-2 text-xs font-semibold text-[#3E6B48]">
                   <ShieldCheck className="w-4 h-4" />
                   <span>Strict Statutory Independence Policy</span>
@@ -150,7 +164,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({
               {isSubmitted ? (
                 <div className="p-6 sm:p-12 rounded-2xl sm:rounded-3xl border border-[#3E6B48]/30 bg-white text-center space-y-4 shadow-sm animate-fadeIn">
                   <div className="w-14 h-14 rounded-2xl bg-[#3E6B48]/10 text-[#3E6B48] flex items-center justify-center mx-auto">
-                    <CheckCircle2 className="w-8 h-8" />
+                    <CheckCircle2 className="w-8 h-8 text-[#3E6B48]" />
                   </div>
 
                   <h3 className="font-serif text-2xl font-bold text-[#264143]">
@@ -190,22 +204,24 @@ export const ContactPage: React.FC<ContactPageProps> = ({
                 >
                   <div className="space-y-1">
                     <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#264143]">
-                      Request a Scoping Discussion
+                      {language === 'en' ? 'Request a Scoping Discussion' : 'परामर्श चर्चा का अनुरोध करें'}
                     </h3>
                     <p className="text-xs text-[#264143]/70">
-                      Please provide your details below and our advisory team will prepare tailored initial benchmarks.
+                      {language === 'en' 
+                        ? 'Please provide your details below and our advisory team will prepare tailored initial benchmarks.'
+                        : 'कृपया नीचे अपना विवरण दर्ज करें और हमारी टीम प्रारंभिक बेंचमार्क तैयार करेगी।'}
                     </p>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                     <div className="space-y-1.5">
                       <label className="text-xs font-semibold text-[#264143]">
-                        Full Name *
+                        {t.contact.formName} *
                       </label>
                       <input
                         type="text"
                         required
-                        placeholder="e.g. Priya Sharma"
+                        placeholder={language === 'en' ? "e.g. Priya Sharma" : "उदा. प्रिया शर्मा"}
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         className="w-full px-3.5 py-2.5 text-xs bg-[#FAF8F5] border border-[#E7E3DC] rounded-xl text-[#264143] placeholder-slate-400 focus:outline-none focus:border-[#D96846] focus:bg-white"
@@ -214,12 +230,12 @@ export const ContactPage: React.FC<ContactPageProps> = ({
 
                     <div className="space-y-1.5">
                       <label className="text-xs font-semibold text-[#264143]">
-                        Company Name *
+                        {t.contact.formCompany} *
                       </label>
                       <input
                         type="text"
                         required
-                        placeholder="e.g. Apex Precision Alloys"
+                        placeholder={language === 'en' ? "e.g. Apex Precision Alloys" : "उदा. एपेक्स प्रिसिजन अलॉयज"}
                         value={formData.company}
                         onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                         className="w-full px-3.5 py-2.5 text-xs bg-[#FAF8F5] border border-[#E7E3DC] rounded-xl text-[#264143] placeholder-slate-400 focus:outline-none focus:border-[#D96846] focus:bg-white"
@@ -228,7 +244,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({
 
                     <div className="space-y-1.5">
                       <label className="text-xs font-semibold text-[#264143]">
-                        Corporate Email *
+                        {t.contact.formEmail} *
                       </label>
                       <input
                         type="email"
@@ -242,7 +258,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({
 
                     <div className="space-y-1.5">
                       <label className="text-xs font-semibold text-[#264143]">
-                        Phone Number
+                        {t.contact.formPhone}
                       </label>
                       <input
                         type="tel"
@@ -256,7 +272,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({
 
                   <div className="space-y-1.5">
                     <label className="text-xs font-semibold text-[#264143]">
-                      Practice of Interest
+                      {t.contact.formService}
                     </label>
                     <select
                       value={formData.serviceId}
@@ -273,11 +289,11 @@ export const ContactPage: React.FC<ContactPageProps> = ({
 
                   <div className="space-y-1.5">
                     <label className="text-xs font-semibold text-[#264143]">
-                      Brief Context or Operational Scope
+                      {t.contact.formMessage}
                     </label>
                     <textarea
                       rows={4}
-                      placeholder="Share manufacturing locations, fuel types, or specific compliance deadlines..."
+                      placeholder={language === 'en' ? "Share manufacturing locations, fuel types, or specific compliance deadlines..." : "विनिर्माण स्थान, ईंधन प्रकार, या विशिष्ट समय सीमाएं साझा करें..."}
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       className="w-full px-3.5 py-2.5 text-xs bg-[#FAF8F5] border border-[#E7E3DC] rounded-xl text-[#264143] placeholder-slate-400 focus:outline-none focus:border-[#D96846] focus:bg-white"
@@ -288,7 +304,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({
                     type="submit"
                     className="w-full py-3.5 rounded-xl bg-[#D96846] hover:bg-[#C45737] text-white text-xs font-semibold flex items-center justify-center gap-2 shadow-xs transition-colors"
                   >
-                    <span>Send Scoping Inquiry</span>
+                    <span>{t.contact.formSubmit}</span>
                     <ArrowRight className="w-4 h-4 text-white" />
                   </button>
                 </form>

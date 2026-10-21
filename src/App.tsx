@@ -167,7 +167,7 @@ export default function App() {
         onNavigateToService={(serviceId) => handleNavigate('services', serviceId)}
       />
 
-      {/* 4. Business-Friendly Footer with Ashutosh Rathor Attribution */}
+      {/* 4. Business-Friendly Footer */}
       <Footer
         onNavigate={handleNavigate}
       />

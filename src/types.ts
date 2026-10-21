@@ -2,6 +2,8 @@ export type DesignThemeId = 'verdant' | 'vibrant' | 'editorial';
 
 export type ThemeMode = 'light' | 'dark';
 
+export type Language = 'en' | 'hi';
+
 export type PageId = 'home' | 'about' | 'services' | 'blog' | 'contact' | 'admin' | 'admin-login';
 
 export type ServiceCategory = 'direct' | 'facilitated' | 'hybrid';

@@ -215,8 +215,7 @@ export const UnlockServicesModal: React.FC<UnlockServicesModalProps> = ({
                     <option value="brsr-core">SEBI BRSR Core Assurance Filing Preparation</option>
                     <option value="cbam-readiness">EU CBAM Specific Embedded Emissions for Exporters</option>
                     <option value="lca-product">Product Life Cycle Assessment (ISO 14040/44)</option>
-                    <option value="zed-prep">MSME ZED Bronze/Silver/Gold Certification</option>
-                    <option value="honest-verifier-match">Independent Accredited Verifier Facilitation</option>
+                    <option value="zed-support">MSME ZED Bronze/Silver/Gold Certification</option>
                   </select>
                 </div>
 

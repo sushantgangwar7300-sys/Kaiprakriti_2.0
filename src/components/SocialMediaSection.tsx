@@ -28,7 +28,7 @@ export const SocialMediaSection: React.FC<SocialMediaSectionProps> = () => {
       badgeText: 'Executive Regulatory Alert',
       badgeColor: 'bg-[#264143]/10 text-[#264143] border-[#264143]/30',
       actionText: 'Connect on LinkedIn',
-      url: 'https://www.linkedin.com/company/kai-prakriti',
+      url: 'https://www.linkedin.com/company/kaiprakriti-esg-advisory/',
     },
     {
       name: 'Instagram',
@@ -107,7 +107,7 @@ export const SocialMediaSection: React.FC<SocialMediaSectionProps> = () => {
                   href={channel.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#D96846] hover:text-[#C45737]"
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#D96846] hover:text-[#C45737] transition-colors"
                 >
                   <span>{channel.actionText}</span>
                   <ExternalLink className="w-3.5 h-3.5" />
