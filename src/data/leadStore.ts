@@ -148,8 +148,41 @@ export function saveLead(leadData: Omit<Lead, 'id' | 'createdAt'>): Lead {
     localStorage.setItem(LEADS_STORAGE_KEY, JSON.stringify(updated));
     window.dispatchEvent(new CustomEvent('kai_prakriti_leads_updated', { detail: updated }));
   } catch (e) {
-    console.error('Failed to persist lead', e);
+    console.error('Failed to persist lead locally', e);
   }
+
+  // Also dispatch to backend /api/v1/leads with honeypot field
+  try {
+    fetch('/api/v1/leads', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ...newLead,
+        websiteUrl: '', // Honeypot shield passes
+      }),
+    }).catch(() => {
+      // Offline or dev preview fallback
+    });
+  } catch (_) {}
+
+  // Trigger client-side Gmail dispatch directly
+  try {
+    import('../services/googleAuth').then(({ dispatchLeadEmailViaGmail }) => {
+      dispatchLeadEmailViaGmail({
+        name: newLead.name,
+        company: newLead.company,
+        email: newLead.email,
+        phone: newLead.phone,
+        serviceId: newLead.serviceId,
+        estimatedBudget: newLead.estimatedBudget,
+        targetDeadline: newLead.targetDeadline,
+        message: newLead.message,
+        source: newLead.source,
+        leadId: newLead.id,
+      }).catch(() => {});
+    }).catch(() => {});
+  } catch (_) {}
+
   return newLead;
 }
 
@@ -167,6 +200,20 @@ export function updateLeadStatus(id: string, newStatus: Lead['status'], note?: s
     localStorage.setItem(LEADS_STORAGE_KEY, JSON.stringify(updated));
     window.dispatchEvent(new CustomEvent('kai_prakriti_leads_updated', { detail: updated }));
   } catch (e) {}
+
+  // Sync to backend if token available
+  const token = localStorage.getItem('kai_prakriti_admin_jwt');
+  if (token) {
+    fetch(`/api/v1/leads/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ status: newStatus, note }),
+    }).catch(() => {});
+  }
+
   return updated;
 }
 
@@ -177,5 +224,34 @@ export function deleteLead(id: string): Lead[] {
     localStorage.setItem(LEADS_STORAGE_KEY, JSON.stringify(updated));
     window.dispatchEvent(new CustomEvent('kai_prakriti_leads_updated', { detail: updated }));
   } catch (e) {}
+
+  // Sync delete to backend if token available
+  const token = localStorage.getItem('kai_prakriti_admin_jwt');
+  if (token) {
+    fetch(`/api/v1/leads/${id}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` },
+    }).catch(() => {});
+  }
+
   return updated;
 }
+
+export async function fetchServerLeads(): Promise<Lead[] | null> {
+  const token = localStorage.getItem('kai_prakriti_admin_jwt');
+  if (!token) return null;
+  try {
+    const res = await fetch('/api/v1/leads', {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data.leads)) {
+        localStorage.setItem(LEADS_STORAGE_KEY, JSON.stringify(data.leads));
+        return data.leads;
+      }
+    }
+  } catch (_) {}
+  return null;
+}
+

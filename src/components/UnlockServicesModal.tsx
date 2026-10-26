@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Lock, CheckCircle2, ArrowRight, ShieldCheck, Sparkles } from 'lucide-react';
+import { X, Lock, CheckCircle2, ArrowRight, ShieldCheck, Sparkles, Mail } from 'lucide-react';
 import { saveLead } from '../data/leadStore';
 import { unlockCatalogue } from '../data/servicesStore';
 
@@ -229,8 +229,9 @@ export const UnlockServicesModal: React.FC<UnlockServicesModalProps> = ({
                   </button>
                 </div>
 
-                <p className="text-[11px] text-[#264143]/50 text-center">
-                  Your information is kept confidential. Zero spam. Directly received by our advisory leadership.
+                <p className="text-[11px] text-[#264143]/60 text-center flex items-center justify-center gap-1.5">
+                  <Mail className="w-3.5 h-3.5 text-[#3E6B48] shrink-0" />
+                  <span>Inquiry details are automatically routed to <strong>sushantgangwar7300@gmail.com</strong></span>
                 </p>
               </form>
             )}

@@ -1,0 +1,78 @@
+[
+  {
+    "id": "lead_1792611338394_83c391",
+    "name": "Aarav Sharma",
+    "company": "Tata Motors Exporters",
+    "email": "aarav@tatamotors.example.com",
+    "phone": "+91 98220 99881",
+    "companyType": "corporate",
+    "serviceId": "cbam-consulting",
+    "status": "new",
+    "estimatedBudget": "Under Evaluation",
+    "targetDeadline": "Q4 2026",
+    "message": "Need CBAM actual footprint scoping",
+    "source": "Web Contact Portal",
+    "ip": "127.0.0.1",
+    "createdAt": "2026-10-21T19:35:38.394Z",
+    "notes": [
+      "Direct web inquiry submitted"
+    ]
+  },
+  {
+    "id": "lead-001",
+    "name": "Rajesh Singhania",
+    "company": "Jindal Steels & Alloys Ltd",
+    "email": "r.singhania@jindalsteels.in",
+    "phone": "+91 98112 44321",
+    "companyType": "listed_top_1000",
+    "serviceId": "cbam-embedded",
+    "status": "proposal",
+    "estimatedBudget": "₹14,50,000",
+    "targetDeadline": "Q4 2026",
+    "message": "We require actual embedded carbon calculation for 45,000 MT of hot-rolled steel coils exported to Rotterdam under EU CBAM 2026 guidelines.",
+    "notes": [
+      "Met VP Procurement on Sep 12",
+      "Shared draft MRV boundary document",
+      "Awaiting legal sign-off on facilitated verifier SLA"
+    ],
+    "source": "Website Scope Calculator",
+    "createdAt": "2026-09-15T10:30:00Z"
+  },
+  {
+    "id": "lead-002",
+    "name": "Ananya Deshmukh",
+    "company": "Mahindra Logistics Infrastructure",
+    "email": "deshmukh.ananya@mahindralogistics.com",
+    "phone": "+91 99201 88765",
+    "companyType": "listed_top_1000",
+    "serviceId": "brsr-core",
+    "status": "scoping",
+    "estimatedBudget": "₹9,80,000",
+    "targetDeadline": "Q3 2026",
+    "message": "Need complete BRSR Core assurance trail preparation for FY 2026-27 filing. Looking for zero self-audit compliance.",
+    "notes": [
+      "Initial kickoff call completed",
+      "Data request sent for Scope 1 diesel fleets and Scope 2 EV depot chargers"
+    ],
+    "source": "Direct Web Inquiry",
+    "createdAt": "2026-09-16T14:15:00Z"
+  },
+  {
+    "id": "lead-003",
+    "name": "Vikram Mehta",
+    "company": "Apex Precision Auto Components (MSME)",
+    "email": "vikram@apexprecision.co.in",
+    "phone": "+91 97420 11234",
+    "companyType": "tier1_supplier",
+    "serviceId": "zed-prep",
+    "status": "new",
+    "estimatedBudget": "₹4,20,000",
+    "targetDeadline": "Q4 2026",
+    "message": "Our Tier-1 customer Bosch Germany has asked for ZED Gold rating or EcoVadis equivalent. We want to apply for MSME subsidy.",
+    "notes": [
+      "New lead from MSME ZED blog post"
+    ],
+    "source": "Blog Cross-Link (Medium)",
+    "createdAt": "2026-09-18T08:45:00Z"
+  }
+]

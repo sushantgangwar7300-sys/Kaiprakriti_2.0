@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { DesignThemeId, ThemeMode, ChatMessage } from '../types';
 import { MessageSquare, X, Send, Sparkles, Bot, User, RefreshCw, ChevronDown, ExternalLink } from 'lucide-react';
-import { GoogleGenAI } from '@google/genai';
 
 interface GeminiChatbotProps {
   theme: DesignThemeId;
@@ -79,28 +78,16 @@ export const GeminiChatbot: React.FC<GeminiChatbotProps> = ({ theme, mode }) => 
     setIsLoading(true);
 
     try {
-      // Check if client-side or server Gemini API is configured
-      const apiKey = (import.meta as any).env?.VITE_GEMINI_API_KEY || (window as any).__GEMINI_KEY__;
+      // Call server-side protected Gemini 3.8 Flash copilot proxy
+      const res = await fetch('/api/v1/ai/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: query }),
+      });
 
-      if (apiKey) {
-        const ai = new GoogleGenAI({ apiKey });
-        const systemInstruction = `You are the Kai Prakriti AI ESG & Statutory Compliance Advisor. Kai Prakriti (प्रकृति-सतत-विकासः) is an environmental advisory in India.
-Key Principles:
-1. "We measure it. Someone independent verifies it." Kai Prakriti does direct technical GHG accounting (Scope 1-3), SEBI BRSR, product LCA, and carbon PDDs.
-2. Kai Prakriti NEVER audits its own work. Statutory verifications are facilitated through independent accredited bodies (BEE ACVA, ISO 14064-3, DAkkS/RvA for EU CBAM).
-3. Be professional, concise, authoritative on Indian and European regulations (SEBI LODR 34(2)(f), Regulation (EU) 2023/956, GHG Protocol, MSME ZED).`;
-
-        const response = await ai.models.generateContent({
-          model: 'gemini-3.8-flash',
-          contents: [
-            {
-              role: 'user',
-              parts: [{ text: `${systemInstruction}\n\nUser Question: ${query}` }],
-            },
-          ],
-        });
-
-        const reply = response.text || 'I apologize, I could not process your query at this moment.';
+      if (res.ok) {
+        const data = await res.json();
+        const reply = data.response || 'I apologize, I could not process your query at this moment.';
         setMessages((prev) => [
           ...prev,
           {
@@ -111,44 +98,36 @@ Key Principles:
           },
         ]);
       } else {
-        // Fallback intelligent ESG knowledge engine
-        await new Promise((res) => setTimeout(res, 800));
-        let reply = '';
-        const lower = query.toLowerCase();
+        throw new Error(`Server returned status ${res.status}`);
+      }
+    } catch (err) {
+      // Fallback intelligent ESG knowledge engine
+      await new Promise((res) => setTimeout(res, 500));
+      let reply = '';
+      const lower = query.toLowerCase();
 
-        if (lower.includes('brsr') || lower.includes('sebi')) {
-          reply = KNOWLEDGE_RESPONSES.brsr;
-        } else if (lower.includes('cbam') || lower.includes('europe') || lower.includes('steel')) {
-          reply = KNOWLEDGE_RESPONSES.cbam;
-        } else if (lower.includes('scope 3') || lower.includes('supply chain') || lower.includes('value chain')) {
-          reply = KNOWLEDGE_RESPONSES.scope3;
-        } else if (lower.includes('verify') || lower.includes('firewall') || lower.includes('revenue') || lower.includes('audit')) {
-          reply = KNOWLEDGE_RESPONSES.firewall;
-        } else {
-          reply = `Thank you for your question regarding **"${query}"**. 
+      if (lower.includes('brsr') || lower.includes('sebi')) {
+        reply = KNOWLEDGE_RESPONSES.brsr;
+      } else if (lower.includes('cbam') || lower.includes('europe') || lower.includes('steel')) {
+        reply = KNOWLEDGE_RESPONSES.cbam;
+      } else if (lower.includes('scope 3') || lower.includes('supply chain') || lower.includes('value chain')) {
+        reply = KNOWLEDGE_RESPONSES.scope3;
+      } else if (lower.includes('verify') || lower.includes('firewall') || lower.includes('revenue') || lower.includes('audit')) {
+        reply = KNOWLEDGE_RESPONSES.firewall;
+      } else {
+        reply = `Thank you for your question regarding **"${query}"**. 
 
 Kai Prakriti provides direct quantitative modeling across Scope 1-3 emissions, SEBI BRSR Core preparation, and EU CBAM reporting. To give you an exact regulatory response tailored to your corporate boundary, our advisory team can review your installation specs.
 
 Would you like to initiate a formal 30-minute scoping discussion or inspect our 11 governed services?`;
-        }
-
-        setMessages((prev) => [
-          ...prev,
-          {
-            id: `bot-${Date.now()}`,
-            role: 'assistant',
-            content: reply,
-            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          },
-        ]);
       }
-    } catch (err) {
+
       setMessages((prev) => [
         ...prev,
         {
           id: `bot-${Date.now()}`,
           role: 'assistant',
-          content: 'We are currently synchronizing our regulatory knowledge base. Please feel free to request a direct scoping call via the Contact page.',
+          content: reply,
           timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         },
       ]);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { PageId, Lead, BlogPost, ServiceItem, ServiceCategory } from '../types';
-import { getStoredLeads, updateLeadStatus, deleteLead, saveLead, MOCK_ANALYTICS } from '../data/leadStore';
+import { getStoredLeads, updateLeadStatus, deleteLead, saveLead, fetchServerLeads, MOCK_ANALYTICS } from '../data/leadStore';
 import { INITIAL_BLOG_POSTS } from '../data/blogData';
 import { getStoredServices, saveService, updateService, deleteService } from '../data/servicesStore';
 import { KaiPrakritiEmblem } from '../components/KaiPrakritiEmblem';
@@ -24,8 +24,20 @@ import {
   CheckCircle2,
   Briefcase,
   Layers,
-  Sparkles
+  Sparkles,
+  Mail,
+  Send,
+  AlertCircle,
+  RefreshCw,
+  ShieldCheck
 } from 'lucide-react';
+import { GoogleSignInButton } from '../components/GoogleSignInButton';
+import {
+  TARGET_NOTIFICATION_EMAIL,
+  linkGoogleAccount,
+  unlinkGoogleAccount,
+  dispatchLeadEmailViaGmail,
+} from '../services/googleAuth';
 
 interface AdminDashboardPageProps {
   theme?: string;
@@ -34,13 +46,29 @@ interface AdminDashboardPageProps {
   onNavigate: (page: PageId, extraParam?: string) => void;
 }
 
-type AdminTab = 'analytics' | 'leads' | 'services' | 'blogs';
+type AdminTab = 'analytics' | 'leads' | 'services' | 'blogs' | 'integrations';
 
 export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
   onLogout,
   onNavigate,
 }) => {
   const [activeTab, setActiveTab] = useState<AdminTab>('analytics');
+
+  // Google Workspace & Gmail Integration State
+  const [isGoogleLinked, setIsGoogleLinked] = useState<boolean>(() => {
+    return !!localStorage.getItem('kai_prakriti_google_linked_email');
+  });
+  const [googleLinkedEmail, setGoogleLinkedEmail] = useState<string>(() => {
+    return localStorage.getItem('kai_prakriti_google_linked_email') || TARGET_NOTIFICATION_EMAIL;
+  });
+  const [isLinkingGoogle, setIsLinkingGoogle] = useState(false);
+  const [testEmailSending, setTestEmailSending] = useState(false);
+  const [testEmailResult, setTestEmailResult] = useState<{ success: boolean; message: string } | null>(null);
+  const [confirmModalAction, setConfirmModalAction] = useState<{
+    title: string;
+    description: string;
+    onConfirm: () => void;
+  } | null>(null);
 
   // Leads State
   const [leads, setLeads] = useState<Lead[]>(getStoredLeads);
@@ -104,8 +132,34 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
     coverImage: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&auto=format&fit=crop&q=80',
   });
 
-  // Event Listeners for real-time local updates
+  // Event Listeners for real-time local updates & server sync
   useEffect(() => {
+    // Sync with backend /api/v1/leads persistence
+    fetchServerLeads().then((serverLeads) => {
+      if (serverLeads && serverLeads.length > 0) {
+        setLeads(serverLeads);
+      }
+    });
+
+    // Sync Google linking status
+    fetch('/api/v1/google-token/status')
+      .then(res => res.json())
+      .then(data => {
+        if (data.isLinked) {
+          setIsGoogleLinked(true);
+          if (data.email) setGoogleLinkedEmail(data.email);
+        }
+      })
+      .catch(() => {});
+
+    const handleGoogleLinkUpdate = (e: any) => {
+      if (e.detail) {
+        setIsGoogleLinked(!!e.detail.linked);
+        if (e.detail.email) setGoogleLinkedEmail(e.detail.email);
+      }
+    };
+    window.addEventListener('kai_prakriti_google_linked', handleGoogleLinkUpdate);
+
     const handleLeadUpdate = (e: any) => {
       if (e.detail) setLeads(e.detail);
       else setLeads(getStoredLeads());
@@ -119,10 +173,123 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
     window.addEventListener('kai_prakriti_services_updated', handleServiceUpdate);
 
     return () => {
+      window.removeEventListener('kai_prakriti_google_linked', handleGoogleLinkUpdate);
       window.removeEventListener('kai_prakriti_leads_updated', handleLeadUpdate);
       window.removeEventListener('kai_prakriti_services_updated', handleServiceUpdate);
     };
   }, []);
+
+  const handleLinkGoogle = async () => {
+    setIsLinkingGoogle(true);
+    setTestEmailResult(null);
+    try {
+      const res = await linkGoogleAccount();
+      setIsGoogleLinked(true);
+      if (res.user.email) setGoogleLinkedEmail(res.user.email);
+      setTestEmailResult({
+        success: true,
+        message: `Successfully connected Google account (${res.user.email || TARGET_NOTIFICATION_EMAIL}). Form inquiries will now be dispatched automatically!`,
+      });
+    } catch (err: any) {
+      setTestEmailResult({
+        success: false,
+        message: err.message || 'Google account connection was cancelled or failed.',
+      });
+    } finally {
+      setIsLinkingGoogle(false);
+    }
+  };
+
+  const handleUnlinkGoogle = () => {
+    setConfirmModalAction({
+      title: 'Unlink Google Account?',
+      description: 'Disabling Google Workspace integration will pause automatic Gmail email alerts for new form submissions until reconnected.',
+      onConfirm: async () => {
+        await unlinkGoogleAccount();
+        setIsGoogleLinked(false);
+        setTestEmailResult({
+          success: true,
+          message: 'Google account unlinked. Automatic lead alerts are paused.',
+        });
+      },
+    });
+  };
+
+  const handleRequestTestEmail = () => {
+    setConfirmModalAction({
+      title: 'Send Test Lead Notification?',
+      description: `This will dispatch a test executive lead notification to ${TARGET_NOTIFICATION_EMAIL} via your connected Google account using the Gmail API.`,
+      onConfirm: async () => {
+        setTestEmailSending(true);
+        setTestEmailResult(null);
+        try {
+          const res = await dispatchLeadEmailViaGmail({
+            name: 'Priya Sharma (Sample Test)',
+            company: 'Tata Sustainable Solutions Ltd',
+            email: 'priya.s@tatasolutions.com',
+            phone: '+91 98200 12345',
+            serviceId: 'ghg-accounting',
+            serviceTitle: 'Scope 1-3 GHG Accounting & Carbon Footprint',
+            estimatedBudget: '₹12,50,000',
+            targetDeadline: 'Q4 2026',
+            message: 'This is a test notification confirming your Google account is linked and ready to receive real lead submissions.',
+            source: 'Admin Workspace Test Runner',
+          });
+          if (res.success) {
+            setTestEmailResult({
+              success: true,
+              message: `Test email sent successfully to ${TARGET_NOTIFICATION_EMAIL}! Please check your inbox (Message ID: ${res.messageId || 'ok'}).`,
+            });
+          } else {
+            setTestEmailResult({
+              success: false,
+              message: `Delivery failed: ${res.error || 'Check Gmail permissions'}`,
+            });
+          }
+        } catch (err: any) {
+          setTestEmailResult({
+            success: false,
+            message: `Send error: ${err.message}`,
+          });
+        } finally {
+          setTestEmailSending(false);
+        }
+      },
+    });
+  };
+
+  const handleForwardLead = (lead: Lead) => {
+    setConfirmModalAction({
+      title: `Forward Lead (${lead.company}) to Gmail?`,
+      description: `Send full briefing for ${lead.name} (${lead.company}) directly to ${TARGET_NOTIFICATION_EMAIL} via Gmail API.`,
+      onConfirm: async () => {
+        setTestEmailSending(true);
+        try {
+          const res = await dispatchLeadEmailViaGmail({
+            name: lead.name,
+            company: lead.company,
+            email: lead.email,
+            phone: lead.phone,
+            serviceId: lead.serviceId,
+            estimatedBudget: lead.estimatedBudget,
+            targetDeadline: lead.targetDeadline,
+            message: lead.message,
+            source: lead.source,
+            leadId: lead.id,
+          });
+          if (res.success) {
+            alert(`Lead briefing for ${lead.company} forwarded to ${TARGET_NOTIFICATION_EMAIL}!`);
+          } else {
+            alert(`Failed to send email: ${res.error}`);
+          }
+        } catch (err: any) {
+          alert(`Error: ${err.message}`);
+        } finally {
+          setTestEmailSending(false);
+        }
+      },
+    });
+  };
 
   // Save blogs to local storage and sync
   const persistBlogs = (updated: BlogPost[]) => {
@@ -428,7 +595,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                 </span>
               </div>
               <p className="text-[11px] sm:text-xs text-[#264143]/70 mt-0.5">
-                Admin: <strong className="text-[#264143] font-semibold">Sushant Gangwar</strong> • operations@kaiprakriti.com
+                Admin: <strong className="text-[#264143] font-semibold">Sushant Gangwar</strong> • sushantgangwar7300@gmail.com
               </p>
             </div>
           </div>
@@ -487,12 +654,28 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                 <BookOpen className="w-3.5 h-3.5" />
                 <span>Insights ({blogs.length})</span>
               </button>
+
+              <button
+                type="button"
+                onClick={() => setActiveTab('integrations')}
+                className={`flex-1 sm:flex-initial px-3 py-2 rounded-lg transition-all flex items-center justify-center gap-1.5 whitespace-nowrap ${
+                  activeTab === 'integrations'
+                    ? 'bg-[#D96846] text-white font-semibold shadow-xs'
+                    : 'text-[#264143] hover:text-[#D96846] hover:bg-white'
+                }`}
+              >
+                <Mail className="w-3.5 h-3.5" />
+                <span className="flex items-center gap-1">
+                  Gmail Alerts
+                  {isGoogleLinked && <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />}
+                </span>
+              </button>
             </div>
 
             <button
               type="button"
               onClick={onLogout}
-              className="p-2 sm:p-2.5 rounded-xl border border-[#E7E3DC] bg-white hover:bg-red-50 hover:text-red-700 hover:border-red-200 text-[#264143] text-xs font-medium flex items-center gap-1.5 transition-colors shrink-0"
+              className="p-2 sm:p-2.5 rounded-xl border border-[#E7E3DC] bg-white hover:bg-red-50 hover:text-red-700 hover:border-red-200 text-[#264143] text-xs font-medium flex items-center gap-1.5 transition-colors shrink-0 cursor-pointer"
               title="Sign out of Admin Dashboard"
             >
               <LogOut className="w-4 h-4" />
@@ -501,6 +684,95 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
           </div>
 
         </header>
+
+        {/* =========================================================
+            GOOGLE WORKSPACE & GMAIL LEAD ALERTS BANNER
+            ========================================================= */}
+        <div className={`p-4 sm:p-5 rounded-3xl border transition-all ${
+          isGoogleLinked
+            ? 'bg-gradient-to-r from-[#3E6B48]/10 via-white to-[#3E6B48]/5 border-[#3E6B48]/30 shadow-2xs'
+            : 'bg-gradient-to-r from-[#D96846]/10 via-[#FAF8F5] to-white border-[#D96846]/30 shadow-2xs'
+        }`}>
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            <div className="flex items-start sm:items-center gap-3.5">
+              <div className={`w-11 h-11 rounded-2xl flex items-center justify-center shrink-0 shadow-2xs ${
+                isGoogleLinked ? 'bg-[#3E6B48] text-white' : 'bg-[#D96846] text-white'
+              }`}>
+                <Mail className="w-5 h-5" />
+              </div>
+              <div className="space-y-0.5">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="font-serif font-bold text-sm sm:text-base text-[#264143]">
+                    Google Workspace & Gmail Lead Alerts
+                  </span>
+                  {isGoogleLinked ? (
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-bold bg-[#3E6B48]/15 text-[#3E6B48] border border-[#3E6B48]/30">
+                      <CheckCircle2 className="w-3 h-3" />
+                      Active: {googleLinkedEmail || TARGET_NOTIFICATION_EMAIL}
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-bold bg-[#D96846]/15 text-[#D96846] border border-[#D96846]/30">
+                      <AlertCircle className="w-3 h-3" />
+                      Link Required for sushantgangwar7300@gmail.com
+                    </span>
+                  )}
+                </div>
+                <p className="text-xs text-[#264143]/75 leading-relaxed">
+                  Whenever any person fills out the inquiry or consultation form, full lead details are automatically dispatched to <strong className="text-[#264143] font-semibold">{TARGET_NOTIFICATION_EMAIL}</strong> via the Gmail API.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+              {isGoogleLinked ? (
+                <>
+                  <button
+                    type="button"
+                    onClick={handleRequestTestEmail}
+                    disabled={testEmailSending}
+                    className="px-3.5 py-2.5 rounded-xl text-xs font-semibold bg-[#264143] hover:bg-black text-white flex items-center gap-1.5 transition-colors shadow-2xs cursor-pointer disabled:opacity-50"
+                  >
+                    <Send className="w-3.5 h-3.5 text-[#E99F4C]" />
+                    <span>{testEmailSending ? 'Sending...' : 'Send Test Lead Alert'}</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleUnlinkGoogle}
+                    className="px-3.5 py-2.5 rounded-xl text-xs font-semibold border border-[#E7E3DC] hover:border-red-300 bg-white hover:bg-red-50 text-[#264143] hover:text-red-700 transition-colors cursor-pointer"
+                  >
+                    Unlink
+                  </button>
+                </>
+              ) : (
+                <GoogleSignInButton
+                  onClick={handleLinkGoogle}
+                  isLoading={isLinkingGoogle}
+                  label="Link Google Account (sushantgangwar7300@gmail.com)"
+                />
+              )}
+            </div>
+          </div>
+
+          {testEmailResult && (
+            <div className={`mt-3 p-3 rounded-2xl text-xs font-medium flex items-center justify-between gap-2 ${
+              testEmailResult.success
+                ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                : 'bg-red-50 text-red-800 border border-red-200'
+            }`}>
+              <div className="flex items-center gap-2">
+                {testEmailResult.success ? <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-600" /> : <AlertCircle className="w-4 h-4 shrink-0 text-red-600" />}
+                <span>{testEmailResult.message}</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setTestEmailResult(null)}
+                className="text-xs hover:underline cursor-pointer opacity-70 hover:opacity-100"
+              >
+                Dismiss
+              </button>
+            </div>
+          )}
+        </div>
 
         {/* =========================================================
             TAB 1: ANALYTICS & GROWTH
@@ -1441,7 +1713,238 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
           </div>
         )}
 
+        {/* =========================================================
+            TAB 5: GOOGLE WORKSPACE & GMAIL INTEGRATION
+            ========================================================= */}
+        {activeTab === 'integrations' && (
+          <div className="space-y-6 animate-in fade-in duration-200">
+            
+            {/* Header info */}
+            <div className="p-6 rounded-3xl border border-[#E7E3DC] bg-white shadow-xs space-y-4">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div className="space-y-1">
+                  <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#3E6B48] uppercase tracking-wider">
+                    <ShieldCheck className="w-4 h-4 text-[#3E6B48]" />
+                    <span>Google Workspace Lead Notification Hub</span>
+                  </div>
+                  <h2 className="font-serif text-2xl font-bold text-[#264143]">
+                    Automated Form Lead Forwarding to Gmail
+                  </h2>
+                  <p className="text-xs text-[#264143]/70 max-w-2xl leading-relaxed">
+                    Whenever any person fills out the public contact form or unlocks the sovereign services catalogue, their name, company, email, phone, and requirements are immediately sent to your inbox.
+                  </p>
+                </div>
+
+                <div className="shrink-0">
+                  {isGoogleLinked ? (
+                    <div className="flex items-center gap-2">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-[#3E6B48]/15 text-[#3E6B48] border border-[#3E6B48]/30">
+                        <CheckCircle2 className="w-3.5 h-3.5" />
+                        Connected & Active
+                      </span>
+                    </div>
+                  ) : (
+                    <GoogleSignInButton
+                      onClick={handleLinkGoogle}
+                      isLoading={isLinkingGoogle}
+                      label="Link Google Account (sushantgangwar7300@gmail.com)"
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Integration Configuration Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              
+              {/* Account Details */}
+              <div className="p-6 rounded-3xl border border-[#E7E3DC] bg-white shadow-xs space-y-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-serif font-bold text-base text-[#264143]">
+                    Recipient & Scope Configuration
+                  </h3>
+                  <Mail className="w-5 h-5 text-[#D96846]" />
+                </div>
+
+                <div className="space-y-3 text-xs">
+                  <div className="p-3.5 rounded-2xl bg-[#FAF8F5] border border-[#E7E3DC] space-y-1">
+                    <span className="text-[11px] font-semibold text-[#264143]/60 uppercase tracking-wider">
+                      Notification Inbox Email
+                    </span>
+                    <div className="font-mono text-sm font-bold text-[#264143]">
+                      {TARGET_NOTIFICATION_EMAIL}
+                    </div>
+                    <p className="text-[11px] text-[#264143]/70">
+                      All form leads, enterprise scoping briefs, and direct contacts are forwarded here in real time.
+                    </p>
+                  </div>
+
+                  <div className="p-3.5 rounded-2xl bg-[#FAF8F5] border border-[#E7E3DC] space-y-1">
+                    <span className="text-[11px] font-semibold text-[#264143]/60 uppercase tracking-wider">
+                      Authorized OAuth Scope
+                    </span>
+                    <div className="font-mono text-xs text-[#3E6B48] font-semibold break-all">
+                      https://www.googleapis.com/auth/gmail.send
+                    </div>
+                    <p className="text-[11px] text-[#264143]/70">
+                      Least-privilege permission: Can send lead notifications on your behalf with zero access to your inbox read messages.
+                    </p>
+                  </div>
+
+                  <div className="p-3.5 rounded-2xl bg-[#FAF8F5] border border-[#E7E3DC] space-y-1">
+                    <span className="text-[11px] font-semibold text-[#264143]/60 uppercase tracking-wider">
+                      Active Account State
+                    </span>
+                    <div className="text-xs font-semibold text-[#264143]">
+                      {isGoogleLinked ? (
+                        <span className="text-[#3E6B48] flex items-center gap-1.5">
+                          <CheckCircle2 className="w-3.5 h-3.5" />
+                          Authenticated as {googleLinkedEmail || TARGET_NOTIFICATION_EMAIL}
+                        </span>
+                      ) : (
+                        <span className="text-[#D96846] flex items-center gap-1.5">
+                          <AlertCircle className="w-3.5 h-3.5" />
+                          Not authenticated. Click "Link Google Account" above.
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-2 flex items-center gap-3">
+                  {isGoogleLinked ? (
+                    <>
+                      <button
+                        type="button"
+                        onClick={handleRequestTestEmail}
+                        disabled={testEmailSending}
+                        className="px-4 py-2.5 rounded-xl text-xs font-semibold bg-[#D96846] hover:bg-[#C45737] text-white flex items-center gap-1.5 transition-colors shadow-xs cursor-pointer disabled:opacity-50"
+                      >
+                        <Send className="w-3.5 h-3.5" />
+                        <span>{testEmailSending ? 'Dispatching...' : 'Dispatch Test Alert'}</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleUnlinkGoogle}
+                        className="px-4 py-2.5 rounded-xl text-xs font-semibold border border-[#E7E3DC] hover:bg-red-50 hover:text-red-700 text-[#264143] transition-colors cursor-pointer"
+                      >
+                        Unlink
+                      </button>
+                    </>
+                  ) : (
+                    <GoogleSignInButton
+                      onClick={handleLinkGoogle}
+                      isLoading={isLinkingGoogle}
+                      label="Connect Google Account"
+                      className="w-full"
+                    />
+                  )}
+                </div>
+              </div>
+
+              {/* Form Trigger Routes */}
+              <div className="p-6 rounded-3xl border border-[#E7E3DC] bg-white shadow-xs space-y-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-serif font-bold text-base text-[#264143]">
+                    Connected Form Endpoints
+                  </h3>
+                  <RefreshCw className="w-5 h-5 text-[#3E6B48]" />
+                </div>
+
+                <div className="space-y-3 text-xs">
+                  <div className="p-3.5 rounded-2xl bg-[#FAF8F5] border border-[#E7E3DC] flex items-start gap-3">
+                    <div className="w-8 h-8 rounded-xl bg-[#3E6B48]/10 text-[#3E6B48] flex items-center justify-center shrink-0 font-bold">
+                      01
+                    </div>
+                    <div>
+                      <div className="font-bold text-[#264143]">Contact Page Inquiry Form</div>
+                      <p className="text-[11px] text-[#264143]/70 mt-0.5">
+                        Captures enterprise scoping briefs, contact name, corporate email, phone, and timeline.
+                      </p>
+                      <span className="inline-block mt-1 text-[10px] font-mono text-[#3E6B48] font-semibold">
+                        Auto-Forwarding: Active
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="p-3.5 rounded-2xl bg-[#FAF8F5] border border-[#E7E3DC] flex items-start gap-3">
+                    <div className="w-8 h-8 rounded-xl bg-[#D96846]/10 text-[#D96846] flex items-center justify-center shrink-0 font-bold">
+                      02
+                    </div>
+                    <div>
+                      <div className="font-bold text-[#264143]">Services Catalogue Gated Modal</div>
+                      <p className="text-[11px] text-[#264143]/70 mt-0.5">
+                        High-intent leads unlocking the 11+ sovereign ESG practices, EU CBAM, and LCA catalogues.
+                      </p>
+                      <span className="inline-block mt-1 text-[10px] font-mono text-[#3E6B48] font-semibold">
+                        Auto-Forwarding: Active
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="p-3.5 rounded-2xl bg-[#FAF8F5] border border-[#E7E3DC] flex items-start gap-3">
+                    <div className="w-8 h-8 rounded-xl bg-[#E99F4C]/20 text-[#E99F4C] flex items-center justify-center shrink-0 font-bold">
+                      03
+                    </div>
+                    <div>
+                      <div className="font-bold text-[#264143]">Server-Side API Proxy (/api/v1/leads)</div>
+                      <p className="text-[11px] text-[#264143]/70 mt-0.5">
+                        Dispatches the email from backend even if visitors submit from mobile or different browsers.
+                      </p>
+                      <span className="inline-block mt-1 text-[10px] font-mono text-[#3E6B48] font-semibold">
+                        Server Relay: Active
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+        )}
+
       </div>
+
+      {/* Workspace Destructive / Mutating Operation Confirmation Modal */}
+      {confirmModalAction && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-150">
+          <div className="w-full max-w-md bg-white rounded-3xl p-6 sm:p-7 border border-[#E7E3DC] shadow-2xl space-y-4">
+            <div className="w-12 h-12 rounded-2xl bg-[#D96846]/10 text-[#D96846] flex items-center justify-center">
+              <Mail className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="font-serif text-lg font-bold text-[#264143]">
+                {confirmModalAction.title}
+              </h3>
+              <p className="text-xs text-[#264143]/75 mt-1.5 leading-relaxed">
+                {confirmModalAction.description}
+              </p>
+            </div>
+            <div className="pt-2 flex items-center justify-end gap-3">
+              <button
+                type="button"
+                onClick={() => setConfirmModalAction(null)}
+                className="px-4 py-2.5 rounded-xl text-xs font-semibold text-[#264143]/70 hover:text-[#264143] hover:bg-slate-100 transition-colors cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  const cb = confirmModalAction.onConfirm;
+                  setConfirmModalAction(null);
+                  cb();
+                }}
+                className="px-5 py-2.5 rounded-xl text-xs font-semibold bg-[#D96846] hover:bg-[#C45737] text-white transition-colors shadow-xs cursor-pointer"
+              >
+                Confirm & Proceed
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

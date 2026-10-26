@@ -327,7 +327,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 pt-8 sm:pt-10 max-w-5xl mx-auto">
-            <div className="p-5 rounded-2xl sm:rounded-3xl bg-[#FAF8F5] border border-[#E7E3DC] space-y-2">
+            <div className="p-5 rounded-2xl sm:rounded-3xl bg-[#FAF8F5] border border-[#E7E3DC] space-y-2 hover:shadow-xs transition-shadow">
               <div className="w-8 h-8 rounded-xl bg-[#3E6B48]/15 text-[#3E6B48] flex items-center justify-center font-bold text-sm">
                 01
               </div>
@@ -337,7 +337,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               </p>
             </div>
 
-            <div className="p-5 rounded-2xl sm:rounded-3xl bg-[#FAF8F5] border border-[#E7E3DC] space-y-2">
+            <div className="p-5 rounded-2xl sm:rounded-3xl bg-[#FAF8F5] border border-[#E7E3DC] space-y-2 hover:shadow-xs transition-shadow">
               <div className="w-8 h-8 rounded-xl bg-[#D96846]/15 text-[#D96846] flex items-center justify-center font-bold text-sm">
                 02
               </div>
@@ -347,7 +347,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               </p>
             </div>
 
-            <div className="p-5 rounded-2xl sm:rounded-3xl bg-[#FAF8F5] border border-[#E7E3DC] space-y-2">
+            <div className="p-5 rounded-2xl sm:rounded-3xl bg-[#FAF8F5] border border-[#E7E3DC] space-y-2 hover:shadow-xs transition-shadow">
               <div className="w-8 h-8 rounded-xl bg-[#E99F4C]/20 text-[#E99F4C] flex items-center justify-center font-bold text-sm">
                 03
               </div>
@@ -392,7 +392,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               <div
                 key={service.id}
                 onClick={() => onNavigate('services', service.id)}
-                className="group cursor-pointer p-5 sm:p-6 rounded-2xl sm:rounded-3xl border border-[#E7E3DC] bg-white hover:border-[#D96846] hover:shadow-md active:bg-slate-50 transition-all duration-200 flex flex-col justify-between space-y-4 sm:space-y-5"
+                className="group cursor-pointer p-5 sm:p-6 rounded-2xl sm:rounded-3xl border border-[#E7E3DC] bg-white hover:border-[#D96846] hover:shadow-lg active:bg-slate-50 transition-all duration-200 flex flex-col justify-between space-y-4 sm:space-y-5"
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between text-xs">
@@ -415,7 +415,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
                 <div className="pt-2 border-t border-[#E7E3DC] flex items-center justify-between text-xs font-semibold text-[#264143] group-hover:text-[#D96846] transition-colors">
                   <span>View practice details</span>
-                  <ArrowRight className="w-3.5 h-3.5 text-[#D96846] group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-3.5 h-3.5 text-[#D96846] group-hover:translate-x-1.5 transition-transform" />
                 </div>
               </div>
             ))}
@@ -473,7 +473,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-8 max-w-5xl mx-auto">
             
             {/* Role 1: Direct Work */}
-            <div className="p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-[#E7E3DC] bg-[#FAF8F5] space-y-4 sm:space-y-5">
+            <div className="p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-[#E7E3DC] bg-[#FAF8F5] space-y-4 sm:space-y-5 hover:shadow-xs transition-shadow">
               <div className="flex items-center justify-between">
                 <span className="px-3 py-1 rounded-full text-xs font-semibold bg-[#3E6B48]/10 text-[#3E6B48] border border-[#3E6B48]/30">
                   {t.roles.role1Badge}
@@ -506,7 +506,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             </div>
 
             {/* Role 2: Facilitated Verification */}
-            <div className="p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-[#E7E3DC] bg-[#FAF8F5] space-y-4 sm:space-y-5">
+            <div className="p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-[#E7E3DC] bg-[#FAF8F5] space-y-4 sm:space-y-5 hover:shadow-xs transition-shadow">
               <div className="flex items-center justify-between">
                 <span className="px-3 py-1 rounded-full text-xs font-semibold bg-[#D96846]/10 text-[#D96846] border border-[#D96846]/30">
                   {t.roles.role2Badge}
@@ -571,7 +571,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               <div
                 key={blog.id}
                 onClick={() => onNavigate('blog', blog.slug)}
-                className="group cursor-pointer space-y-3.5 p-5 sm:p-6 rounded-2xl sm:rounded-3xl border border-[#E7E3DC] bg-white hover:border-[#D96846] hover:shadow-xs active:bg-slate-50 transition-all flex flex-col justify-between"
+                className="group cursor-pointer space-y-3.5 p-5 sm:p-6 rounded-2xl sm:rounded-3xl border border-[#E7E3DC] bg-white hover:border-[#D96846] hover:shadow-md active:bg-slate-50 transition-all flex flex-col justify-between"
               >
                 <div className="space-y-3">
                   <div className="text-xs text-[#264143]/60 font-medium">
@@ -645,10 +645,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               <span>
                 {language === 'en' ? 'Official Correspondence: ' : 'आधिकारिक संपर्क ईमेल: '}
                 <a
-                  href="mailto:operations@kaiprakriti.com"
+                  href="mailto:sushantgangwar7300@gmail.com"
                   className="text-white font-medium hover:underline ml-1"
                 >
-                  operations@kaiprakriti.com
+                  sushantgangwar7300@gmail.com
                 </a>
               </span>
             </div>

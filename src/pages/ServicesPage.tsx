@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { PageId, ServiceCategory, ServiceItem } from '../types';
 import { getStoredServices, isCatalogueUnlocked } from '../data/servicesStore';
 import { Search, ArrowRight, CheckCircle2, ChevronRight, X, Lock, Sparkles, ShieldCheck, Mail } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import { UnlockServicesModal } from '../components/UnlockServicesModal';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -170,10 +171,22 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {accessibleServices.map((service, index) => (
-            <div
+            <motion.div
               key={service.id}
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{
+                duration: 0.5,
+                delay: (index % 2) * 0.12,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              whileHover={{
+                y: -5,
+                transition: { duration: 0.2, ease: 'easeOut' },
+              }}
               onClick={() => setSelectedService(service)}
-              className="group cursor-pointer rounded-2xl sm:rounded-3xl border border-[#E7E3DC] bg-white p-5 sm:p-7 shadow-xs hover:border-[#D96846] hover:shadow-md transition-all duration-200 flex flex-col justify-between space-y-5 sm:space-y-6 min-w-0"
+              className="group cursor-pointer rounded-2xl sm:rounded-3xl border border-[#E7E3DC] bg-white p-5 sm:p-7 shadow-xs hover:border-[#D96846] hover:shadow-lg transition-all duration-200 flex flex-col justify-between space-y-5 sm:space-y-6 min-w-0"
             >
               <div className="space-y-4">
                 <div className="flex items-center justify-between text-xs">
@@ -209,15 +222,21 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
 
               <div className="pt-3 border-t border-[#E7E3DC] flex items-center justify-between text-xs font-semibold text-[#264143] group-hover:text-[#D96846] transition-colors">
                 <span>Inspect full methodology</span>
-                <ChevronRight className="w-4 h-4 text-[#D96846] group-hover:translate-x-1 transition-transform" />
+                <ChevronRight className="w-4 h-4 text-[#D96846] group-hover:translate-x-1.5 transition-transform" />
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
         {/* 4. Gated Access Callout */}
         {!isUnlocked && (
-          <div className="rounded-3xl border-2 border-dashed border-[#D96846]/40 bg-gradient-to-b from-[#FAF8F5] to-white p-8 sm:p-12 text-center space-y-5">
+          <motion.div
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+            className="rounded-3xl border-2 border-dashed border-[#D96846]/40 bg-gradient-to-b from-[#FAF8F5] to-white p-8 sm:p-12 text-center space-y-5"
+          >
             <div className="w-12 h-12 rounded-2xl bg-[#D96846]/10 text-[#D96846] flex items-center justify-center mx-auto">
               <Lock className="w-6 h-6" />
             </div>
@@ -244,95 +263,112 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
             <p className="text-[11px] text-[#264143]/50">
               Instant access upon submitting your company details • Zero spam
             </p>
-          </div>
+          </motion.div>
         )}
 
       </section>
 
       {/* 5. Service Detail Modal */}
-      {selectedService && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xs">
-          <div className="w-full max-w-2xl max-h-[92vh] overflow-y-auto rounded-3xl border border-[#E7E3DC] p-5 sm:p-8 bg-white shadow-2xl space-y-5 sm:space-y-6">
-            
-            <div className="flex items-start justify-between gap-3 sm:gap-4 border-b border-[#E7E3DC] pb-4">
-              <div className="space-y-1">
-                <span className="text-xs font-semibold text-[#3E6B48] uppercase tracking-wider">
-                  {selectedService.standard}
-                </span>
-                <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#264143]">
-                  {selectedService.title}
-                </h3>
-              </div>
-              <button
-                onClick={() => setSelectedService(null)}
-                className="p-1.5 rounded-full hover:bg-slate-100 text-[#264143]/60 hover:text-[#264143] shrink-0"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <div className="space-y-4 text-xs sm:text-sm text-[#264143]">
-              <div>
-                <h4 className="font-serif font-bold text-base text-[#264143] mb-1">
-                  Scope of Technical Work
-                </h4>
-                <p className="text-xs leading-relaxed text-[#264143]/80">
-                  {selectedService.fullDesc || selectedService.shortDesc}
-                </p>
-              </div>
-
-              {selectedService.deliverables && selectedService.deliverables.length > 0 && (
-                <div>
-                  <h4 className="font-serif font-bold text-sm text-[#264143] mb-2">
-                    Key Client Deliverables
-                  </h4>
-                  <ul className="space-y-2 text-xs text-[#264143]/80">
-                    {selectedService.deliverables.map((item, idx) => (
-                      <li key={idx} className="flex items-start gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-[#3E6B48] shrink-0 mt-0.5" />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              {selectedService.whySeparateNote && (
-                <div className="p-4 rounded-2xl bg-[#FAF8F5] border border-[#E7E3DC] space-y-1 text-xs">
-                  <span className="font-bold text-[#D96846] block">
-                    Zero Self-Review Independence Note:
+      <AnimatePresence>
+        {selectedService && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xs"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) setSelectedService(null);
+            }}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 16 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 16 }}
+              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+              className="w-full max-w-2xl max-h-[92vh] overflow-y-auto rounded-3xl border border-[#E7E3DC] p-5 sm:p-8 bg-white shadow-2xl space-y-5 sm:space-y-6"
+            >
+              
+              <div className="flex items-start justify-between gap-3 sm:gap-4 border-b border-[#E7E3DC] pb-4">
+                <div className="space-y-1">
+                  <span className="text-xs font-semibold text-[#3E6B48] uppercase tracking-wider">
+                    {selectedService.standard}
                   </span>
-                  <p className="text-[#264143]/80 leading-relaxed">
-                    {selectedService.whySeparateNote}
+                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#264143]">
+                    {selectedService.title}
+                  </h3>
+                </div>
+                <button
+                  onClick={() => setSelectedService(null)}
+                  className="p-1.5 rounded-full hover:bg-slate-100 text-[#264143]/60 hover:text-[#264143] shrink-0"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="space-y-4 text-xs sm:text-sm text-[#264143]">
+                <div>
+                  <h4 className="font-serif font-bold text-base text-[#264143] mb-1">
+                    Scope of Technical Work
+                  </h4>
+                  <p className="text-xs leading-relaxed text-[#264143]/80">
+                    {selectedService.fullDesc || selectedService.shortDesc}
                   </p>
                 </div>
-              )}
-            </div>
 
-            <div className="pt-4 border-t border-[#E7E3DC] flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3">
-              <button
-                onClick={() => setSelectedService(null)}
-                className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-[#E7E3DC] text-xs font-semibold text-[#264143] text-center"
-              >
-                Close
-              </button>
+                {selectedService.deliverables && selectedService.deliverables.length > 0 && (
+                  <div>
+                    <h4 className="font-serif font-bold text-sm text-[#264143] mb-2">
+                      Key Client Deliverables
+                    </h4>
+                    <ul className="space-y-2 text-xs text-[#264143]/80">
+                      {selectedService.deliverables.map((item, idx) => (
+                        <li key={idx} className="flex items-start gap-2">
+                          <CheckCircle2 className="w-4 h-4 text-[#3E6B48] shrink-0 mt-0.5" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
 
-              <button
-                onClick={() => {
-                  const s = selectedService;
-                  setSelectedService(null);
-                  onNavigate('contact', s.id);
-                }}
-                className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-[#D96846] hover:bg-[#C45737] text-white text-xs font-semibold flex items-center justify-center gap-2"
-              >
-                <span>Request Scoping Discussion</span>
-                <ArrowRight className="w-3.5 h-3.5 text-white" />
-              </button>
-            </div>
+                {selectedService.whySeparateNote && (
+                  <div className="p-4 rounded-2xl bg-[#FAF8F5] border border-[#E7E3DC] space-y-1 text-xs">
+                    <span className="font-bold text-[#D96846] block">
+                      Zero Self-Review Independence Note:
+                    </span>
+                    <p className="text-[#264143]/80 leading-relaxed">
+                      {selectedService.whySeparateNote}
+                    </p>
+                  </div>
+                )}
+              </div>
 
-          </div>
-        </div>
-      )}
+              <div className="pt-4 border-t border-[#E7E3DC] flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3">
+                <button
+                  onClick={() => setSelectedService(null)}
+                  className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-[#E7E3DC] text-xs font-semibold text-[#264143] text-center"
+                >
+                  Close
+                </button>
+
+                <button
+                  onClick={() => {
+                    const s = selectedService;
+                    setSelectedService(null);
+                    onNavigate('contact', s.id);
+                  }}
+                  className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-[#D96846] hover:bg-[#C45737] text-white text-xs font-semibold flex items-center justify-center gap-2"
+                >
+                  <span>Request Scoping Discussion</span>
+                  <ArrowRight className="w-3.5 h-3.5 text-white" />
+                </button>
+              </div>
+
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Unlock Catalogue Modal */}
       <UnlockServicesModal

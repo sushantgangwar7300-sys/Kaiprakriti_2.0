@@ -194,10 +194,10 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 <div>
                   <div className="text-[10px] text-[#E7E3DC]/60 uppercase tracking-wider font-semibold">Advisory & Operations</div>
                   <a
-                    href="mailto:operations@kaiprakriti.com"
+                    href="mailto:sushantgangwar7300@gmail.com"
                     className="text-white hover:underline font-medium break-all block"
                   >
-                    operations@kaiprakriti.com
+                    sushantgangwar7300@gmail.com
                   </a>
                 </div>
               </div>

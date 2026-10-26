@@ -212,8 +212,8 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
             <Mail className="w-4 h-4 text-[#E99F4C] shrink-0" />
             <span>
               Official Inquiries:{' '}
-              <a href="mailto:operations@kaiprakriti.com" className="text-white font-medium hover:underline">
-                operations@kaiprakriti.com
+              <a href="mailto:sushantgangwar7300@gmail.com" className="text-white font-medium hover:underline">
+                sushantgangwar7300@gmail.com
               </a>
             </span>
           </div>
