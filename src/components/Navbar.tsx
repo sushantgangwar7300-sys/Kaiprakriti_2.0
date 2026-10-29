@@ -31,17 +31,17 @@ export const Navbar: React.FC<NavbarProps> = ({
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-[#FBF9F5]/95 backdrop-blur-md border-b border-[#E7E3DC] text-[#264143] transition-colors shadow-2xs">
+    <header className="sticky top-0 z-40 w-full bg-[#183327] border-b border-[#2D4F3E]/60 text-[#FAF8F5] transition-colors shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 sm:h-20 flex items-center justify-between gap-3 sm:gap-4">
         
-        {/* Zone 1: Official Logo (Solid Slate-Teal #264143 Container for High Visibility on Light Header) */}
+        {/* Zone 1: Official Logo (Cleanly Aligned, Prominently Visible on Calming Sage Header) */}
         <button
           onClick={() => handleNavClick('home')}
           className="flex items-center group text-left focus:outline-none min-w-0 shrink"
           aria-label="Kai Prakriti Home"
         >
-          <div className="flex items-center gap-2.5 sm:gap-3 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-2xl bg-[#264143] text-white shadow-sm border border-[#264143]/20 transition-all group-hover:bg-[#1E3335] group-hover:scale-[1.01]">
-            <div className="shrink-0 bg-white rounded-xl p-1 shadow-2xs flex items-center justify-center">
+          <div className="flex items-center gap-2.5 sm:gap-3 px-2 sm:px-2.5 py-1.5 rounded-2xl transition-all group-hover:bg-white/10">
+            <div className="shrink-0 bg-white rounded-xl p-1 shadow-sm flex items-center justify-center">
               {/* 34px on small mobile, 42px on sm+ */}
               <div className="sm:hidden">
                 <KaiPrakritiEmblem size={34} theme="relax" circularBorder={true} />
@@ -61,8 +61,8 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
         </button>
 
-        {/* Zone 2: Navigation Links (Centric, Relaxed Slate-Teal Aesthetic) */}
-        <nav className="hidden lg:flex items-center space-x-3 xl:space-x-6 text-xs xl:text-sm font-medium text-[#264143]/85">
+        {/* Zone 2: Navigation Links (Relaxing Sage & Cream Aesthetic) */}
+        <nav className="hidden lg:flex items-center space-x-3 xl:space-x-6 text-xs xl:text-sm font-medium text-[#FAF8F5]/85">
           {navItems.map((item) => {
             const isActive = currentPage === item.id;
             return (
@@ -71,13 +71,13 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onClick={() => handleNavClick(item.id)}
                 className={`transition-colors py-1.5 relative font-medium whitespace-nowrap ${
                   isActive
-                    ? 'text-[#264143] font-bold'
-                    : 'hover:text-[#D96846]'
+                    ? 'text-white font-bold'
+                    : 'text-[#FAF8F5]/80 hover:text-white'
                 }`}
               >
                 {item.label}
                 {isActive && (
-                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#D96846] rounded-full" />
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#E99F4C] rounded-full" />
                 )}
               </button>
             );
@@ -90,12 +90,12 @@ export const Navbar: React.FC<NavbarProps> = ({
             onClick={() => handleNavClick('admin')}
             className={`px-2.5 xl:px-3 py-2 rounded-xl border transition-all text-xs font-semibold flex items-center gap-1.5 ${
               currentPage === 'admin' || currentPage === 'admin-login'
-                ? 'bg-[#264143] text-white border-[#264143]'
-                : 'border-[#E7E3DC] text-[#264143] bg-white/70 hover:bg-white hover:border-[#264143]/40'
+                ? 'bg-white text-[#183327] border-white'
+                : 'border-white/20 text-[#FAF8F5] bg-white/10 hover:bg-white/20 hover:border-white/40'
             }`}
             title="Management Console"
           >
-            <Lock className="w-3.5 h-3.5 text-[#264143]" />
+            <Lock className="w-3.5 h-3.5 text-white" />
             <span>{t.nav.admin}</span>
           </button>
 
@@ -112,19 +112,19 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="flex lg:hidden items-center space-x-1.5 sm:space-x-2 shrink-0">
           <button
             onClick={() => handleNavClick('admin')}
-            className="p-2 sm:p-2.5 rounded-xl border border-[#E7E3DC] text-[#264143] bg-white active:bg-slate-50 transition-colors"
+            className="p-2 sm:p-2.5 rounded-xl border border-white/20 text-white bg-white/10 active:bg-white/20 transition-colors"
             title="Admin Console"
             aria-label="Admin Console"
           >
-            <Lock className="w-4 h-4 text-[#264143]" />
+            <Lock className="w-4 h-4 text-white" />
           </button>
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 sm:p-2.5 rounded-xl border border-[#E7E3DC] text-[#264143] hover:bg-white bg-white/90 active:bg-slate-50 transition-colors"
+            className="p-2 sm:p-2.5 rounded-xl border border-white/20 text-white hover:bg-white/20 bg-white/10 active:bg-white/25 transition-colors"
             aria-label="Toggle menu"
           >
-            {mobileMenuOpen ? <X className="w-5 h-5 text-[#D96846]" /> : <Menu className="w-5 h-5" />}
+            {mobileMenuOpen ? <X className="w-5 h-5 text-[#E99F4C]" /> : <Menu className="w-5 h-5 text-white" />}
           </button>
         </div>
 
@@ -132,7 +132,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Mobile Nav Dropdown */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-[#E7E3DC] bg-[#FBF9F5]/98 backdrop-blur-md px-4 pt-3 pb-6 space-y-3 shadow-xl animate-in slide-in-from-top-2 duration-200">
+        <div className="lg:hidden border-t border-[#2D4F3E] bg-[#142A20] px-4 pt-3 pb-6 space-y-3 shadow-2xl animate-in slide-in-from-top-2 duration-200 text-white">
           <div className="space-y-1.5">
             {navItems.map((item) => (
               <button
@@ -140,8 +140,8 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onClick={() => handleNavClick(item.id)}
                 className={`block w-full text-left py-2.5 px-4 rounded-xl text-sm font-medium transition-all ${
                   currentPage === item.id
-                    ? 'bg-white text-[#D96846] font-bold shadow-2xs border border-[#E7E3DC]'
-                    : 'text-[#264143] hover:bg-white/80 active:bg-white'
+                    ? 'bg-white/15 text-[#E99F4C] font-bold border border-white/20'
+                    : 'text-[#FAF8F5]/85 hover:bg-white/10 active:bg-white/15'
                 }`}
               >
                 {item.label}
@@ -149,7 +149,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             ))}
           </div>
 
-          <div className="pt-2 border-t border-[#E7E3DC]">
+          <div className="pt-2 border-t border-[#2D4F3E]">
             <button
               onClick={() => handleNavClick('contact')}
               className="w-full py-3.5 px-4 rounded-xl bg-[#D96846] active:bg-[#C45737] text-white text-center text-sm font-semibold flex items-center justify-center gap-2 shadow-xs transition-colors"

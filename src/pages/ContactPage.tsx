@@ -122,10 +122,10 @@ export const ContactPage: React.FC<ContactPageProps> = ({
                   <div>
                     <span className="text-[11px] text-[#264143]/60 font-semibold uppercase tracking-wider block">Official Advisory Correspondence</span>
                     <a
-                      href="mailto:sushantgangwar7300@gmail.com"
+                      href="mailto:Kaiprakriti@gmail.com"
                       className="font-bold text-sm sm:text-base text-[#264143] hover:text-[#D96846] transition-colors break-all block"
                     >
-                      sushantgangwar7300@gmail.com
+                      Kaiprakriti@gmail.com
                     </a>
                     <span className="text-[11px] text-[#264143]/70 block mt-0.5">
                       Direct scoping discussions, proposal requests & institutional engagements.
@@ -310,7 +310,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({
 
                   <div className="pt-2 flex items-center justify-center gap-1.5 text-[11px] text-[#264143]/65 text-center">
                     <Mail className="w-3.5 h-3.5 text-[#3E6B48] shrink-0" />
-                    <span>Inquiries are automatically dispatched to <strong>sushantgangwar7300@gmail.com</strong></span>
+                    <span>Inquiries are automatically dispatched to <strong>Kaiprakriti@gmail.com</strong></span>
                   </div>
                 </form>
               )}

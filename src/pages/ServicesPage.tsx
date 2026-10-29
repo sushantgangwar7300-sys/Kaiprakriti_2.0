@@ -4,6 +4,8 @@ import { getStoredServices, isCatalogueUnlocked } from '../data/servicesStore';
 import { Search, ArrowRight, CheckCircle2, ChevronRight, X, Lock, Sparkles, ShieldCheck, Mail } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { UnlockServicesModal } from '../components/UnlockServicesModal';
+import { ServiceDetailModal } from '../components/ServiceDetailModal';
+import { ComplianceRoadmap } from '../components/ComplianceRoadmap';
 import { useLanguage } from '../context/LanguageContext';
 
 interface ServicesPageProps {
@@ -69,13 +71,18 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
       {/* 1. Header with Clean Industrial Decarbonization & Clean Energy Infrastructure Background Image */}
       <section className="relative pt-14 pb-14 sm:pt-20 sm:pb-20 border-b border-[#E7E3DC] overflow-hidden">
         
-        {/* Related Background Image: Solar & Industrial Decarbonization */}
-        <div className="absolute inset-0 z-0">
-          <img
-            src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=2000&q=80"
-            alt="Clean Energy Infrastructure & Industrial Sustainability"
-            className="w-full h-full object-cover scale-105 opacity-20"
-          />
+        {/* Full Background Video: Clean Industrial Decarbonization & Renewable Infrastructure */}
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            poster="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=2000&q=80"
+            className="w-full h-full object-cover scale-105 opacity-25"
+          >
+            <source src="https://videos.pexels.com/video-files/3129957/3129957-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+          </video>
           <div className="absolute inset-0 bg-gradient-to-b from-[#FAF8F5]/95 via-[#FAF8F5]/85 to-[#FAF8F5]" />
           <div className="absolute inset-0 bg-[#264143]/5 mix-blend-multiply" />
         </div>
@@ -198,6 +205,22 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
                   </span>
                 </div>
 
+                {/* Service Image aligned strictly inside boundaries of tile */}
+                {service.imageUrl && (
+                  <div className="w-full h-44 rounded-2xl overflow-hidden relative border border-[#E7E3DC] shadow-2xs bg-[#FAF8F5]">
+                    <img
+                      src={service.imageUrl}
+                      alt={service.title}
+                      loading="lazy"
+                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60" />
+                    <div className="absolute bottom-2 left-3 text-[11px] text-white/90 font-medium truncate max-w-[90%]">
+                      {service.keyMetric || service.standard}
+                    </div>
+                  </div>
+                )}
+
                 <h3 className="font-serif text-xl font-bold text-[#264143] group-hover:text-[#D96846] transition-colors leading-snug">
                   {service.title}
                 </h3>
@@ -268,107 +291,19 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
 
       </section>
 
-      {/* 5. Service Detail Modal */}
-      <AnimatePresence>
-        {selectedService && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xs"
-            onClick={(e) => {
-              if (e.target === e.currentTarget) setSelectedService(null);
-            }}
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 16 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 16 }}
-              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-              className="w-full max-w-2xl max-h-[92vh] overflow-y-auto rounded-3xl border border-[#E7E3DC] p-5 sm:p-8 bg-white shadow-2xl space-y-5 sm:space-y-6"
-            >
-              
-              <div className="flex items-start justify-between gap-3 sm:gap-4 border-b border-[#E7E3DC] pb-4">
-                <div className="space-y-1">
-                  <span className="text-xs font-semibold text-[#3E6B48] uppercase tracking-wider">
-                    {selectedService.standard}
-                  </span>
-                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#264143]">
-                    {selectedService.title}
-                  </h3>
-                </div>
-                <button
-                  onClick={() => setSelectedService(null)}
-                  className="p-1.5 rounded-full hover:bg-slate-100 text-[#264143]/60 hover:text-[#264143] shrink-0"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
+      {/* 5. Compliance Roadmap: Step-by-Step ESG Advisory Progression */}
+      <ComplianceRoadmap onSelectService={(serviceId) => onNavigate('contact', serviceId)} />
 
-              <div className="space-y-4 text-xs sm:text-sm text-[#264143]">
-                <div>
-                  <h4 className="font-serif font-bold text-base text-[#264143] mb-1">
-                    Scope of Technical Work
-                  </h4>
-                  <p className="text-xs leading-relaxed text-[#264143]/80">
-                    {selectedService.fullDesc || selectedService.shortDesc}
-                  </p>
-                </div>
-
-                {selectedService.deliverables && selectedService.deliverables.length > 0 && (
-                  <div>
-                    <h4 className="font-serif font-bold text-sm text-[#264143] mb-2">
-                      Key Client Deliverables
-                    </h4>
-                    <ul className="space-y-2 text-xs text-[#264143]/80">
-                      {selectedService.deliverables.map((item, idx) => (
-                        <li key={idx} className="flex items-start gap-2">
-                          <CheckCircle2 className="w-4 h-4 text-[#3E6B48] shrink-0 mt-0.5" />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                {selectedService.whySeparateNote && (
-                  <div className="p-4 rounded-2xl bg-[#FAF8F5] border border-[#E7E3DC] space-y-1 text-xs">
-                    <span className="font-bold text-[#D96846] block">
-                      Zero Self-Review Independence Note:
-                    </span>
-                    <p className="text-[#264143]/80 leading-relaxed">
-                      {selectedService.whySeparateNote}
-                    </p>
-                  </div>
-                )}
-              </div>
-
-              <div className="pt-4 border-t border-[#E7E3DC] flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3">
-                <button
-                  onClick={() => setSelectedService(null)}
-                  className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-[#E7E3DC] text-xs font-semibold text-[#264143] text-center"
-                >
-                  Close
-                </button>
-
-                <button
-                  onClick={() => {
-                    const s = selectedService;
-                    setSelectedService(null);
-                    onNavigate('contact', s.id);
-                  }}
-                  className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-[#D96846] hover:bg-[#C45737] text-white text-xs font-semibold flex items-center justify-center gap-2"
-                >
-                  <span>Request Scoping Discussion</span>
-                  <ArrowRight className="w-3.5 h-3.5 text-white" />
-                </button>
-              </div>
-
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* 6. Service Detail Modal */}
+      <ServiceDetailModal
+        service={selectedService}
+        isOpen={!!selectedService}
+        onClose={() => setSelectedService(null)}
+        onConsult={(serviceId) => {
+          setSelectedService(null);
+          onNavigate('contact', serviceId);
+        }}
+      />
 
       {/* Unlock Catalogue Modal */}
       <UnlockServicesModal

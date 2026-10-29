@@ -57,7 +57,7 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
       // In offline preview mode or network disconnect, check standard executive credentials
       const cleanEmail = email.trim().toLowerCase();
       const valid =
-        (cleanEmail === 'sushantgangwar7300@gmail.com' || cleanEmail === 'admin@kaiprakriti.com') &&
+        (cleanEmail === 'kaiprakriti@gmail.com' || cleanEmail === 'admin@kaiprakriti.com') &&
         password === 'prakriti2026';
       if (valid) {
         localStorage.setItem('kai_prakriti_admin_jwt', 'offline_admin_session_token');
@@ -127,7 +127,7 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
               <input
                 type="email"
                 required
-                placeholder="sushantgangwar7300@gmail.com"
+                placeholder="kaiprakriti@gmail.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full pl-10 pr-3.5 py-2.5 bg-[#FAF8F5] border border-[#E7E3DC] rounded-xl text-[#264143] placeholder-slate-400 focus:outline-none focus:border-[#D96846] focus:bg-white transition-colors"
@@ -196,7 +196,7 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
               }
             }}
             isLoading={loading}
-            label="Sign in with Google (sushantgangwar7300@gmail.com)"
+            label="Sign in with Google (kaiprakriti@gmail.com)"
             className="w-full"
           />
           <p className="text-[11px] text-center text-[#264143]/60 leading-tight">

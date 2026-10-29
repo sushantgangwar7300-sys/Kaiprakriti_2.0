@@ -9,7 +9,15 @@ export const getStoredServices = (): ServiceItem[] => {
     if (data) {
       const parsed = JSON.parse(data);
       if (Array.isArray(parsed) && parsed.length > 0) {
-        return parsed;
+        return parsed.map((item: ServiceItem) => {
+          if (!item.imageUrl) {
+            const original = ELEVEN_SERVICES.find((s) => s.id === item.id);
+            if (original?.imageUrl) {
+              return { ...item, imageUrl: original.imageUrl };
+            }
+          }
+          return item;
+        });
       }
     }
   } catch (e) {

@@ -48,7 +48,7 @@ const CONFIG = {
   // Cryptographic Secrets & Admin Auth
   JWT_SECRET: process.env.JWT_SECRET || 'kai_prakriti_sec_key_2026_sebi_brsr_cbam_statutory_advisory_token',
   JWT_EXPIRES_IN_SEC: 8 * 60 * 60, // 8 Hours
-  ADMIN_EMAIL: process.env.ADMIN_EMAIL || 'sushantgangwar7300@gmail.com',
+  ADMIN_EMAIL: process.env.ADMIN_EMAIL || 'kaiprakriti@gmail.com',
   // SHA-256 with Salt fallback for timing-safe password verification
   ADMIN_PASSWORD_HASH: process.env.ADMIN_PASSWORD_HASH || 'f77b789bead9b925b6a7ee7b2c5d80cecb7ff9b49ecb28292d3f44e1f740db38', // prakriti2026
   SALT: process.env.AUTH_SALT || 'kai_prakriti_2026_salt',
@@ -360,7 +360,7 @@ async function startWorkerServer() {
   // GOOGLE WORKSPACE & GMAIL LEAD NOTIFICATION ENGINE
   // --------------------------------------------------------------------------
   const GOOGLE_SESSION_FILE = path.join(DATA_DIR, 'google_session.json');
-  const TARGET_NOTIFICATION_EMAIL = 'sushantgangwar7300@gmail.com';
+  const TARGET_NOTIFICATION_EMAIL = 'kaiprakriti@gmail.com';
 
   let googleSession: {
     token: string;

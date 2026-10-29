@@ -160,7 +160,7 @@ export const BlogPage: React.FC<BlogPageProps> = ({
                 Discuss your reporting obligations with our authors
               </h4>
               <p className="text-xs text-[#264143]/70">
-                Book a 30-minute scoping discussion or email <a href="mailto:sushantgangwar7300@gmail.com" className="text-[#264143] font-semibold hover:underline">sushantgangwar7300@gmail.com</a>
+                Book a 30-minute scoping discussion or email <a href="mailto:Kaiprakriti@gmail.com" className="text-[#264143] font-semibold hover:underline">Kaiprakriti@gmail.com</a>
               </p>
             </div>
             <button

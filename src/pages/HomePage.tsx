@@ -4,6 +4,11 @@ import { ArrowRight, CheckCircle2, ShieldCheck, Scale, FileText, ChevronRight, L
 import { getStoredServices, isCatalogueUnlocked } from '../data/servicesStore';
 import { INITIAL_BLOG_POSTS } from '../data/blogData';
 import { UnlockServicesModal } from '../components/UnlockServicesModal';
+import { ServiceDetailModal } from '../components/ServiceDetailModal';
+import { ComplianceRoadmap } from '../components/ComplianceRoadmap';
+import { KineticHeroTicker, KineticTextHighlight } from '../components/ESGMotionLandscape';
+import { InteractiveExpandableServiceTile } from '../components/InteractiveExpandableServiceTile';
+import { ESGFAQSection } from '../components/ESGFAQSection';
 import { KaiPrakritiEmblem } from '../components/KaiPrakritiEmblem';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -90,6 +95,21 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   const [allServices, setAllServices] = useState<ServiceItem[]>(getStoredServices);
   const [isUnlocked, setIsUnlocked] = useState(isCatalogueUnlocked);
   const [isUnlockModalOpen, setIsUnlockModalOpen] = useState(false);
+  const [selectedModalService, setSelectedModalService] = useState<ServiceItem | null>(null);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+
+  const handleOpenServiceModal = (serviceOrId: ServiceItem | string) => {
+    if (typeof serviceOrId === 'string') {
+      const match = allServices.find((s) => s.id === serviceOrId);
+      if (match) {
+        setSelectedModalService(match);
+        setIsDetailModalOpen(true);
+      }
+    } else {
+      setSelectedModalService(serviceOrId);
+      setIsDetailModalOpen(true);
+    }
+  };
 
   // 6-second auto-advancing slide state
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
@@ -199,8 +219,30 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           
           {/* Main Hero Header and Copy */}
           <div className="max-w-4xl space-y-4 sm:space-y-5">
+            {/* Ambient Kinetic Typography: Word Rotation Ticker and Marker Highlight */}
+            <div className="inline-flex flex-wrap items-center gap-2 text-xs sm:text-sm font-semibold text-[#3E6B48] bg-white/90 backdrop-blur-xs px-3.5 py-1.5 rounded-full border border-[#E7E3DC] shadow-2xs">
+              <span className="uppercase tracking-widest text-[10px] font-mono text-[#264143]/70">Practices:</span>
+              <KineticHeroTicker
+                phrases={[
+                  'Empirical Carbon Audits',
+                  'SEBI BRSR Core Assurance',
+                  'EU CBAM Installation Dossiers',
+                  'ISO 14064-1 Verifiable Math',
+                  'Zero Self-Review Conflict',
+                ]}
+              />
+            </div>
+
             <h1 className="font-serif text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-[#264143] leading-[1.15]">
-              {activeSlide.title}
+              {activeSlide.title.includes('Survive') ? (
+                <>BRSR, Prepared to <KineticTextHighlight>Survive Assessment</KineticTextHighlight></>
+              ) : activeSlide.title.includes('Emit') ? (
+                <>Measure What You <KineticTextHighlight>Actually Emit</KineticTextHighlight></>
+              ) : activeSlide.title.includes('Without') ? (
+                <>ZED Support <KineticTextHighlight>Without Overclaim</KineticTextHighlight></>
+              ) : (
+                <>CBAM Data Readiness & <KineticTextHighlight>Verification</KineticTextHighlight></>
+              )}
             </h1>
 
             <p className="text-xs sm:text-base lg:text-lg text-[#264143]/90 font-normal leading-relaxed max-w-3xl bg-white/60 sm:bg-transparent backdrop-blur-[2px] sm:backdrop-blur-none rounded-2xl p-2 sm:p-0">
@@ -246,9 +288,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               <span className="font-semibold uppercase tracking-wider text-[11px] text-[#3E6B48]">
                 Featured Sovereign Practices (Auto-Advancing)
               </span>
-              <span className="text-[11px] font-mono text-[#264143]/60">
-                Click any flash card to switch directly
-              </span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
@@ -271,7 +310,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                         : 'bg-white/85 hover:bg-white border-[#E7E3DC] hover:border-[#D96846]/50 shadow-2xs hover:shadow-xs'
                     }`}
                   >
-                    <div className="space-y-2">
+                    <div className="space-y-2.5">
                       <div className="flex items-center justify-between">
                         <span
                           className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-lg border ${
@@ -287,6 +326,16 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                         </span>
                       </div>
 
+                      {/* Image Thumbnail Aligned Inside Tile Boundaries */}
+                      <div className="w-full h-24 rounded-xl overflow-hidden relative border border-[#E7E3DC] bg-[#FAF8F5]">
+                        <img
+                          src={slide.poster}
+                          alt={slide.subtitle}
+                          loading="lazy"
+                          className="w-full h-full object-cover object-center"
+                        />
+                      </div>
+
                       <h3 className={`font-serif text-sm sm:text-base font-bold leading-tight ${
                         isActive ? 'text-[#D96846]' : 'text-[#264143]'
                       }`}>
@@ -297,8 +346,14 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                         {slide.description}
                       </p>
 
-                      <div className="pt-2 flex items-center justify-between text-[11px] font-semibold text-[#D96846]">
-                        <span>View Practice</span>
+                      <div
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleOpenServiceModal(slide.serviceId);
+                        }}
+                        className="pt-2 flex items-center justify-between text-[11px] font-semibold text-[#D96846] hover:text-[#C45737] transition-colors"
+                      >
+                        <span>Inspect Practice Details</span>
                         <ChevronRight className={`w-3.5 h-3.5 transition-transform ${isActive ? 'translate-x-1' : ''}`} />
                       </div>
                     </div>
@@ -391,8 +446,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             {featuredServices.map((service, idx) => (
               <div
                 key={service.id}
-                onClick={() => onNavigate('services', service.id)}
-                className="group cursor-pointer p-5 sm:p-6 rounded-2xl sm:rounded-3xl border border-[#E7E3DC] bg-white hover:border-[#D96846] hover:shadow-lg active:bg-slate-50 transition-all duration-200 flex flex-col justify-between space-y-4 sm:space-y-5"
+                onClick={() => handleOpenServiceModal(service)}
+                className="group cursor-pointer p-5 sm:p-6 rounded-2xl sm:rounded-3xl border border-[#E7E3DC] bg-white hover:border-[#3E6B48] hover:shadow-lg active:bg-slate-50 transition-all duration-200 flex flex-col justify-between space-y-4 sm:space-y-5"
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between text-xs">
@@ -404,17 +459,33 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                     </span>
                   </div>
 
-                  <h3 className="font-serif text-base sm:text-lg font-bold text-[#264143] group-hover:text-[#D96846] transition-colors leading-snug">
+                  {/* Image aligned strictly inside boundaries of tile */}
+                  {service.imageUrl && (
+                    <div className="w-full h-40 sm:h-44 rounded-2xl overflow-hidden relative border border-[#E7E3DC] bg-[#FAF8F5] shadow-2xs">
+                      <img
+                        src={service.imageUrl}
+                        alt={service.title}
+                        loading="lazy"
+                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent opacity-60" />
+                      <div className="absolute bottom-2.5 left-3 text-[10px] text-white/90 font-medium truncate max-w-[90%]">
+                        {service.keyMetric || service.standard}
+                      </div>
+                    </div>
+                  )}
+
+                  <h3 className="font-serif text-base sm:text-lg font-bold text-[#1E382E] group-hover:text-[#D96846] transition-colors leading-snug">
                     {service.title}
                   </h3>
 
-                  <p className="text-xs text-[#264143]/75 leading-relaxed">
+                  <p className="text-xs text-[#264143]/75 leading-relaxed line-clamp-3">
                     {service.shortDesc}
                   </p>
                 </div>
 
-                <div className="pt-2 border-t border-[#E7E3DC] flex items-center justify-between text-xs font-semibold text-[#264143] group-hover:text-[#D96846] transition-colors">
-                  <span>View practice details</span>
+                <div className="pt-2 border-t border-[#E7E3DC] flex items-center justify-between text-xs font-semibold text-[#1E382E] group-hover:text-[#D96846] transition-colors">
+                  <span>View practice details & audit trail</span>
                   <ArrowRight className="w-3.5 h-3.5 text-[#D96846] group-hover:translate-x-1.5 transition-transform" />
                 </div>
               </div>
@@ -454,7 +525,34 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         </div>
       </section>
 
-      {/* 4. The Two-Line Independence Model */}
+
+      {/* 5. Interactive Expandable Service Tile Accordion */}
+      <section className="py-16 sm:py-24 bg-[#FAF8F5] border-t border-[#E7E3DC]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-12">
+          <div className="max-w-3xl mx-auto text-center space-y-3">
+            <span className="text-xs font-semibold text-[#3E6B48] uppercase tracking-wider bg-[#3E6B48]/10 px-3.5 py-1.5 rounded-full border border-[#3E6B48]/20 inline-block">
+              Interactive Practice Accordion
+            </span>
+            <h2 className="font-serif text-2xl sm:text-4xl font-bold text-[#1E382E] tracking-tight">
+              Expand Any Advisory Practice for Technical Deliverables
+            </h2>
+            <p className="text-xs sm:text-sm text-[#264143]/75 leading-relaxed max-w-xl mx-auto">
+              Inspect primary activity ingestion models, stoichiometric calculation workbooks, and independent assurance separation notes.
+            </p>
+          </div>
+
+          <InteractiveExpandableServiceTile
+            services={allServices.slice(0, 6)}
+            onConsult={(serviceId) => onNavigate('contact', serviceId)}
+            onOpenModal={handleOpenServiceModal}
+          />
+        </div>
+      </section>
+
+      {/* 6. Compliance Roadmap: Step-by-Step ESG Advisory Progression */}
+      <ComplianceRoadmap onSelectService={(serviceId) => onNavigate('contact', serviceId)} />
+
+      {/* 5. The Two-Line Independence Model */}
       <section className="py-12 sm:py-20 bg-white border-t border-[#E7E3DC]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-12">
           
@@ -543,7 +641,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         </div>
       </section>
 
-      {/* 5. Recent Insights & Thought Leadership */}
+      {/* 7. Common Technical & Regulatory FAQ Section */}
+      <ESGFAQSection onScheduleClick={() => onNavigate('contact')} />
+
+      {/* 8. Recent Insights & Thought Leadership */}
       <section className="py-12 sm:py-20 bg-[#FAF8F5] border-t border-[#E7E3DC]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-12">
           
@@ -645,10 +746,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               <span>
                 {language === 'en' ? 'Official Correspondence: ' : 'आधिकारिक संपर्क ईमेल: '}
                 <a
-                  href="mailto:sushantgangwar7300@gmail.com"
+                  href="mailto:Kaiprakriti@gmail.com"
                   className="text-white font-medium hover:underline ml-1"
                 >
-                  sushantgangwar7300@gmail.com
+                  Kaiprakriti@gmail.com
                 </a>
               </span>
             </div>
@@ -664,6 +765,17 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         onUnlocked={() => {
           setIsUnlocked(true);
           onNavigate('services');
+        }}
+      />
+
+      {/* Service Detail Modal (Opens when user clicks on any practice tile) */}
+      <ServiceDetailModal
+        service={selectedModalService}
+        isOpen={isDetailModalOpen}
+        onClose={() => setIsDetailModalOpen(false)}
+        onConsult={(serviceId) => {
+          setIsDetailModalOpen(false);
+          onNavigate('contact', serviceId);
         }}
       />
 

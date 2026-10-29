@@ -20,6 +20,7 @@ export interface ServiceItem {
   deliverables: string[];
   whySeparateNote: string;
   keyMetric?: string;
+  imageUrl?: string;
 }
 
 export interface StandardItem {

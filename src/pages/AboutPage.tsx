@@ -72,13 +72,18 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
       {/* 1. Header with Corporate Sustainability Leadership Background Image */}
       <section className="relative pt-14 pb-14 sm:pt-20 sm:pb-20 border-b border-[#E7E3DC] overflow-hidden">
         
-        {/* Related Background Image: Corporate Sustainability Boardroom & Biophilic Architecture */}
-        <div className="absolute inset-0 z-0">
-          <img
-            src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=2000&q=80"
-            alt="Corporate Sustainability Leadership Architecture"
-            className="w-full h-full object-cover scale-105 opacity-20"
-          />
+        {/* Full Background Video: Corporate Sustainability & Biophilic Engineering */}
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            poster="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=2000&q=80"
+            className="w-full h-full object-cover scale-105 opacity-25"
+          >
+            <source src="https://videos.pexels.com/video-files/2887463/2887463-uhd_2560_1440_24fps.mp4" type="video/mp4" />
+          </video>
           <div className="absolute inset-0 bg-gradient-to-b from-[#FAF8F5]/95 via-[#FAF8F5]/85 to-[#FAF8F5]" />
           <div className="absolute inset-0 bg-[#264143]/5 mix-blend-multiply" />
         </div>
@@ -143,6 +148,48 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
                   </p>
                 </div>
               ))}
+            </div>
+          </div>
+
+          {/* Engineering Fieldwork & Corporate Governance Visual Dossier */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
+            <div className="rounded-3xl overflow-hidden border border-[#E7E3DC] relative h-48 sm:h-56 shadow-xs group">
+              <img
+                src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80"
+                alt="Shop-Floor Primary Energy & Meter Audit"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+              <div className="absolute bottom-3 left-4 right-4 text-white">
+                <span className="text-[10px] uppercase font-bold text-[#E99F4C] tracking-wider block">Shop-Floor Audits</span>
+                <span className="font-serif text-sm font-bold block">Primary Sub-Meter Verification</span>
+              </div>
+            </div>
+
+            <div className="rounded-3xl overflow-hidden border border-[#E7E3DC] relative h-48 sm:h-56 shadow-xs group">
+              <img
+                src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80"
+                alt="Institutional SEBI BRSR Core Regulatory Trail"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+              <div className="absolute bottom-3 left-4 right-4 text-white">
+                <span className="text-[10px] uppercase font-bold text-[#3E6B48] tracking-wider block">Statutory Assurance</span>
+                <span className="font-serif text-sm font-bold block">SEBI BRSR Core Evidence Lockers</span>
+              </div>
+            </div>
+
+            <div className="rounded-3xl overflow-hidden border border-[#E7E3DC] relative h-48 sm:h-56 shadow-xs group">
+              <img
+                src="https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=800&q=80"
+                alt="Decarbonization & Clean Grid Transition"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+              <div className="absolute bottom-3 left-4 right-4 text-white">
+                <span className="text-[10px] uppercase font-bold text-[#D96846] tracking-wider block">Decarbonization</span>
+                <span className="font-serif text-sm font-bold block">Stoichiometric Baseline Models</span>
+              </div>
             </div>
           </div>
 
@@ -212,8 +259,8 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
             <Mail className="w-4 h-4 text-[#E99F4C] shrink-0" />
             <span>
               Official Inquiries:{' '}
-              <a href="mailto:sushantgangwar7300@gmail.com" className="text-white font-medium hover:underline">
-                sushantgangwar7300@gmail.com
+              <a href="mailto:Kaiprakriti@gmail.com" className="text-white font-medium hover:underline">
+                Kaiprakriti@gmail.com
               </a>
             </span>
           </div>

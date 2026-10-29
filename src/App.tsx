@@ -83,8 +83,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-white text-[#2F3020] font-sans selection:bg-[#D96846]/30 selection:text-[#2F3020] flex flex-col">
-      
+    <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-white text-[#2F3020] font-sans selection:bg-[#D96846]/30 selection:text-[#2F3020] flex flex-col relative">
       {/* 1. Primary Navigation Bar (Centric Consulting Style) */}
       <Navbar
         currentPage={currentPage}

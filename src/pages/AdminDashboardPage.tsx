@@ -595,7 +595,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                 </span>
               </div>
               <p className="text-[11px] sm:text-xs text-[#264143]/70 mt-0.5">
-                Admin: <strong className="text-[#264143] font-semibold">Sushant Gangwar</strong> • sushantgangwar7300@gmail.com
+                Admin: <strong className="text-[#264143] font-semibold">Sushant Gangwar</strong> • kaiprakriti@gmail.com
               </p>
             </div>
           </div>
@@ -713,7 +713,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                   ) : (
                     <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-bold bg-[#D96846]/15 text-[#D96846] border border-[#D96846]/30">
                       <AlertCircle className="w-3 h-3" />
-                      Link Required for sushantgangwar7300@gmail.com
+                      Link Required for kaiprakriti@gmail.com
                     </span>
                   )}
                 </div>
@@ -747,7 +747,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                 <GoogleSignInButton
                   onClick={handleLinkGoogle}
                   isLoading={isLinkingGoogle}
-                  label="Link Google Account (sushantgangwar7300@gmail.com)"
+                  label="Link Google Account (kaiprakriti@gmail.com)"
                 />
               )}
             </div>
@@ -1747,7 +1747,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                     <GoogleSignInButton
                       onClick={handleLinkGoogle}
                       isLoading={isLinkingGoogle}
-                      label="Link Google Account (sushantgangwar7300@gmail.com)"
+                      label="Link Google Account (kaiprakriti@gmail.com)"
                     />
                   )}
                 </div>

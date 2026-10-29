@@ -1,7 +1,7 @@
 /**
  * Google Workspace & Gmail Integration Service for Kai Prakriti
  * Scope: https://www.googleapis.com/auth/gmail.send
- * Target notification email: sushantgangwar7300@gmail.com
+ * Target notification email: kaiprakriti@gmail.com
  */
 
 import { initializeApp, getApps, getApp } from 'firebase/app';
@@ -20,7 +20,7 @@ export const SCOPES = [
   'https://www.googleapis.com/auth/gmail.send',
 ];
 
-export const TARGET_NOTIFICATION_EMAIL = 'sushantgangwar7300@gmail.com';
+export const TARGET_NOTIFICATION_EMAIL = 'kaiprakriti@gmail.com';
 
 // Initialize Firebase App instance safely (singleton)
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();

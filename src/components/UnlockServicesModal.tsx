@@ -231,7 +231,7 @@ export const UnlockServicesModal: React.FC<UnlockServicesModalProps> = ({
 
                 <p className="text-[11px] text-[#264143]/60 text-center flex items-center justify-center gap-1.5">
                   <Mail className="w-3.5 h-3.5 text-[#3E6B48] shrink-0" />
-                  <span>Inquiry details are automatically routed to <strong>sushantgangwar7300@gmail.com</strong></span>
+                  <span>Inquiry details are automatically routed to <strong>Kaiprakriti@gmail.com</strong></span>
                 </p>
               </form>
             )}

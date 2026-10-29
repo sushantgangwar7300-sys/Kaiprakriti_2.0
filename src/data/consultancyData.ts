@@ -17,7 +17,8 @@ export const ELEVEN_SERVICES: ServiceItem[] = [
       'Year-on-year decarbonization baseline documentation'
     ],
     whySeparateNote: 'Kai Prakriti performs the quantitative calculation and documentation. When your lender or regulator demands ISO 14064-3 verification, we connect you to an accredited body. We never verify our own numbers.',
-    keyMetric: 'Complete 15-category Scope 3 coverage'
+    keyMetric: 'Complete 15-category Scope 3 coverage',
+    imageUrl: 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=800&q=80'
   },
   {
     id: 'brsr-core',
@@ -35,7 +36,8 @@ export const ELEVEN_SERVICES: ServiceItem[] = [
       'XBRL taxonomy compliance alignment'
     ],
     whySeparateNote: 'SEBI mandates "reasonable assurance" by an independent third party for top listed companies. Kai Prakriti acts strictly on the client side to engineer the data foundation.',
-    keyMetric: 'Covers all 9 SEBI Core attributes'
+    keyMetric: 'Covers all 9 SEBI Core attributes',
+    imageUrl: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80'
   },
   {
     id: 'brsr-lite',
@@ -53,7 +55,8 @@ export const ELEVEN_SERVICES: ServiceItem[] = [
       'Annual ESG readiness action plan'
     ],
     whySeparateNote: 'Direct consultancy deliverable designed to win commercial tenders and satisfy OEM vendor audits without exorbitant big-four overhead.',
-    keyMetric: 'Streamlined 40-indicator framework'
+    keyMetric: 'Streamlined 40-indicator framework',
+    imageUrl: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80'
   },
   {
     id: 'lca-product',
@@ -71,7 +74,8 @@ export const ELEVEN_SERVICES: ServiceItem[] = [
       'Eco-design intervention roadmap'
     ],
     whySeparateNote: 'Preparation of the scientific LCA study is direct engineering work. Independent critical review under ISO 14071 is facilitated separately through an accredited reviewer panel.',
-    keyMetric: 'Cradle-to-gate / Cradle-to-grave modeling'
+    keyMetric: 'Cradle-to-gate / Cradle-to-grave modeling',
+    imageUrl: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80'
   },
   {
     id: 'cbam-readiness',
@@ -89,7 +93,8 @@ export const ELEVEN_SERVICES: ServiceItem[] = [
       'Formal introduction to an accredited EU verifier with live accreditation verification'
     ],
     whySeparateNote: 'EU rules require verification by an accredited body under Implementing Regulation (EU) 2018/2067. Kai Prakriti prepares the dataset and arranges the accredited verifier with our introduction fee transparently noted.',
-    keyMetric: 'Compliant with EU 2023/956 CN codes'
+    keyMetric: 'Compliant with EU 2023/956 CN codes',
+    imageUrl: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80'
   },
   {
     id: 'zed-support',
@@ -107,7 +112,8 @@ export const ELEVEN_SERVICES: ServiceItem[] = [
       'Self-assessment portal filing support and remote desktop audit assistance'
     ],
     whySeparateNote: 'Desktop verification and on-site assessment is conducted directly by QCI-empanelled assessment agencies. We act purely as your implementation advisor.',
-    keyMetric: 'Bronze / Silver / Gold progression roadmap'
+    keyMetric: 'Bronze / Silver / Gold progression roadmap',
+    imageUrl: 'https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=800&q=80'
   },
   {
     id: 'iso-14064-training',
@@ -125,7 +131,8 @@ export const ELEVEN_SERVICES: ServiceItem[] = [
       'Facilitated handoff to accredited VVB for Part 3 certification audit'
     ],
     whySeparateNote: 'ISO 14064-3 strictly forbids consulting organizations from issuing verification statements. We maintain a strict firebreak.',
-    keyMetric: 'Hands-on internal auditor capability'
+    keyMetric: 'Hands-on internal auditor capability',
+    imageUrl: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80'
   },
   {
     id: 'carbon-pdd',
@@ -143,7 +150,8 @@ export const ELEVEN_SERVICES: ServiceItem[] = [
       'Stakeholder consultation documentation and environmental impact review'
     ],
     whySeparateNote: 'Project documentation must be validated by an accredited DOE (Designated Operational Entity) or VVB. We author the technical defense; the DOE verifies.',
-    keyMetric: 'Full additionality & baseline defense'
+    keyMetric: 'Full additionality & baseline defense',
+    imageUrl: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=800&q=80'
   },
   {
     id: 'honest-verifier-match',
@@ -161,7 +169,8 @@ export const ELEVEN_SERVICES: ServiceItem[] = [
       'Disclosed commission agreement on invoice'
     ],
     whySeparateNote: 'Facilitated service. Kai Prakriti receives a disclosed commission from the verifier or charges a transparent facilitation fee to the client.',
-    keyMetric: 'Zero hidden kickbacks; 100% written disclosure'
+    keyMetric: 'Zero hidden kickbacks; 100% written disclosure',
+    imageUrl: 'https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80'
   },
   {
     id: 'esg-team-training',
@@ -179,7 +188,8 @@ export const ELEVEN_SERVICES: ServiceItem[] = [
       'Post-training competency assessment and certificates'
     ],
     whySeparateNote: 'Pure educational and operational consulting deliverable that stays within your company for long-term self-sufficiency.',
-    keyMetric: 'Empowers internal non-sustainability staff'
+    keyMetric: 'Empowers internal non-sustainability staff',
+    imageUrl: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80'
   },
   {
     id: 'capable-body-vetting',
@@ -197,7 +207,8 @@ export const ELEVEN_SERVICES: ServiceItem[] = [
       'Direct introduction to active lead auditors'
     ],
     whySeparateNote: 'Facilitated advisory service with live registry checks. Protects clients from non-compliant audits rejected by stock exchanges or EU authorities.',
-    keyMetric: 'Prevents accreditation disqualification'
+    keyMetric: 'Prevents accreditation disqualification',
+    imageUrl: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80'
   }
 ];
 
