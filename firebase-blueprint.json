@@ -1,0 +1,32 @@
+{
+  "entities": {
+    "Lead": {
+      "title": "Lead",
+      "description": "ESG advisory scoping inquiry and client lead record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "company": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "phone": { "type": "string" },
+        "companyType": { "type": "string" },
+        "serviceId": { "type": "string" },
+        "status": { "type": "string" },
+        "estimatedBudget": { "type": "string" },
+        "targetDeadline": { "type": "string" },
+        "message": { "type": "string" },
+        "notes": { "type": "array" },
+        "source": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "email", "company", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/leads/{leadId}": {
+      "schema": "Lead",
+      "description": "Enterprise advisory scoping inquiries submitted via web forms or management portal"
+    }
+  }
+}

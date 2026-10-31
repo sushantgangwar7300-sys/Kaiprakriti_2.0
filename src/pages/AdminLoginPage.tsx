@@ -57,7 +57,9 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
       // In offline preview mode or network disconnect, check standard executive credentials
       const cleanEmail = email.trim().toLowerCase();
       const valid =
-        (cleanEmail === 'kaiprakriti@gmail.com' || cleanEmail === 'admin@kaiprakriti.com') &&
+        (cleanEmail === 'kaiprakriti@gmail.com' ||
+          cleanEmail === 'admin@kaiprakriti.com' ||
+          cleanEmail === 'sushantgangwar7300@gmail.com') &&
         password === 'prakriti2026';
       if (valid) {
         localStorage.setItem('kai_prakriti_admin_jwt', 'offline_admin_session_token');
@@ -71,7 +73,7 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
   };
 
   const handleDemoFill = () => {
-    setEmail('admin@kaiprakriti.com');
+    setEmail('sushantgangwar7300@gmail.com');
     setPassword('prakriti2026');
     setError('');
   };
@@ -191,12 +193,16 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
                 localStorage.setItem('kai_prakriti_admin_auth', 'true');
                 onLoginSuccess();
               } catch (err: any) {
-                setError(err.message || 'Google Sign-in failed. Please try again.');
+                let msg = err.message || 'Google Sign-in failed. Please try again.';
+                if (msg.includes('internal-error')) {
+                  msg = 'Google authorization popup was blocked by browser security. Please allow popups for accounts.google.com or use direct email credentials.';
+                }
+                setError(msg);
                 setLoading(false);
               }
             }}
             isLoading={loading}
-            label="Sign in with Google (kaiprakriti@gmail.com)"
+            label="Sign in with Google (sushantgangwar7300@gmail.com)"
             className="w-full"
           />
           <p className="text-[11px] text-center text-[#264143]/60 leading-tight">

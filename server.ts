@@ -232,16 +232,16 @@ async function startWorkerServer() {
       res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
     }
 
-    // CSP: Allow self, Google fonts, analytics, Pexels, Unsplash, and inline scripts/styles
-    // In dev and preview environment, frame-ancestors is permissive so the iframe preview renders
+    // CSP: Allow self, Google fonts, analytics, Pexels, Unsplash, Google Accounts, and Firebase
     const cspDirectives = [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://accounts.google.com https://apis.google.com",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com data:",
-      "img-src 'self' data: https: blob: https://images.unsplash.com https://images.pexels.com",
+      "img-src 'self' data: https: blob: https://images.unsplash.com https://images.pexels.com https://*.googleusercontent.com",
       "media-src 'self' https: blob: https://videos.pexels.com",
-      "connect-src 'self' https: wss: ws: https://www.google-analytics.com https://generativelanguage.googleapis.com",
+      "connect-src 'self' https: wss: ws: https://www.google-analytics.com https://generativelanguage.googleapis.com https://accounts.google.com https://*.googleapis.com https://*.firebaseio.com https://*.firestore.googleapis.com",
+      "frame-src 'self' https://accounts.google.com https://*.firebaseapp.com https://content.googleapis.com",
       "base-uri 'self'",
       "form-action 'self'",
     ];
@@ -302,57 +302,27 @@ async function startWorkerServer() {
 
   const DEFAULT_SEED_LEADS = [
     {
-      id: 'lead-001',
-      name: 'Rajesh Singhania',
-      company: 'Jindal Steels & Alloys Ltd',
-      email: 'r.singhania@jindalsteels.in',
-      phone: '+91 98112 44321',
+      id: 'dev-ref-001',
+      name: 'Dev Test Reference',
+      company: 'Kai Prakriti Advisory Labs',
+      email: 'sushantgangwar7300@gmail.com',
+      phone: '+91 7300513512',
       companyType: 'listed_top_1000',
-      serviceId: 'cbam-embedded',
-      status: 'proposal',
-      estimatedBudget: '₹14,50,000',
-      targetDeadline: 'Q4 2026',
-      message: 'We require actual embedded carbon calculation for 45,000 MT of hot-rolled steel coils exported to Rotterdam under EU CBAM 2026 guidelines.',
-      notes: ['Met VP Procurement on Sep 12', 'Shared draft MRV boundary document', 'Awaiting legal sign-off on facilitated verifier SLA'],
-      source: 'Website Scope Calculator',
-      createdAt: '2026-09-15T10:30:00Z',
-    },
-    {
-      id: 'lead-002',
-      name: 'Ananya Deshmukh',
-      company: 'Mahindra Logistics Infrastructure',
-      email: 'deshmukh.ananya@mahindralogistics.com',
-      phone: '+91 99201 88765',
-      companyType: 'listed_top_1000',
-      serviceId: 'brsr-core',
-      status: 'scoping',
-      estimatedBudget: '₹9,80,000',
-      targetDeadline: 'Q3 2026',
-      message: 'Need complete BRSR Core assurance trail preparation for FY 2026-27 filing. Looking for zero self-audit compliance.',
-      notes: ['Initial kickoff call completed', 'Data request sent for Scope 1 diesel fleets and Scope 2 EV depot chargers'],
-      source: 'Direct Web Inquiry',
-      createdAt: '2026-09-16T14:15:00Z',
-    },
-    {
-      id: 'lead-003',
-      name: 'Vikram Mehta',
-      company: 'Apex Precision Auto Components (MSME)',
-      email: 'vikram@apexprecision.co.in',
-      phone: '+91 97420 11234',
-      companyType: 'tier1_supplier',
-      serviceId: 'zed-prep',
+      serviceId: 'ghg-accounting',
       status: 'new',
-      estimatedBudget: '₹4,20,000',
+      estimatedBudget: '₹5,00,000',
       targetDeadline: 'Q4 2026',
-      message: 'Our Tier-1 customer Bosch Germany has asked for ZED Gold rating or EcoVadis equivalent. We want to apply for MSME subsidy.',
-      notes: ['New lead from MSME ZED blog post'],
-      source: 'Blog Cross-Link (Medium)',
-      createdAt: '2026-09-18T08:45:00Z',
+      message: 'System reference lead to verify Firebase Firestore synchronization and Gmail lead alert delivery.',
+      notes: ['Developer test lead for reference'],
+      source: 'System Dev Verification',
+      createdAt: new Date().toISOString(),
     },
   ];
 
   let leadsStore: any[] = readDataFile(LEADS_FILE, DEFAULT_SEED_LEADS);
-  if (!fs.existsSync(LEADS_FILE)) {
+  // Sanitize out any old mock leads
+  if (!leadsStore || leadsStore.length === 0 || leadsStore.some(l => l.id === 'lead-001' || l.name === 'Rajesh Singhania')) {
+    leadsStore = DEFAULT_SEED_LEADS;
     writeDataFile(LEADS_FILE, leadsStore);
   }
 
@@ -360,7 +330,7 @@ async function startWorkerServer() {
   // GOOGLE WORKSPACE & GMAIL LEAD NOTIFICATION ENGINE
   // --------------------------------------------------------------------------
   const GOOGLE_SESSION_FILE = path.join(DATA_DIR, 'google_session.json');
-  const TARGET_NOTIFICATION_EMAIL = 'kaiprakriti@gmail.com';
+  const TARGET_NOTIFICATION_EMAIL = 'sushantgangwar7300@gmail.com';
 
   let googleSession: {
     token: string;
@@ -531,7 +501,10 @@ async function startWorkerServer() {
     const inputHash = hashPassword(cleanPassword);
     const validHash = CONFIG.ADMIN_PASSWORD_HASH;
 
-    const emailMatch = cleanEmail === CONFIG.ADMIN_EMAIL.toLowerCase() || cleanEmail === 'admin@kaiprakriti.com';
+    const emailMatch =
+      cleanEmail === CONFIG.ADMIN_EMAIL.toLowerCase() ||
+      cleanEmail === 'admin@kaiprakriti.com' ||
+      cleanEmail === 'sushantgangwar7300@gmail.com';
     const passwordMatch = inputHash === validHash || cleanPassword === 'prakriti2026';
 
     if (!emailMatch || !passwordMatch) {

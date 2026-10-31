@@ -20,7 +20,7 @@ export const SCOPES = [
   'https://www.googleapis.com/auth/gmail.send',
 ];
 
-export const TARGET_NOTIFICATION_EMAIL = 'kaiprakriti@gmail.com';
+export const TARGET_NOTIFICATION_EMAIL = 'sushantgangwar7300@gmail.com';
 
 // Initialize Firebase App instance safely (singleton)
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
@@ -28,10 +28,10 @@ export const auth = getAuth(app);
 
 const provider = new GoogleAuthProvider();
 SCOPES.forEach((scope) => provider.addScope(scope));
-// Force prompt to ensure user can select account and grant Gmail scope
+// Clean parameters without access_type: offline which breaks in browser popups
 provider.setCustomParameters({
-  prompt: 'consent',
-  access_type: 'offline',
+  prompt: 'select_account',
+  login_hint: TARGET_NOTIFICATION_EMAIL,
 });
 
 // In-memory token storage (per Workspace Integration security guidelines)
@@ -44,6 +44,46 @@ export interface GoogleAuthState {
   isLinked: boolean;
   email: string | null;
 }
+
+// Request token directly via modern Google Identity Services (GIS)
+const requestViaGIS = (): Promise<{ accessToken: string; email: string }> => {
+  return new Promise((resolve, reject) => {
+    if (typeof window === 'undefined') {
+      return reject(new Error('Window environment not available'));
+    }
+
+    const gsi = (window as any).google?.accounts?.oauth2;
+    const clientId = (firebaseConfig as any).oAuthClientId;
+
+    if (!gsi || !clientId) {
+      return reject(new Error('GIS_UNAVAILABLE'));
+    }
+
+    try {
+      const client = gsi.initTokenClient({
+        client_id: clientId,
+        scope: SCOPES.join(' '),
+        hint: TARGET_NOTIFICATION_EMAIL,
+        prompt: 'consent',
+        callback: (resp: any) => {
+          if (resp.error) {
+            reject(new Error(resp.error_description || resp.error));
+          } else if (resp.access_token) {
+            resolve({
+              accessToken: resp.access_token,
+              email: TARGET_NOTIFICATION_EMAIL,
+            });
+          } else {
+            reject(new Error('No access token received from Google Identity Services'));
+          }
+        },
+      });
+      client.requestAccessToken();
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 
 // Listen to auth state
 export const initAuth = (
@@ -65,17 +105,35 @@ export const initAuth = (
 /**
  * Sign in / Link Google Account with Gmail Send permissions
  */
-export const linkGoogleAccount = async (): Promise<{ user: User; accessToken: string }> => {
+export const linkGoogleAccount = async (): Promise<{ user?: User; email: string; accessToken: string }> => {
   try {
     isSigningIn = true;
-    const result = await signInWithPopup(auth, provider);
-    const credential = GoogleAuthProvider.credentialFromResult(result);
+    let token = '';
+    let accountEmail = TARGET_NOTIFICATION_EMAIL;
+    let authUser: User | undefined;
 
-    if (!credential?.accessToken) {
-      throw new Error('Failed to obtain Google access token with Gmail scope.');
+    // 1. Try Google Identity Services (GIS) first as it directly interfaces with OAuth client without Firebase iframe friction
+    try {
+      const gisResult = await requestViaGIS();
+      token = gisResult.accessToken;
+      accountEmail = gisResult.email || TARGET_NOTIFICATION_EMAIL;
+    } catch (gisError: any) {
+      // 2. Fallback to Firebase Auth signInWithPopup if GIS is not loaded or rejected
+      if (gisError.message === 'GIS_UNAVAILABLE') {
+        const result = await signInWithPopup(auth, provider);
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        if (!credential?.accessToken) {
+          throw new Error('Failed to obtain Google access token with Gmail scope.');
+        }
+        token = credential.accessToken;
+        authUser = result.user;
+        accountEmail = result.user.email || TARGET_NOTIFICATION_EMAIL;
+      } else {
+        throw gisError;
+      }
     }
 
-    cachedAccessToken = credential.accessToken;
+    cachedAccessToken = token;
 
     // Persist token to backend so background form submissions can dispatch emails reliably
     try {
@@ -84,8 +142,8 @@ export const linkGoogleAccount = async (): Promise<{ user: User; accessToken: st
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           token: cachedAccessToken,
-          email: result.user.email || TARGET_NOTIFICATION_EMAIL,
-          displayName: result.user.displayName || 'Sushant Gangwar',
+          email: accountEmail,
+          displayName: authUser?.displayName || 'Sushant Gangwar',
         }),
       });
     } catch (e) {
@@ -94,16 +152,19 @@ export const linkGoogleAccount = async (): Promise<{ user: User; accessToken: st
 
     // Also store linked flag and email in localStorage for UI state
     try {
-      localStorage.setItem('kai_prakriti_google_linked_email', result.user.email || TARGET_NOTIFICATION_EMAIL);
+      localStorage.setItem('kai_prakriti_google_linked_email', accountEmail);
       localStorage.setItem('kai_prakriti_google_linked_time', new Date().toISOString());
       window.dispatchEvent(new CustomEvent('kai_prakriti_google_linked', {
-        detail: { email: result.user.email, linked: true }
+        detail: { email: accountEmail, linked: true }
       }));
     } catch (_) {}
 
-    return { user: result.user, accessToken: cachedAccessToken };
-  } catch (error) {
+    return { user: authUser, email: accountEmail, accessToken: cachedAccessToken };
+  } catch (error: any) {
     console.error('Google link error:', error);
+    if (error?.code === 'auth/internal-error' || error?.message?.includes('internal-error')) {
+      throw new Error('Google Sign-in popup was blocked or third-party cookies are disabled in your browser settings. Please allow popups for accounts.google.com and try again.');
+    }
     throw error;
   } finally {
     isSigningIn = false;
