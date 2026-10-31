@@ -4,6 +4,7 @@ import { getStoredServices } from '../data/servicesStore';
 import { saveLead } from '../data/leadStore';
 import { Mail, Phone, MapPin, CheckCircle2, ArrowRight, ShieldCheck } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { WhatsAppIcon, WHATSAPP_URL, WHATSAPP_PHONE_DISPLAY } from '../components/WhatsAppButton';
 
 interface ContactPageProps {
   theme?: string;
@@ -133,6 +134,44 @@ export const ContactPage: React.FC<ContactPageProps> = ({
                   </div>
                 </div>
 
+                {/* Direct WhatsApp Instant Chat */}
+                <div className="flex items-start gap-3.5 p-4 sm:p-5 rounded-2xl bg-white border-2 border-[#25D366]/40 shadow-2xs hover:border-[#25D366] transition-colors">
+                  <div className="w-10 h-10 rounded-xl bg-[#25D366]/10 flex items-center justify-center text-[#25D366] shrink-0">
+                    <WhatsAppIcon className="w-5 h-5 fill-current" />
+                  </div>
+                  <div className="flex-1 min-w-0 space-y-1.5">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[11px] text-[#264143]/60 font-semibold uppercase tracking-wider block">
+                        Direct WhatsApp Advisory
+                      </span>
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#25D366]/15 text-[#1EA851]">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#25D366] animate-pulse" />
+                        Instant Chat
+                      </span>
+                    </div>
+                    <a
+                      href={WHATSAPP_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-bold text-base sm:text-lg text-[#264143] hover:text-[#25D366] transition-colors block"
+                    >
+                      {WHATSAPP_PHONE_DISPLAY}
+                    </a>
+                    <p className="text-[11px] text-[#264143]/70 leading-snug">
+                      Click below to open WhatsApp chat directly with auto-drafted message &quot;Hi&quot;.
+                    </p>
+                    <a
+                      href={WHATSAPP_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-3.5 py-2 mt-1 rounded-xl bg-[#25D366] hover:bg-[#20BD5A] text-white text-xs font-semibold shadow-xs hover:shadow-md transition-all active:scale-95"
+                    >
+                      <WhatsAppIcon className="w-4 h-4 fill-white" />
+                      <span>Chat on WhatsApp (+91 7300513512)</span>
+                    </a>
+                  </div>
+                </div>
+
                 {/* Address */}
                 <div className="flex items-start gap-3 p-4 rounded-2xl bg-white border border-[#E7E3DC] shadow-2xs">
                   <div className="w-9 h-9 rounded-xl bg-[#264143]/10 flex items-center justify-center text-[#264143] shrink-0">
@@ -175,7 +214,16 @@ export const ContactPage: React.FC<ContactPageProps> = ({
                     Your scoping request has been received (Ref: #{createdLeadId.slice(0, 8)}). Our senior advisory leadership will review your requirements and reach out within 24 business hours.
                   </p>
 
-                  <div className="pt-4">
+                  <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
+                    <a
+                      href={WHATSAPP_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-6 py-3 rounded-xl text-xs font-semibold bg-[#25D366] hover:bg-[#20BD5A] text-white flex items-center justify-center gap-2 shadow-xs transition-colors"
+                    >
+                      <WhatsAppIcon className="w-4 h-4 fill-white" />
+                      <span>Chat on WhatsApp (+91 7300513512)</span>
+                    </a>
                     <button
                       onClick={() => {
                         setIsSubmitted(false);
@@ -191,7 +239,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({
                           message: '',
                         });
                       }}
-                      className="px-6 py-3 rounded-xl text-xs font-semibold bg-[#264143] text-white hover:bg-black transition-colors"
+                      className="px-6 py-3 rounded-xl text-xs font-semibold bg-slate-100 text-[#264143] hover:bg-slate-200 transition-colors"
                     >
                       Submit Another Inquiry
                     </button>

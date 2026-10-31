@@ -5,7 +5,6 @@ import { getStoredServices, isCatalogueUnlocked } from '../data/servicesStore';
 import { INITIAL_BLOG_POSTS } from '../data/blogData';
 import { UnlockServicesModal } from '../components/UnlockServicesModal';
 import { ServiceDetailModal } from '../components/ServiceDetailModal';
-import { ComplianceRoadmap } from '../components/ComplianceRoadmap';
 import { KineticHeroTicker, KineticTextHighlight } from '../components/ESGMotionLandscape';
 import { InteractiveExpandableServiceTile } from '../components/InteractiveExpandableServiceTile';
 import { ESGFAQSection } from '../components/ESGFAQSection';
@@ -548,9 +547,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           />
         </div>
       </section>
-
-      {/* 6. Compliance Roadmap: Step-by-Step ESG Advisory Progression */}
-      <ComplianceRoadmap onSelectService={(serviceId) => onNavigate('contact', serviceId)} />
 
       {/* 5. The Two-Line Independence Model */}
       <section className="py-12 sm:py-20 bg-white border-t border-[#E7E3DC]">

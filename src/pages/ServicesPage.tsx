@@ -5,7 +5,6 @@ import { Search, ArrowRight, CheckCircle2, ChevronRight, X, Lock, Sparkles, Shie
 import { motion, AnimatePresence } from 'motion/react';
 import { UnlockServicesModal } from '../components/UnlockServicesModal';
 import { ServiceDetailModal } from '../components/ServiceDetailModal';
-import { ComplianceRoadmap } from '../components/ComplianceRoadmap';
 import { useLanguage } from '../context/LanguageContext';
 
 interface ServicesPageProps {
@@ -291,10 +290,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
 
       </section>
 
-      {/* 5. Compliance Roadmap: Step-by-Step ESG Advisory Progression */}
-      <ComplianceRoadmap onSelectService={(serviceId) => onNavigate('contact', serviceId)} />
-
-      {/* 6. Service Detail Modal */}
+      {/* 5. Service Detail Modal */}
       <ServiceDetailModal
         service={selectedService}
         isOpen={!!selectedService}

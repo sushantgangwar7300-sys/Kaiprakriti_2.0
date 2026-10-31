@@ -1,5 +1,6 @@
 import React from 'react';
-import { ExternalLink, BookOpen, Linkedin, Instagram, Facebook } from 'lucide-react';
+import { ExternalLink, Linkedin, Instagram, Facebook } from 'lucide-react';
+import { WhatsAppIcon, WHATSAPP_URL, WHATSAPP_PHONE_DISPLAY } from './WhatsAppButton';
 
 interface SocialMediaSectionProps {
   theme?: string;
@@ -9,15 +10,15 @@ interface SocialMediaSectionProps {
 export const SocialMediaSection: React.FC<SocialMediaSectionProps> = () => {
   const socialChannels = [
     {
-      name: 'Medium',
-      handle: '@kaiprakriti',
-      subtitle: 'Long-Form Regulatory Essays & Carbon Methodologies',
-      description: 'We syndicate our research papers on Medium. Read detailed breakdowns on SEBI BRSR Core, EU CBAM mathematical derivations, and MSME ZED implementation frameworks.',
-      icon: BookOpen,
-      badgeText: 'Primary Essay Publication',
-      badgeColor: 'bg-[#3E6B48]/10 text-[#3E6B48] border-[#3E6B48]/30',
-      actionText: 'Read On Medium',
-      url: 'https://medium.com/@kaiprakriti',
+      name: 'WhatsApp',
+      handle: WHATSAPP_PHONE_DISPLAY,
+      subtitle: 'Instant Advisory Chat & Scoping Inquiries',
+      description: 'Connect directly with our sustainability practice on WhatsApp. Tap to open chat pre-filled with "Hi" for scoping discussions on carbon baselines and compliance.',
+      icon: WhatsAppIcon,
+      badgeText: 'Direct WhatsApp Helpline',
+      badgeColor: 'bg-[#264143]/10 text-[#264143] border-[#264143]/30',
+      actionText: 'Chat on WhatsApp',
+      url: WHATSAPP_URL,
     },
     {
       name: 'LinkedIn',
@@ -65,7 +66,7 @@ export const SocialMediaSection: React.FC<SocialMediaSectionProps> = () => {
             Follow Kai Prakriti on Social Channels
           </h3>
           <p className="text-xs sm:text-sm text-[#264143]/70 mt-1">
-            Read our published articles on Medium or follow our LinkedIn regulatory dispatches.
+            Connect with our team directly on WhatsApp or follow our LinkedIn regulatory dispatches.
           </p>
         </div>
       </div>

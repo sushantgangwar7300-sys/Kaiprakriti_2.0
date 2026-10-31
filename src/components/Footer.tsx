@@ -2,8 +2,9 @@ import React from 'react';
 import { PageId } from '../types';
 import { KaiPrakritiEmblem } from './KaiPrakritiEmblem';
 import { ESGMotionLandscape } from './ESGMotionLandscape';
-import { Linkedin, Instagram, Facebook, BookOpen, Mail, MapPin, Lock } from 'lucide-react';
+import { Linkedin, Instagram, Facebook, Mail, MapPin, Lock } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { WhatsAppIcon, WHATSAPP_URL, WHATSAPP_PHONE_DISPLAY } from './WhatsAppButton';
 
 interface FooterProps {
   onNavigate?: (page: PageId) => void;
@@ -52,16 +53,16 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               {t.footer.tagline}
             </p>
 
-            {/* Matte Social Channels */}
+            {/* Matte Social Channels (WhatsApp In Place of Medium) */}
             <div className="flex items-center space-x-2.5 pt-2">
               <a
-                href="https://medium.com/@kaiprakriti"
+                href={WHATSAPP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-8 h-8 rounded-lg bg-neutral-900 hover:bg-white text-white hover:text-black border border-neutral-800 hover:border-white flex items-center justify-center transition-colors"
-                title="Medium Publication"
+                title={`WhatsApp Direct Chat (${WHATSAPP_PHONE_DISPLAY})`}
               >
-                <BookOpen className="w-4 h-4" />
+                <WhatsAppIcon className="w-4 h-4 fill-current" />
               </a>
               <a
                 href="https://www.linkedin.com/company/kaiprakriti-esg-advisory/"
@@ -210,6 +211,28 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                   >
                     Kaiprakriti@gmail.com
                   </a>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-2.5">
+                <div className="w-4 h-4 mt-0.5 text-white shrink-0 flex items-center justify-center">
+                  <WhatsAppIcon className="w-4 h-4 fill-current" />
+                </div>
+                <div>
+                  <div className="text-[10px] text-neutral-400 uppercase tracking-wider font-semibold">
+                    WhatsApp Chat & Helpline
+                  </div>
+                  <a
+                    href={WHATSAPP_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white font-bold underline underline-offset-4 hover:text-neutral-300 text-sm tracking-wide block transition-colors mt-0.5"
+                  >
+                    {WHATSAPP_PHONE_DISPLAY}
+                  </a>
+                  <span className="text-[10px] text-neutral-400 block mt-0.5">
+                    Click to chat directly with auto-draft &quot;Hi&quot;
+                  </span>
                 </div>
               </div>
 
