@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { PageId, ServiceItem, BlogPost } from '../types';
-import { ArrowRight, CheckCircle2, ShieldCheck, Scale, FileText, ChevronRight, Lock, Sparkles, Mail } from 'lucide-react';
-import { getStoredServices, isCatalogueUnlocked } from '../data/servicesStore';
+import { ArrowRight, CheckCircle2, ShieldCheck, Scale, FileText, ChevronRight, Sparkles, Mail } from 'lucide-react';
+import { getStoredServices } from '../data/servicesStore';
 import { INITIAL_BLOG_POSTS } from '../data/blogData';
-import { UnlockServicesModal } from '../components/UnlockServicesModal';
+import { ServiceFlashCard } from '../components/ServiceFlashCard';
 import { ServiceDetailModal } from '../components/ServiceDetailModal';
 import { KineticHeroTicker, KineticTextHighlight } from '../components/ESGMotionLandscape';
 import { InteractiveExpandableServiceTile } from '../components/InteractiveExpandableServiceTile';
@@ -92,8 +92,6 @@ const HERO_SLIDES: HeroSlide[] = [
 export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   const { language, t } = useLanguage();
   const [allServices, setAllServices] = useState<ServiceItem[]>(getStoredServices);
-  const [isUnlocked, setIsUnlocked] = useState(isCatalogueUnlocked);
-  const [isUnlockModalOpen, setIsUnlockModalOpen] = useState(false);
   const [selectedModalService, setSelectedModalService] = useState<ServiceItem | null>(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 
@@ -158,20 +156,15 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       if (e.detail) setAllServices(e.detail);
       else setAllServices(getStoredServices());
     };
-    const handleCatalogueUnlocked = () => {
-      setIsUnlocked(true);
-    };
     const handleBlogsUpdate = (e: any) => {
       if (e.detail) setBlogs(e.detail);
     };
 
     window.addEventListener('kai_prakriti_services_updated', handleServicesUpdate);
-    window.addEventListener('kai_prakriti_catalogue_unlocked', handleCatalogueUnlocked);
     window.addEventListener('kai_prakriti_blogs_updated', handleBlogsUpdate);
 
     return () => {
       window.removeEventListener('kai_prakriti_services_updated', handleServicesUpdate);
-      window.removeEventListener('kai_prakriti_catalogue_unlocked', handleCatalogueUnlocked);
       window.removeEventListener('kai_prakriti_blogs_updated', handleBlogsUpdate);
     };
   }, []);
@@ -180,11 +173,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   const recentBlogs = blogs.slice(0, 3);
 
   const handleExploreServicesClick = () => {
-    if (isUnlocked) {
-      onNavigate('services');
-    } else {
-      setIsUnlockModalOpen(true);
-    }
+    onNavigate('services');
   };
 
   return (
@@ -415,109 +404,66 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       </section>
 
       {/* 3. Featured Services */}
-      <section className="py-12 sm:py-20 bg-[#FAF8F5]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-12">
+      <section className="py-14 sm:py-20 bg-[#080B0C] border-y border-[#1E2628] relative overflow-hidden">
+        {/* Subtle Ambient Golden Light behind the section */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-gradient-to-r from-[#D4AF37]/5 via-[#F59E0B]/5 to-transparent blur-3xl pointer-events-none rounded-full" />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-12">
           
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6">
-            <div className="max-w-2xl space-y-1.5 sm:space-y-2">
-              <span className="text-xs font-semibold text-[#3E6B48] uppercase tracking-wider">
-                Advisory Practices
+            <div className="max-w-2xl space-y-2">
+              <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#F5C26B] uppercase tracking-wider bg-[#0D1214] px-3.5 py-1.5 rounded-full border border-[#D4AF37]/30">
+                <Sparkles className="w-3.5 h-3.5 text-[#F5C26B]" />
+                <span>Advisory Practices • Unlocked Catalogue</span>
               </span>
-              <h2 className="font-serif text-2xl sm:text-4xl font-bold text-[#264143] tracking-tight">
+              <h2 className="font-serif text-2xl sm:text-4xl font-bold text-white tracking-tight">
                 Core regulatory solutions for modern enterprises.
               </h2>
-              <p className="text-[#264143]/75 text-xs sm:text-sm leading-relaxed">
-                Showing 3 of {allServices.length} sovereign practices. Complete the quick consultation form to unlock the full enterprise catalogue.
+              <p className="text-slate-400 text-xs sm:text-sm leading-relaxed">
+                Explore our sovereign practices delivered with empirical mathematical rigor. All {allServices.length} specialized practices are fully accessible with comprehensive calculation workbooks.
               </p>
             </div>
 
             <button
               onClick={handleExploreServicesClick}
-              className="w-full sm:w-auto px-5 py-3 rounded-2xl text-xs font-semibold transition-all bg-[#D96846] hover:bg-[#C45737] text-white shadow-xs flex items-center justify-center gap-2 shrink-0"
+              className="w-full sm:w-auto px-6 py-3.5 rounded-2xl text-xs font-bold transition-all bg-gradient-to-r from-[#D4AF37] to-[#E99F4C] hover:brightness-110 text-black shadow-md flex items-center justify-center gap-2 shrink-0"
             >
-              <span>Explore Our Services ({allServices.length} Total)</span>
-              {!isUnlocked && <Lock className="w-3.5 h-3.5 text-white/80" />}
+              <span>Explore All Practices ({allServices.length} Total)</span>
+              <ArrowRight className="w-4 h-4 text-black" />
             </button>
           </div>
 
-          {/* 3 Featured Services Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+          {/* 3 Featured Services Flashcards with golden light threads & looping images */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
             {featuredServices.map((service, idx) => (
-              <div
+              <ServiceFlashCard
                 key={service.id}
-                onClick={() => handleOpenServiceModal(service)}
-                className="group cursor-pointer p-5 sm:p-6 rounded-2xl sm:rounded-3xl border border-[#E7E3DC] bg-white hover:border-[#3E6B48] hover:shadow-lg active:bg-slate-50 transition-all duration-200 flex flex-col justify-between space-y-4 sm:space-y-5"
-              >
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="text-[11px] font-semibold text-[#3E6B48] bg-[#3E6B48]/10 px-3 py-1 rounded-full border border-[#3E6B48]/20">
-                      {service.standardCode || service.standard}
-                    </span>
-                    <span className="text-[#264143]/40 font-mono text-xs">
-                      0{idx + 1}
-                    </span>
-                  </div>
-
-                  {/* Image aligned strictly inside boundaries of tile */}
-                  {service.imageUrl && (
-                    <div className="w-full h-40 sm:h-44 rounded-2xl overflow-hidden relative border border-[#E7E3DC] bg-[#FAF8F5] shadow-2xs">
-                      <img
-                        src={service.imageUrl}
-                        alt={service.title}
-                        loading="lazy"
-                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent opacity-60" />
-                      <div className="absolute bottom-2.5 left-3 text-[10px] text-white/90 font-medium truncate max-w-[90%]">
-                        {service.keyMetric || service.standard}
-                      </div>
-                    </div>
-                  )}
-
-                  <h3 className="font-serif text-base sm:text-lg font-bold text-[#1E382E] group-hover:text-[#D96846] transition-colors leading-snug">
-                    {service.title}
-                  </h3>
-
-                  <p className="text-xs text-[#264143]/75 leading-relaxed line-clamp-3">
-                    {service.shortDesc}
-                  </p>
-                </div>
-
-                <div className="pt-2 border-t border-[#E7E3DC] flex items-center justify-between text-xs font-semibold text-[#1E382E] group-hover:text-[#D96846] transition-colors">
-                  <span>View practice details & audit trail</span>
-                  <ArrowRight className="w-3.5 h-3.5 text-[#D96846] group-hover:translate-x-1.5 transition-transform" />
-                </div>
-              </div>
+                service={service}
+                index={idx}
+                onSelect={handleOpenServiceModal}
+              />
             ))}
           </div>
 
-          {/* Gated Catalogue Callout Banner */}
-          <div className="p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-[#E7E3DC] bg-gradient-to-r from-white via-[#FAF8F5] to-white flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-6 shadow-2xs">
-            <div className="space-y-1.5">
-              <div className="flex items-center gap-2 text-xs font-bold text-[#264143]">
+          {/* Fully Unlocked Catalogue Callout Banner */}
+          <div className="p-6 sm:p-8 rounded-3xl border border-[#1E2628] bg-gradient-to-r from-[#0D1214] via-[#080B0C] to-[#0D1214] flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-6 shadow-xl relative overflow-hidden">
+            <div className="absolute inset-0 bg-radial from-[#D4AF37]/5 via-transparent to-transparent pointer-events-none" />
+            <div className="space-y-1.5 relative z-10">
+              <div className="flex items-center gap-2 text-xs font-bold text-[#F5C26B]">
                 <Sparkles className="w-4 h-4 text-[#E99F4C] shrink-0" />
                 <span>Looking for EU CBAM, Product LCA, or MSME ZED?</span>
               </div>
-              <p className="text-xs text-[#264143]/70 max-w-xl">
-                Our complete 11+ practice catalogue includes installation-level CBAM formulas, cradle-to-grave ISO 14044 LCA, and third-party accredited verifier matching.
+              <p className="text-xs text-slate-400 max-w-xl">
+                Our complete {allServices.length}-practice catalogue includes installation-level CBAM formulas, cradle-to-grave ISO 14044 LCA, and third-party accredited verifier matching.
               </p>
             </div>
 
             <button
               onClick={handleExploreServicesClick}
-              className="w-full sm:w-auto px-6 py-3 rounded-2xl bg-[#264143] hover:bg-black text-white text-xs font-semibold flex items-center justify-center gap-2 shrink-0 transition-colors shadow-xs"
+              className="w-full sm:w-auto px-6 py-3 rounded-2xl bg-[#1E2628] hover:bg-[#2A3437] border border-[#D4AF37]/40 text-[#F5C26B] hover:text-white text-xs font-semibold flex items-center justify-center gap-2 shrink-0 transition-colors shadow-xs relative z-10"
             >
-              {!isUnlocked ? (
-                <>
-                  <Lock className="w-3.5 h-3.5 text-[#E99F4C]" />
-                  <span>Unlock Complete Catalogue</span>
-                </>
-              ) : (
-                <>
-                  <span>Browse All Practices</span>
-                  <ArrowRight className="w-3.5 h-3.5 text-white" />
-                </>
-              )}
+              <span>Browse All {allServices.length} Practices</span>
+              <ArrowRight className="w-3.5 h-3.5 text-[#F5C26B]" />
             </button>
           </div>
 
@@ -753,16 +699,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
         </div>
       </section>
-
-      {/* Unlock Catalogue Modal */}
-      <UnlockServicesModal
-        isOpen={isUnlockModalOpen}
-        onClose={() => setIsUnlockModalOpen(false)}
-        onUnlocked={() => {
-          setIsUnlocked(true);
-          onNavigate('services');
-        }}
-      />
 
       {/* Service Detail Modal (Opens when user clicks on any practice tile) */}
       <ServiceDetailModal

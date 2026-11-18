@@ -18,7 +18,12 @@ export const ELEVEN_SERVICES: ServiceItem[] = [
     ],
     whySeparateNote: 'Kai Prakriti performs the quantitative calculation and documentation. When your lender or regulator demands ISO 14064-3 verification, we connect you to an accredited body. We never verify our own numbers.',
     keyMetric: 'Complete 15-category Scope 3 coverage',
-    imageUrl: 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=800&q=80'
+    imageUrl: 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=800&q=80',
+    galleryImages: [
+      'https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=800&q=80'
+    ]
   },
   {
     id: 'brsr-core',
@@ -37,7 +42,12 @@ export const ELEVEN_SERVICES: ServiceItem[] = [
     ],
     whySeparateNote: 'SEBI mandates "reasonable assurance" by an independent third party for top listed companies. Kai Prakriti acts strictly on the client side to engineer the data foundation.',
     keyMetric: 'Covers all 9 SEBI Core attributes',
-    imageUrl: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80'
+    imageUrl: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80',
+    galleryImages: [
+      'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=800&q=80'
+    ]
   },
   {
     id: 'brsr-lite',
@@ -56,7 +66,12 @@ export const ELEVEN_SERVICES: ServiceItem[] = [
     ],
     whySeparateNote: 'Direct consultancy deliverable designed to win commercial tenders and satisfy OEM vendor audits without exorbitant big-four overhead.',
     keyMetric: 'Streamlined 40-indicator framework',
-    imageUrl: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80'
+    imageUrl: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80',
+    galleryImages: [
+      'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80'
+    ]
   },
   {
     id: 'lca-product',
@@ -75,7 +90,12 @@ export const ELEVEN_SERVICES: ServiceItem[] = [
     ],
     whySeparateNote: 'Preparation of the scientific LCA study is direct engineering work. Independent critical review under ISO 14071 is facilitated separately through an accredited reviewer panel.',
     keyMetric: 'Cradle-to-gate / Cradle-to-grave modeling',
-    imageUrl: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80'
+    imageUrl: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80',
+    galleryImages: [
+      'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1530587191325-3db32d826c18?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80'
+    ]
   },
   {
     id: 'cbam-readiness',
@@ -94,7 +114,12 @@ export const ELEVEN_SERVICES: ServiceItem[] = [
     ],
     whySeparateNote: 'EU rules require verification by an accredited body under Implementing Regulation (EU) 2018/2067. Kai Prakriti prepares the dataset and arranges the accredited verifier with our introduction fee transparently noted.',
     keyMetric: 'Compliant with EU 2023/956 CN codes',
-    imageUrl: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80'
+    imageUrl: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80',
+    galleryImages: [
+      'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=800&q=80'
+    ]
   },
   {
     id: 'zed-support',
@@ -113,7 +138,12 @@ export const ELEVEN_SERVICES: ServiceItem[] = [
     ],
     whySeparateNote: 'Desktop verification and on-site assessment is conducted directly by QCI-empanelled assessment agencies. We act purely as your implementation advisor.',
     keyMetric: 'Bronze / Silver / Gold progression roadmap',
-    imageUrl: 'https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=800&q=80'
+    imageUrl: 'https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=800&q=80',
+    galleryImages: [
+      'https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?auto=format&fit=crop&w=800&q=80'
+    ]
   },
   {
     id: 'iso-14064-training',
@@ -132,7 +162,12 @@ export const ELEVEN_SERVICES: ServiceItem[] = [
     ],
     whySeparateNote: 'ISO 14064-3 strictly forbids consulting organizations from issuing verification statements. We maintain a strict firebreak.',
     keyMetric: 'Hands-on internal auditor capability',
-    imageUrl: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80'
+    imageUrl: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80',
+    galleryImages: [
+      'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80'
+    ]
   },
   {
     id: 'carbon-pdd',
@@ -151,7 +186,12 @@ export const ELEVEN_SERVICES: ServiceItem[] = [
     ],
     whySeparateNote: 'Project documentation must be validated by an accredited DOE (Designated Operational Entity) or VVB. We author the technical defense; the DOE verifies.',
     keyMetric: 'Full additionality & baseline defense',
-    imageUrl: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=800&q=80'
+    imageUrl: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=800&q=80',
+    galleryImages: [
+      'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1511497584788-87676104235f?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1497440001374-f26997328c1b?auto=format&fit=crop&w=800&q=80'
+    ]
   },
   {
     id: 'honest-verifier-match',
@@ -170,7 +210,12 @@ export const ELEVEN_SERVICES: ServiceItem[] = [
     ],
     whySeparateNote: 'Facilitated service. Kai Prakriti receives a disclosed commission from the verifier or charges a transparent facilitation fee to the client.',
     keyMetric: 'Zero hidden kickbacks; 100% written disclosure',
-    imageUrl: 'https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80'
+    imageUrl: 'https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80',
+    galleryImages: [
+      'https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=800&q=80'
+    ]
   },
   {
     id: 'esg-team-training',
@@ -189,7 +234,12 @@ export const ELEVEN_SERVICES: ServiceItem[] = [
     ],
     whySeparateNote: 'Pure educational and operational consulting deliverable that stays within your company for long-term self-sufficiency.',
     keyMetric: 'Empowers internal non-sustainability staff',
-    imageUrl: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80'
+    imageUrl: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80',
+    galleryImages: [
+      'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=800&q=80'
+    ]
   },
   {
     id: 'capable-body-vetting',
@@ -208,7 +258,12 @@ export const ELEVEN_SERVICES: ServiceItem[] = [
     ],
     whySeparateNote: 'Facilitated advisory service with live registry checks. Protects clients from non-compliant audits rejected by stock exchanges or EU authorities.',
     keyMetric: 'Prevents accreditation disqualification',
-    imageUrl: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80'
+    imageUrl: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80',
+    galleryImages: [
+      'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=80'
+    ]
   }
 ];
 

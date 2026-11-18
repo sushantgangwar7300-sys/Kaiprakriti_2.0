@@ -35,9 +35,26 @@ dotenv.config();
 // ============================================================================
 // 1. CONFIGURATION & ENVIRONMENT VALIDATION
 // ============================================================================
+function parseArg(flag: string): string | undefined {
+  const idx = process.argv.indexOf(flag);
+  if (idx !== -1 && idx + 1 < process.argv.length) {
+    return process.argv[idx + 1];
+  }
+  return undefined;
+}
+
+const cliPort = parseArg('--port') || parseArg('-p');
+const cliHost = parseArg('--host') || parseArg('-h');
+
+// In this container environment, Nginx reverse proxy runs on port 8080 and forwards to port 3000.
+// Attempting to listen on 8080 will throw EADDRINUSE.
+const resolvedPort = cliPort
+  ? parseInt(cliPort, 10)
+  : (process.env.PORT && process.env.PORT !== '8080' ? parseInt(process.env.PORT, 10) : 3000);
+
 const CONFIG = {
-  PORT: parseInt(process.env.PORT || '3000', 10),
-  HOST: process.env.HOST || '0.0.0.0',
+  PORT: resolvedPort,
+  HOST: cliHost || process.env.HOST || '0.0.0.0',
   NODE_ENV: process.env.NODE_ENV || 'development',
   IS_PRODUCTION: (process.env.NODE_ENV || 'development') === 'production',
 
@@ -448,6 +465,10 @@ async function startWorkerServer() {
   // ==========================================================================
 
   // TELEMETRY
+  app.get('/health', (req, res) => {
+    res.status(200).json({ status: 'ok', uptime: process.uptime() });
+  });
+
   app.get('/health/live', (req, res) => {
     res.status(200).json({ status: 'live', timestamp: new Date().toISOString() });
   });
@@ -806,13 +827,25 @@ Key Principles:
       res.sendFile(path.join(DIST_DIR, 'index.html'));
     });
   } else {
-    // Development mode: Mount Vite middleware for instant HMR and SPA serving
-    const { createServer: createViteServer } = await import('vite');
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: 'spa',
+    // Development mode: Initialize Vite in background so Express binds port 3000 immediately
+    const viteReady = import('vite').then(({ createServer: createViteServer }) =>
+      createViteServer({
+        server: { middlewareMode: true, hmr: false },
+        appType: 'spa',
+      })
+    );
+    viteReady.catch((err) => {
+      console.error('[VITE INIT ERROR]', err);
     });
-    app.use(vite.middlewares);
+    app.use(async (req, res, next) => {
+      if (req.path.startsWith('/api/') || req.path.startsWith('/health')) return next();
+      try {
+        const vite = await viteReady;
+        vite.middlewares(req, res, next);
+      } catch (err) {
+        next(err);
+      }
+    });
   }
 
   // GLOBAL ERROR HANDLERS

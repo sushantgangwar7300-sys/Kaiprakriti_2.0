@@ -10,13 +10,14 @@ export const getStoredServices = (): ServiceItem[] => {
       const parsed = JSON.parse(data);
       if (Array.isArray(parsed) && parsed.length > 0) {
         return parsed.map((item: ServiceItem) => {
-          if (!item.imageUrl) {
-            const original = ELEVEN_SERVICES.find((s) => s.id === item.id);
-            if (original?.imageUrl) {
-              return { ...item, imageUrl: original.imageUrl };
-            }
-          }
-          return item;
+          const original = ELEVEN_SERVICES.find((s) => s.id === item.id);
+          return {
+            ...item,
+            imageUrl: item.imageUrl || original?.imageUrl,
+            galleryImages: (item.galleryImages && item.galleryImages.length > 0)
+              ? item.galleryImages
+              : original?.galleryImages || (item.imageUrl ? [item.imageUrl] : []),
+          };
         });
       }
     }
@@ -65,13 +66,9 @@ export const deleteService = (id: string): ServiceItem[] => {
   return updated;
 };
 
-// Check if user has unlocked the full service catalogue
+// Full service catalogue is permanently unlocked with zero barriers
 export const isCatalogueUnlocked = (): boolean => {
-  try {
-    return localStorage.getItem('kai_prakriti_services_unlocked') === 'true';
-  } catch {
-    return false;
-  }
+  return true;
 };
 
 export const unlockCatalogue = (userData?: { name: string; email: string; company: string; phone?: string }): void => {

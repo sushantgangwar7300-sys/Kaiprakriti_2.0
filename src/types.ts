@@ -21,6 +21,7 @@ export interface ServiceItem {
   whySeparateNote: string;
   keyMetric?: string;
   imageUrl?: string;
+  galleryImages?: string[];
 }
 
 export interface StandardItem {

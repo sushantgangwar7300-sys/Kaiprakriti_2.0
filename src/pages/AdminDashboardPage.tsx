@@ -210,6 +210,9 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
       let msg = err.message || 'Google account connection was cancelled or failed.';
       if (msg.includes('internal-error')) {
         msg = 'Google authorization popup was blocked by browser security. Please allow popups for this site and retry.';
+      } else if (msg.includes('origin_mismatch') || msg.includes('400')) {
+        const curOrigin = typeof window !== 'undefined' ? window.location.origin : 'https://kaiprakriti.com';
+        msg = `Error 400: origin_mismatch — ${curOrigin} is not yet added to 'Authorized JavaScript origins' for your OAuth Client ID in Google Cloud Console. You can add it in Google Cloud Console (project: gen-lang-client-0486180934), or click 'Link Google Account' in your AI Studio preview tab.`;
       }
       setTestEmailResult({
         success: false,

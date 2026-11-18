@@ -162,8 +162,13 @@ export const linkGoogleAccount = async (): Promise<{ user?: User; email: string;
     return { user: authUser, email: accountEmail, accessToken: cachedAccessToken };
   } catch (error: any) {
     console.error('Google link error:', error);
-    if (error?.code === 'auth/internal-error' || error?.message?.includes('internal-error')) {
+    const errText = error?.message || String(error);
+    if (error?.code === 'auth/internal-error' || errText.includes('internal-error')) {
       throw new Error('Google Sign-in popup was blocked or third-party cookies are disabled in your browser settings. Please allow popups for accounts.google.com and try again.');
+    }
+    if (errText.includes('origin_mismatch') || errText.includes('400')) {
+      const curOrigin = typeof window !== 'undefined' ? window.location.origin : 'https://kaiprakriti.com';
+      throw new Error(`Google OAuth Origin Error (Error 400: origin_mismatch): ${curOrigin} is not yet registered in Google Cloud Console. To enable login directly on ${curOrigin}, add ${curOrigin} to 'Authorized JavaScript origins' for Client ID ${((firebaseConfig as any).oAuthClientId || '').slice(0, 20)}... in Google Cloud Console, or link your Google Account inside the AI Studio Preview tab.`);
     }
     throw error;
   } finally {
